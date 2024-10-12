@@ -1,78 +1,131 @@
 {% extends 'pagina/plantillaini.html' %}
    {% block content %}
    {% load static %}
-      <!-- Opiniones Line -->
-      <section class="testimonial-area">
-         <div class="container">
-            <div class="sec-title white-title">
-               <h2>Testimonios</h2>
-               <p>¿Que dicen los clientes de nosotros?</p>
-            </div>
-            <div class="testimonial-content owl-carousel">
-               <!-- Single Testimonial -->
-               <div class="single-testimonial">
-                  <div class="round-1 round"></div>
-                  <div class="round-2 round"></div>
-                  <p>SAL es una página web que destaca por su enfoque innovador y su dedicación a proporcionar contenido de alta calidad para sus usuarios. Después de explorar el sitio en profundidad, puedo decir que ofrece una experiencia de navegación excelente, tanto para usuarios nuevos como para aquellos más experimentados</p>
-                  <div class="client-info">
-                     <div class="client-details">
-                        <h6>Banjamin Soto Menor</h6>
-                        <span>Tienda de musica"Tocate este", Santiago centro</span>
-                     </div>
-                  </div>
-      
-               </div>
-               <!-- Single Testimonial -->
-               <div class="single-testimonial">
-                  <div class="round-1 round"></div>
-                  <div class="round-2 round"></div>
-                  <p>SAL es una página web que se destaca por su enfoque práctico y directo, ideal para aquellos que buscan soluciones rápidas y efectivas. Desde el momento en que entras en el sitio, te das cuenta de que está diseñado para ofrecer una experiencia eficiente y sin complicaciones</p>
-                  <div class="client-info">
-                     <div class="client-details">
-                        <h6>Benjamin Alarcon</h6>
-                        <span>Panificadora "La plaza",Renca</span>
-                     </div>
-                  </div>
-      
-               </div>
-               <!-- Single Testimonial -->
-               <div class="single-testimonial">
-                  <div class="round-1 round"></div>
-                  <div class="round-2 round"></div>
-                  <p>SAL es una página web que se destaca por su simplicidad y facilidad de uso, lo que la convierte en una herramienta accesible para todo tipo de usuarios, independientemente de su nivel de experiencia con la tecnología</p>
-                  <div class="client-info">
-                     <div class="client-details">
-                        <h6>Augusto Barriga</h6>
-                        <span>Cerveceria "Tomate uno", Huechuraba</span>
-                     </div>
-                  </div>
-      
-               </div>
-               <!-- Single Testimonial -->
-               <div class="single-testimonial">
-                  <p>SAL es una página web que destaca por su efectividad en proporcionar soluciones rápidas y precisas. Desde el primer momento, la página está claramente orientada a ayudar al usuario a alcanzar sus objetivos de manera eficiente, lo que la convierte en una opción ideal para quienes valoran su tiempo</p>
-                  <div class="client-info">
-                     <div class="client-details">
-                        <h6>Roberto Manfinfla</h6>
-                        <span>Panificadora "El buen pan", Quilicura</span>
-                     </div>
-                  </div>
-      
-               </div>
-               <!-- Single Testimonial -->
-               <div class="single-testimonial">
-                  <div class="round-1 round"></div>
-                  <div class="round-2 round"></div>
-                  <p>SAL es una página web que se destaca por su gran capacidad para ofrecer soluciones rápidas y eficientes a las necesidades de sus usuarios. Es evidente que el equipo detrás de SAL ha puesto un gran esfuerzo en optimizar la plataforma, tanto en términos de rendimiento como de funcionalidad.</p>
-                  <div class="client-info">
-                     <div class="client-details">
-                        <h6>Gerardo Guerrero</h6>
-                        <span>Local 8, Feria San Miguel</span>
-                     </div>
-                  </div>
-      
-               </div>
-            </div>
+   <link rel="stylesheet" href="{% static 'pagina/css/clients.css' %}">
+   <header class="jumbotron jumbotron-fluid">
+      <article class="container">
+         <h1 class="display-4 text-primary text-xs-center p-b-1 m-b-1">Bootstrap 4 Responsive Type Scale</h1>
+         <p class="lead">OK, so we know Bootstrap does not come with a responsive type scale as such, but it does come with all you need to set one up. This is my way of getting things set up to help overcome a couple of dislikes I have when browsing through the web.</p>
+         <p>I have an issuse with <abbr title="Responsive Web Design" class="initialism">RWD</abbr> at the moment and that is the way <em>some</em> sites seem quite happy to fill a mobile screen with a page title or heading. Lets try and rectify that.</p>
+         <p>Take a quick read over the <a href="https://v4-alpha.getbootstrap.com/content/typography/#responsive-typography">Responsive Typograpy</a> section of the V4 docs. This will let you understand exactly what Bootstrap sets up for you and how so we know were to start.</p>
+         <p>The next thing to consider is some details I read over on <a href="https://css-tricks.com/rems-ems/">CSS Tricks about the use of rems and ems.</a> The only issue you will come across if you want to implement this kind strategey when using Bootstrap is that V4 sets all the typography <code>font-size</code>'s with rem. If you want to use the suggestion from CSS Tricks you will need to either override the styles as done in this pen or edit the cource code.</p>
+      </article>
+   </header>
+   
+   <section class="container">		
+      <div class="row">
+         <div class="col-xs-12">
+            <table class="table table-bordered">
+              <thead>
+               <tr>
+                 <td>Display Sizes</td>
+               </tr>			  
+              </thead>
+              <tbody>
+               <tr>
+                 <td><h1 class="display-1">Display 1</h1></td>
+               </tr>
+               <tr>
+                 <td><h1 class="display-2">Display 2</h1></td>
+               </tr>
+               <tr>
+                 <td><h1 class="display-3">Display 3</h1></td>
+               </tr>
+               <tr>
+                 <td><h1 class="display-4">Display 4</h1></td>
+               </tr>
+              </tbody>
+            </table>
+            <table class="table table-bordered">
+              <thead>
+               <tr>
+                 <td>Heading Sizes</td>
+               </tr>			  
+              </thead>
+              <tbody>
+               <tr>
+                 <td><h1>h1. Bootstrap heading</h1></td>
+               </tr>
+               <tr>
+                 <td><h2>h2. Bootstrap heading</h2></td>
+               </tr>
+               <tr>
+                 <td><h3>h3. Bootstrap heading</h3></td>
+               </tr>
+               <tr>
+                 <td><h4>h4. Bootstrap heading</h4></td>
+               </tr>
+               <tr>
+                 <td><h5>h5. Bootstrap heading</h5></td>
+               </tr>
+               <tr>
+                 <td><h6>h6. Bootstrap heading</h6></td>
+               </tr>
+              </tbody>
+            </table>
          </div>
-      </section>
+      
+         <div class="col-xl-12">
+            <table class="table table-bordered">
+               <thead>
+                  <tr>
+                     <td>Example</td>
+                  </tr>			  
+               </thead>
+               <tbody>
+                  <tr>
+                     <td>
+                        <h1>One Morning, When Gregor Samsa Woke</h1>
+   
+                        <p>From troubled dreams, he found himself transformed in his bed into a horrible vermin. He lay on his armour-like back, and if he lifted his head a little he could see his brown belly, slightly domed and divided by arches into stiff sections. The bedding was hardly able to cover it and seemed ready to slide off any moment.</p>
+   
+                        <p>His many legs, pitifully thin compared with the size of the rest of him, waved about helplessly as he looked. “What’s happened to me?” he thought. It wasn’t a dream. His room, a proper human room although a little too small, lay peacefully between its four familiar walls.</p>
+   
+                        <h2>One Morning, When Gregor Samsa Woke</h2>
+   
+                        <p>From troubled dreams, he found himself transformed in his bed into a horrible vermin. He lay on his armour-like back, and if he lifted his head a little he could see his brown belly, slightly domed and divided by arches into stiff sections. The bedding was hardly able to cover it and seemed ready to slide off any moment.</p>
+                        
+                        <blockquote class="blockquote">
+                           <p class="m-b-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+                        </blockquote>
+   
+                        <p>His many legs, pitifully thin compared with the size of the rest of him, waved about helplessly as he looked. “What’s happened to me?” he thought. It wasn’t a dream. His room, a proper human room although a little too small, lay peacefully between its four familiar walls.</p>
+   
+                        <h3>One Morning, When Gregor Samsa Woke</h3>
+   
+                        <p>From troubled dreams, he found himself transformed in his bed into a horrible vermin. He lay on his armour-like back, and if he lifted his head a little he could see his brown belly, slightly domed and divided by arches into stiff sections. The bedding was hardly able to cover it and seemed ready to slide off any moment.</p>
+                        
+                        <ul class="list-unstyled">
+                           <li>Lorem ipsum dolor sit amet</li>
+                           <li>Consectetur adipiscing elit</li>
+                           <li>Integer molestie lorem at massa</li>
+                           <li>Facilisis in pretium nisl aliquet</li>
+                           <li>Nulla volutpat aliquam velit
+                              <ul>
+                                 <li>Phasellus iaculis neque</li>
+                                 <li>Purus sodales ultricies</li>
+                                 <li>Vestibulum laoreet porttitor sem</li>
+                                 <li>Ac tristique libero volutpat at</li>
+                              </ul>
+                           </li>
+                           <li>Faucibus porta lacus fringilla vel</li>
+                           <li>Aenean sit amet erat nunc</li>
+                           <li>Eget porttitor lorem</li>
+                        </ul>
+   
+                        <p>His many legs, pitifully thin compared with the size of the rest of him, waved about helplessly as he looked. “What’s happened to me?” he thought. It wasn’t a dream. His room, a proper human room although a little too small, lay peacefully between its four familiar walls.</p>
+   
+                        <h4>One Morning, When Gregor Samsa Woke</h4>
+   
+                        <p>From troubled dreams, he found himself transformed in his bed into a horrible vermin. He lay on his armour-like back, and if he lifted his head a little he could see his brown belly, slightly domed and divided by arches into stiff sections. The bedding was hardly able to cover it and seemed ready to slide off any moment.</p>
+   
+                        <p>His many legs, pitifully thin compared with the size of the rest of him, waved about helplessly as he looked. “What’s happened to me?” he thought. It wasn’t a dream. His room, a proper human room although a little too small, lay peacefully between its four familiar walls.</p>
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
+         </div><!-- /.col -->
+         
+      </div><!-- /.row -->
+   </section><!-- /.container -->
    {% endblock content %}
