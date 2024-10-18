@@ -13,15 +13,10 @@ def client(request):
 
     return render(request, 'pagina/client.html')
 
-def service(request):
+def log_in(request):
 
-    return render(request, 'pagina/service.html')
+    return render(request, 'pagina/log_in.html')
 
-def team(request):
+def register(request):
 
-    return render(request, 'pagina/team.html')
-
-def contact(request):
-
-    return render(request, 'pagina/contact.html')
-
+    return render(request, 'pagina/register.html')
