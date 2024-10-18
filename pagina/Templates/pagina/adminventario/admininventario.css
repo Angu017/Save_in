@@ -1,0 +1,76 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.user-profile {
+    text-align: center;
+}
+
+.user-profile img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+}
+
+.nav-button {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #555;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.nav-button:hover {
+    background-color: #777;
+}
+
+.content {
+    flex: 1;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+}
+
+.inventory-controls {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.inventory-controls button, 
+.inventory-controls input {
+    padding: 10px;
+    margin: 0 10px;
+}
+
+.inventory-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.inventory-table th, .inventory-table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+}
+
+.inventory-table th {
+    background-color: #f4f4f4;
+}

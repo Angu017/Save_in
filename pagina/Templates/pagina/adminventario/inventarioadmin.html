@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulo de Inventario</title>
+    <!-- Cambiar el nombre del archivo CSS -->
+    <link rel="stylesheet" href="admininventario.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="user-profile">
+            <img src="profile-picture.png" alt="Foto de usuario">
+            <p>Nombre Usuario</p>
+        </div>
+        <nav>
+            <button class="nav-button">Administración de Usuarios</button>
+            <button class="nav-button" id="back-home">Volver al Inicio</button>
+            <button class="nav-button">Cerrar Sesión</button>
+        </nav>
+    </div>
+    <div class="content">
+        <h1>Gestión de Inventario</h1>
+        <div class="inventory-controls">
+            <button id="nuevo-producto">Nuevo Producto</button>
+            <input type="text" id="buscar-producto" placeholder="Buscar producto...">
+            <button id="sumar-stock">Sumar Stock</button>
+            <button id="restar-stock">Restar Stock</button>
+        </div>
+        <table class="inventory-table">
+            <thead>
+                <tr>
+                    <th>ID Producto</th>
+                    <th>Nombre</th>
+                    <th>Stock</th>
+                    <th>Precio</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Producto 2</td>
+                    <td>50</td>
+                    <td>$20.00</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Producto 3</td>
+                    <td>30</td>
+                    <td>$15.00</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Producto 4</td>
+                    <td>10</td>
+                    <td>$10.00</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Cambiar el nombre del archivo JavaScript -->
+    <script src="admininventario.js"></script>
+</body>
+</html>

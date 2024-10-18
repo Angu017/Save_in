@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Usuarios</title>
+    <link rel="stylesheet" href="adminusuarios.css">
+    <!-- Enlace a Google Icons para los iconos -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="perfil">
+            <div class="perfil-imagen"></div>
+            <p>Perfil</p>
+        </div>
+        <ul>
+            <li><a href="#">Usuarios</a></li>
+            <li><a href="#">Inventario</a></li>
+            <li><a href="#">Cerrar Sesión</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <h1>Lista de Usuarios</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre Usuario</th>
+                    <th>Rol</th>
+                    <th>Almacén</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Pepe</td>
+                    <td>
+                        <button class="accordion">Seleccionar Rol</button>
+                        <div class="panel">
+                            <p>Dueño</p>
+                            <p>Vendedor</p>
+                        </div>
+                    </td>
+                    <td>
+                        <button class="accordion">Seleccionar Almacén</button>
+                        <div class="panel">
+                            <p>DonPepe</p>
+                            <p>Almacén Norte</p>
+                            <p>Almacén Sur</p>
+                        </div>
+                    </td>
+                    <td>
+                        <button class="btn eliminar">
+                            <span class="material-icons">delete</span> Eliminar
+                        </button>
+                        <button class="btn editar">
+                            <span class="material-icons">edit</span> Editar
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Juan</td>
+                    <td>
+                        <button class="accordion">Seleccionar Rol</button>
+                        <div class="panel">
+                            <p>Dueño</p>
+                            <p>Vendedor</p>
+                        </div>
+                    </td>
+                    <td>
+                        <button class="accordion">Seleccionar Almacén</button>
+                        <div class="panel">
+                            <p>DonPepe</p>
+                            <p>Almacén Norte</p>
+                            <p>Almacén Sur</p>
+                        </div>
+                    </td>
+                    <td>
+                        <button class="btn eliminar">
+                            <span class="material-icons">delete</span> Eliminar
+                        </button>
+                        <button class="btn editar">
+                            <span class="material-icons">edit</span> Editar
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
