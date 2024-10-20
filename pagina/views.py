@@ -20,3 +20,19 @@ def log_in(request):
 def register(request):
 
     return render(request, 'pagina/register.html')
+def adminpage(request):
+
+    return render(request, 'pagina/adminpage.html')
+
+def adminusuarios(request):
+
+    return render(request, 'pagina/adminusuarios.html')
+
+def inventarioadmin(request):
+
+    return render(request, 'pagina/inventarioadmin.html')
+
+def vendeor(request):
+
+    return render(request, 'pagina/vendeor.html')
+

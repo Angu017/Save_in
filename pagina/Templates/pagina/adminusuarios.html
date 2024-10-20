@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Usuarios</title>
-    <link rel="stylesheet" href="adminusuarios.css">
+    <link rel="stylesheet" href="{% static 'pagina/css/adminusuarios.css' %}">
     <!-- Enlace a Google Icons para los iconos -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
@@ -15,9 +16,9 @@
             <p>Perfil</p>
         </div>
         <ul>
-            <li><a href="#">Usuarios</a></li>
-            <li><a href="#">Inventario</a></li>
-            <li><a href="#">Cerrar Sesión</a></li>
+            <li><a href="{% url 'adminusuarios' %}">Usuarios</a></li>
+            <li><a href="{% url 'vendeor' %}">Inventario</a></li>
+            <li><a href="{% url 'index' %}">Cerrar Sesión</a></li>
         </ul>
     </div>
 

@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Administración</title>
-    <link rel="stylesheet" href="adminstyle.css">
+    <link rel="stylesheet" href="{% static 'pagina/css/adminstyle.css' %}">
 </head>
 <body>
     <div class="sidebar">
         <h2>Admin Panel</h2>
         <ul>
-            <li><a href="#">Administración de Usuarios</a></li>
-            <li><a href="#">Administración de Inventario</a></li>
-            <li><a href="#">Cerrar Sesión</a></li>
+            <li><a href="{% url 'adminusuarios' %}">Administración de Usuarios</a></li>
+            <li><a href="{% url '{% url 'vendor' %}' %}">Administración de Inventario</a></li>
+            <li><a href="{% url 'index' %}">Cerrar Sesión</a></li>
         </ul>
     </div>
 
