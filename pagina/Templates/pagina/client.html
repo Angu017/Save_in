@@ -2,131 +2,54 @@
    {% block content %}
    {% load static %}
    <link rel="stylesheet" href="{% static 'pagina/css/clients.css' %}">
-   <header class="jumbotron jumbotron-fluid">
-      <article class="container">
-         <h1 class="display-4 text-primary text-xs-center p-b-1 m-b-1">Bootstrap 4 Responsive Type Scale</h1>
-         <p class="lead">OK, so we know Bootstrap does not come with a responsive type scale as such, but it does come with all you need to set one up. This is my way of getting things set up to help overcome a couple of dislikes I have when browsing through the web.</p>
-         <p>I have an issuse with <abbr title="Responsive Web Design" class="initialism">RWD</abbr> at the moment and that is the way <em>some</em> sites seem quite happy to fill a mobile screen with a page title or heading. Lets try and rectify that.</p>
-         <p>Take a quick read over the <a href="https://v4-alpha.getbootstrap.com/content/typography/#responsive-typography">Responsive Typograpy</a> section of the V4 docs. This will let you understand exactly what Bootstrap sets up for you and how so we know were to start.</p>
-         <p>The next thing to consider is some details I read over on <a href="https://css-tricks.com/rems-ems/">CSS Tricks about the use of rems and ems.</a> The only issue you will come across if you want to implement this kind strategey when using Bootstrap is that V4 sets all the typography <code>font-size</code>'s with rem. If you want to use the suggestion from CSS Tricks you will need to either override the styles as done in this pen or edit the cource code.</p>
-      </article>
-   </header>
-   
-   <section class="container">		
+
+  <!-- Sección de Clientes -->
+<div id="clientes" class="clientes">
+   <div class="container">
+      <div class="titlepage">
+         <h2><strong class="yellow">NUESTROS CLIENTES</strong><br> CONFIARON EN S.A.L. – TESTIMONIOS DE CLIENTES
+            INVITADOS A CONOCER NUESTRA PROPUESTA</h2>
+         <p>A continuación algunos de los clientes que han confiado en nosotros y voluntariamente relataron sus experiencias y testimonios de S.A.L. :</p>
+      </div>
       <div class="row">
-         <div class="col-xs-12">
-            <table class="table table-bordered">
-              <thead>
-               <tr>
-                 <td>Display Sizes</td>
-               </tr>			  
-              </thead>
-              <tbody>
-               <tr>
-                 <td><h1 class="display-1">Display 1</h1></td>
-               </tr>
-               <tr>
-                 <td><h1 class="display-2">Display 2</h1></td>
-               </tr>
-               <tr>
-                 <td><h1 class="display-3">Display 3</h1></td>
-               </tr>
-               <tr>
-                 <td><h1 class="display-4">Display 4</h1></td>
-               </tr>
-              </tbody>
-            </table>
-            <table class="table table-bordered">
-              <thead>
-               <tr>
-                 <td>Heading Sizes</td>
-               </tr>			  
-              </thead>
-              <tbody>
-               <tr>
-                 <td><h1>h1. Bootstrap heading</h1></td>
-               </tr>
-               <tr>
-                 <td><h2>h2. Bootstrap heading</h2></td>
-               </tr>
-               <tr>
-                 <td><h3>h3. Bootstrap heading</h3></td>
-               </tr>
-               <tr>
-                 <td><h4>h4. Bootstrap heading</h4></td>
-               </tr>
-               <tr>
-                 <td><h5>h5. Bootstrap heading</h5></td>
-               </tr>
-               <tr>
-                 <td><h6>h6. Bootstrap heading</h6></td>
-               </tr>
-              </tbody>
-            </table>
+         <!-- Cliente 1 -->
+         <div class="col-md-4 col-sm-6">
+            <div class="cliente-box">
+               <img src="{% static 'pagina/img/client1.jpg' %}" alt="Cliente 1 Logo">
+               <h3 style="margin-top: 50px; ">Raúl Camargo | Bazar Los Nogales</h3>
+               <p style="text-align: justify; margin-bottom: 150px;"> "El servicio que hemos recibido ha sido muy
+                  peculiar para mí. Estoy acostumbrado a hacer mis
+                  gestiones a papel y me resulta mas sencillo y agil ver mis productos. Gracias al S.A.L., mejores mis
+                  habitos logísticos de mi emprendimiento."</p>
+            </div>
          </div>
-      
-         <div class="col-xl-12">
-            <table class="table table-bordered">
-               <thead>
-                  <tr>
-                     <td>Example</td>
-                  </tr>			  
-               </thead>
-               <tbody>
-                  <tr>
-                     <td>
-                        <h1>One Morning, When Gregor Samsa Woke</h1>
-   
-                        <p>From troubled dreams, he found himself transformed in his bed into a horrible vermin. He lay on his armour-like back, and if he lifted his head a little he could see his brown belly, slightly domed and divided by arches into stiff sections. The bedding was hardly able to cover it and seemed ready to slide off any moment.</p>
-   
-                        <p>His many legs, pitifully thin compared with the size of the rest of him, waved about helplessly as he looked. “What’s happened to me?” he thought. It wasn’t a dream. His room, a proper human room although a little too small, lay peacefully between its four familiar walls.</p>
-   
-                        <h2>One Morning, When Gregor Samsa Woke</h2>
-   
-                        <p>From troubled dreams, he found himself transformed in his bed into a horrible vermin. He lay on his armour-like back, and if he lifted his head a little he could see his brown belly, slightly domed and divided by arches into stiff sections. The bedding was hardly able to cover it and seemed ready to slide off any moment.</p>
-                        
-                        <blockquote class="blockquote">
-                           <p class="m-b-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-                        </blockquote>
-   
-                        <p>His many legs, pitifully thin compared with the size of the rest of him, waved about helplessly as he looked. “What’s happened to me?” he thought. It wasn’t a dream. His room, a proper human room although a little too small, lay peacefully between its four familiar walls.</p>
-   
-                        <h3>One Morning, When Gregor Samsa Woke</h3>
-   
-                        <p>From troubled dreams, he found himself transformed in his bed into a horrible vermin. He lay on his armour-like back, and if he lifted his head a little he could see his brown belly, slightly domed and divided by arches into stiff sections. The bedding was hardly able to cover it and seemed ready to slide off any moment.</p>
-                        
-                        <ul class="list-unstyled">
-                           <li>Lorem ipsum dolor sit amet</li>
-                           <li>Consectetur adipiscing elit</li>
-                           <li>Integer molestie lorem at massa</li>
-                           <li>Facilisis in pretium nisl aliquet</li>
-                           <li>Nulla volutpat aliquam velit
-                              <ul>
-                                 <li>Phasellus iaculis neque</li>
-                                 <li>Purus sodales ultricies</li>
-                                 <li>Vestibulum laoreet porttitor sem</li>
-                                 <li>Ac tristique libero volutpat at</li>
-                              </ul>
-                           </li>
-                           <li>Faucibus porta lacus fringilla vel</li>
-                           <li>Aenean sit amet erat nunc</li>
-                           <li>Eget porttitor lorem</li>
-                        </ul>
-   
-                        <p>His many legs, pitifully thin compared with the size of the rest of him, waved about helplessly as he looked. “What’s happened to me?” he thought. It wasn’t a dream. His room, a proper human room although a little too small, lay peacefully between its four familiar walls.</p>
-   
-                        <h4>One Morning, When Gregor Samsa Woke</h4>
-   
-                        <p>From troubled dreams, he found himself transformed in his bed into a horrible vermin. He lay on his armour-like back, and if he lifted his head a little he could see his brown belly, slightly domed and divided by arches into stiff sections. The bedding was hardly able to cover it and seemed ready to slide off any moment.</p>
-   
-                        <p>His many legs, pitifully thin compared with the size of the rest of him, waved about helplessly as he looked. “What’s happened to me?” he thought. It wasn’t a dream. His room, a proper human room although a little too small, lay peacefully between its four familiar walls.</p>
-                     </td>
-                  </tr>
-               </tbody>
-            </table>
-         </div><!-- /.col -->
-         
-      </div><!-- /.row -->
-   </section><!-- /.container -->
+         <!-- Cliente 2 -->
+         <div class="col-md-4 col-sm-6">
+            <div class="cliente-box">
+               <img src="{% static 'pagina/img/client2.jpg' %}" alt="Cliente 2 Logo">
+               <h3 style="margin-top: 50px;""> Ana Melinao | Almacén Antumalal </h3>
+               <p style=" text-align: justify; margin-bottom: 150px;"> "Cuando contactaron conmigo para ser invitada a
+                  esta experiencia, nunca pense que el proceso seria para positivo. Es muy útil para poder comunicarme
+                  con mis proveedores antes de que se acabe mis productos. Me ha encantado y quiero seguir utilizando su
+                  idea."</p>
+            </div>
+         </div>
+         <!-- Cliente 3 -->
+         <div class="col-md-4 col-sm-6">
+            <div class="cliente-box">
+               <img src="{% static 'pagina/img/client3.jpg' %}" alt="Cliente 3 Logo">
+               <h3 style="margin-top: 50px;"">María del Carmen Eleazár | Almacén Para Fé</h3>
+               <p style=" text-align: justify; margin-bottom: 150px;"> "Llevo 15 años con nuestro sustento de vida.
+                  Nuestra familia depende mucho de nuestro negocio y todos los días, muchos emprendimientos cierran y ha
+                  sido uno de los temores que más tengo en mi cabeza siempre. Cuando conocí la propuesta que me
+                  ofrecieron, con mucho gusto accedí a conocerla, les he contado a mis colegas por WhatsApp su proyecto
+                  y siempre preguntan por como van ustedes. Su idea me ha ayudado demasiado a gestionar nuestra vida y
+                  hemos ido para arriba gracias a ustedes."</p>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+
    {% endblock content %}
    python --version
