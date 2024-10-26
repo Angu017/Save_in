@@ -32,7 +32,7 @@ def inventarioadmin(request):
 
     return render(request, 'pagina/inventarioadmin.html')
 
-def vendeor(request):
+def vendedor(request):
 
-    return render(request, 'pagina/vendeor.html')
+    return render(request, 'pagina/vendedor.html')
 

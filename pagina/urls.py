@@ -1,7 +1,7 @@
 
 from django.contrib import admin
 from django.urls import path
-from .views import index,about,client,log_in,register,adminpage,adminusuarios,inventarioadmin,vendeor
+from .views import index,about,client,log_in,register,adminpage,adminusuarios,inventarioadmin,vendedor
 
 urlpatterns = [
     path('',index,name="index"),
@@ -13,5 +13,5 @@ urlpatterns = [
     path('adminpage/',adminpage,name="adminpage"),
     path('adminusuarios/',adminusuarios,name="adminusuarios"),
     path('inventarioadmin/',inventarioadmin,name="inventarioadmin"),
-    path('vendeor/',vendeor,name="vendeor")
+    path('vendedor/',vendedor,name="vendedor")
 ]
