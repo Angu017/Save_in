@@ -4,13 +4,16 @@
 	<div class="screen">
 		<div class="screen__content">
 			<form class="login">
+				
 				<div class="login__field">
 					<i class="login__icon fas fa-user"></i>
 					<input type="text" class="login__input" placeholder="User name / Email">
 				</div>
 				<div class="login__field">
 					<i class="login__icon fas fa-lock"></i>
-					<input type="password" class="login__input" placeholder="Password">
+					<input type="password" class="login__input" placeholder="Password" id="password" name="password" maxlength="6"pattern="^[A-Z][A-Za-z0-9]{1,5}\d$" 
+					title="Debe comenzar con una letra mayúscula, contener al menos un número, y tener máximo 6 caracteres."
+					required>
 				</div>
 				<button class="button login__submit">
 					<span class="button__text" >Iniciar sesión</span>
