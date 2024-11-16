@@ -3,8 +3,10 @@ from django.db import models
 
 #Super User: Adm1n Password: Adm1n
 
-#Usuario VENDEDOR: juanceto01   Clave: 8ZGf9S7LPEpvrKx
+#Usuario VENDEDOR: geronimo   Clave: 8ZGf9S7LPEpvrKx
 #Usuario DUEÑO: juancarlos Clave: kyuFM5Lrc5YZy6J
+
+
 
 class Categoria(models.Model):
     id_categoria = models.AutoField(primary_key=True)
