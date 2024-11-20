@@ -1,0 +1,55 @@
+{% extends 'plantillaini.html' %}
+   {% block content %}
+   {% load static %}
+   <link rel="stylesheet" href="{% static 'css/clients.css' %}">
+
+  <!-- Sección de Clientes -->
+<div id="clientes" class="clientes">
+   <div class="container">
+      <div class="titlepage">
+         <h2><strong class="yellow">NUESTROS CLIENTES</strong><br> CONFIARON EN S.A.L. – TESTIMONIOS DE CLIENTES
+            INVITADOS A CONOCER NUESTRA PROPUESTA</h2>
+         <p>A continuación algunos de los clientes que han confiado en nosotros y voluntariamente relataron sus experiencias y testimonios de S.A.L. :</p>
+      </div>
+      <div class="row">
+         <!-- Cliente 1 -->
+         <div class="col-md-4 col-sm-7">
+            <div class="cliente-box">
+               <img src="{% static 'img/client1.jpg' %}" alt="Cliente 1 Logo">
+               <h3 style="margin-top: 50px; ">Raúl Camargo | Bazar Los Nogales</h3>
+               <p style="text-align: justify; margin-bottom: 150px;"> "El servicio que hemos recibido ha sido muy
+                  peculiar para mí. Estoy acostumbrado a hacer mis
+                  gestiones a papel y me resulta mas sencillo y agil ver mis productos. Gracias al S.A.L., mejores mis
+                  habitos logísticos de mi emprendimiento."</p>
+            </div>
+         </div>
+         <!-- Cliente 2 -->
+         <div class="col-md-4 col-sm-7">
+            <div class="cliente-box">
+               <img src="{% static 'img/client2.jpg' %}" alt="Cliente 2 Logo">
+               <h3 style="margin-top: 50px;"> Ana Melinao | Almacén Antumalal </h3>
+               <p style=" text-align: justify; margin-bottom: 150px;"> "Cuando contactaron conmigo para ser invitada a
+                  esta experiencia, nunca pense que el proceso seria para positivo. Es muy útil para poder comunicarme
+                  con mis proveedores antes de que se acabe mis productos. Me ha encantado y quiero seguir utilizando su
+                  idea."</p>
+            </div>
+         </div>
+         <!-- Cliente 3 -->
+         <div class="col-md-4 col-sm-7">
+            <div class="cliente-box">
+               <img src="{% static 'img/client3.jpg' %}" alt="Cliente 3 Logo">
+               <h3 style="margin-top: 50px;">María del Carmen Eleazár | Almacén Para Fé</h3>
+               <p style=" text-align: justify; margin-bottom: 150px;"> "Llevo 15 años con nuestro sustento de vida.
+                  Nuestra familia depende mucho de nuestro negocio y todos los días, muchos emprendimientos cierran y ha
+                  sido uno de los temores que más tengo en mi cabeza siempre. Cuando conocí la propuesta que me
+                  ofrecieron, con mucho gusto accedí a conocerla, les he contado a mis colegas por WhatsApp su proyecto
+                  y siempre preguntan por como van ustedes. Su idea me ha ayudado demasiado a gestionar nuestra vida y
+                  hemos ido para arriba gracias a ustedes."</p>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+
+   {% endblock content %}
+   python --version
