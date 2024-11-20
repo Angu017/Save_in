@@ -1,0 +1,9 @@
+<!-- Formulario de inicio de sesión (signin.html) -->
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <label for="remember_me">
+        <input type="checkbox" name="remember_me" id="remember_me"> Recordarme
+    </label>
+    <button type="submit">Iniciar sesión</button>
+</form>

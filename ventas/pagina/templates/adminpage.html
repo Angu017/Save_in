@@ -13,7 +13,14 @@
         <ul>
             <li><a href="{% url 'adminusuarios' %}">Administración de Usuarios</a></li>
             <li><a href="{% url 'vendedor' %}">Administración de Inventario</a></li>
-            <li><a href="{% url 'index' %}">Cerrar Sesión</a></li>
+            
+            <!-- Formulario para cerrar sesión -->
+            <li>
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Cerrar Sesión</button>
+                </form>
+            </li>
         </ul>
     </div>
 

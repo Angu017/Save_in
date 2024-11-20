@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Signup</title>
+</head>
+<body>
+    <h1>Formulario de Registro</h1>
+    <form action="{% url 'signup' %}" method="post">  <!-- Usar {% url 'signup' %} -->
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Registrar</button>
+    </form>
+</body>
+</html>
