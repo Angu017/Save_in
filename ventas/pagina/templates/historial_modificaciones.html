@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Historial de Modificaciones</title>
+</head>
+<body>
+    <h1>Historial de Modificaciones para {{ producto.nombre }}</h1>
+    <ul>
+        {% for log in logs %}
+            <li>
+                <strong>Fecha:</strong> {{ log.fecha_modificacion }} <br>
+                <strong>Usuario:</strong> {{ log.usuario.username if log.usuario else "Desconocido" }} <br>
+                <strong>Stock Anterior:</strong> {{ log.stock_anterior }} <br>
+                <strong>Nuevo Stock:</strong> {{ log.stock_nuevo }} <br>
+                <strong>Razón:</strong> {{ log.razon }}
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

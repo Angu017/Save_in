@@ -7,6 +7,10 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import check_password
 from django.core.exceptions import ValidationError
 from .forms import ProductoForm
+from django.shortcuts import get_object_or_404
+from .models import Producto, ProductModificationLog
+from django.shortcuts import render, get_object_or_404
+from .models import Producto
 
 
 
@@ -135,3 +139,31 @@ def crearproducto(request):
         form = ProductoForm()
 
     return render(request, 'crearproducto.html', {'form': form})
+
+def modificar_producto_stock(producto_id, nuevo_stock, usuario, razon=""):
+    producto = get_object_or_404(Producto, id=producto_id)
+    
+    # Crear registro de modificación
+    ProductModificationLog.objects.create(
+        producto=producto,
+        usuario=usuario,
+        stock_anterior=producto.stock,
+        stock_nuevo=nuevo_stock,
+        razon=razon
+    )
+    
+    # Actualizar el producto
+    producto.stock = nuevo_stock
+    producto.save()
+    print("Modificación registrada con éxito.")
+
+
+def historial_modificaciones(request, producto_id):
+    producto = get_object_or_404(Producto, id=producto_id)
+    logs = producto.modification_logs.all().order_by('-fecha_modificacion')  # Orden descendente
+    return render(request, 'historial_modificaciones.html', {'producto': producto, 'logs': logs})
+
+
+
+#este boton lo guarde aqui mientras
+#<a href="{% url 'historial_modificaciones' producto.id %}">Ver Historial de Modificaciones</a>
