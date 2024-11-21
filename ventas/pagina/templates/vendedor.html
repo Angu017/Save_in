@@ -15,8 +15,20 @@
         </div>
         <ul>
             <li><a href="{% url 'adminusuarios' %}">Administración de Usuarios</a></li>
-            <li><a href="{% url 'index' %}">Volver al Inicio</a></li>
-            <li><a href="{% url 'index' %}">Cerrar Sesión</a></li>
+            <li><a href="{% url 'adminpage' %}">Volver al Inico</a></li>
+            <!-- cerrar sesión -->
+            <li>
+                <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" style="padding: 10px 20px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: inherit;">
+                        Cerrar Sesión
+                    </button>
+                </form>
+            </li>
+            
+            
+            
+            
         </ul>
     </div>
 
@@ -27,7 +39,7 @@
         <!-- Se eliminan los botones "Nuevo Producto", "Sumar Stock" y "Restar Stock" -->
         <div class="inventory-controls">
             <input type="text" id="buscar-producto" placeholder="Buscar producto...">
-            <button id="nuevo-producto">Nuevo Producto</button>
+            <a href="{% url 'crearproducto' %}"><button type="button">Crear Producto</button></a>
             <button id="sumar-stock">Sumar Stock</button>
             <button id="restar-stock">Restar Stock</button>
         </div>
@@ -63,5 +75,15 @@
             </tbody>
         </table>
     </div>
+
+
+
+
+
+
+
 </body>
+
+
 </html>
+

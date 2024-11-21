@@ -1,9 +1,24 @@
-<!-- Formulario de inicio de sesión (signin.html) -->
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <label for="remember_me">
-        <input type="checkbox" name="remember_me" id="remember_me"> Recordarme
-    </label>
-    <button type="submit">Iniciar sesión</button>
-</form>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Save_in</title>
+    <!-- Aquí puedes incluir CSS, JavaScript, etc. -->
+</head>
+<body>
+    <header>
+        <!-- Aquí puedes agregar un menú de navegación o barra de navegación -->
+    </header>
+
+    <div class="container">
+        {% block content %}
+        <!-- El contenido específico de cada página se insertará aquí -->
+        {% endblock %}
+    </div>
+
+    <footer>
+        <!-- Pie de página, si tienes uno -->
+    </footer>
+</body>
+</html>

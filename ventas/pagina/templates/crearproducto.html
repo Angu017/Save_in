@@ -1,0 +1,15 @@
+
+
+{% block content %}
+<h1>Crear Producto</h1>
+
+{% if success %}
+    <p>¡Producto creado con éxito!</p>
+{% endif %}
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Guardar Producto</button>
+</form>
+{% endblock %}

@@ -6,8 +6,14 @@ from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import check_password
 from django.core.exceptions import ValidationError
+from .forms import ProductoForm
 
 
+
+
+
+#Usuario administrador djando: 4dm1n clave: Adm1n
+ 
 # Create your views here.
 def index(request):
 
@@ -116,3 +122,16 @@ def signin(request):
 def logout_view(request):
     logout(request)
     return redirect('index')  # Redirige a la página principal
+
+#crear productos
+def crearproducto(request):
+    if request.method == 'POST':
+        form = ProductoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            # Aquí puedes agregar un mensaje de éxito si lo deseas.
+            return render(request, 'crearproducto.html', {'form': ProductoForm(), 'success': True})
+    else:
+        form = ProductoForm()
+
+    return render(request, 'crearproducto.html', {'form': form})

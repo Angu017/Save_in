@@ -13,14 +13,18 @@
         <ul>
             <li><a href="{% url 'adminusuarios' %}">Administración de Usuarios</a></li>
             <li><a href="{% url 'vendedor' %}">Administración de Inventario</a></li>
-            
-            <!-- Formulario para cerrar sesión -->
+            <!-- cerrar sesión -->
             <li>
-                <form action="{% url 'logout' %}" method="post">
+                <form action="{% url 'logout' %}" method="post" style="display:inline;">
                     {% csrf_token %}
-                    <button type="submit">Cerrar Sesión</button>
+                    <button type="submit" style="padding: 10px 20px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: inherit;">
+                        Cerrar Sesión
+                    </button>
                 </form>
             </li>
+            
+            
+            
         </ul>
     </div>
 
@@ -53,14 +57,7 @@
             </table>
         </div>
 
-        <div class="section">
-            <h2>Almacenes</h2>
-            <ul>
-                <li>Almacén Central</li>
-                <li>Almacén Norte</li>
-                <li>Almacén Sur</li>
-            </ul>
-        </div>
+        
     </div>
 </body>
 </html>
