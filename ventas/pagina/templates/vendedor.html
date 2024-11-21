@@ -6,8 +6,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Búsqueda de Productos</title>
     <link rel="stylesheet" href="{% static 'css/vendedor.css' %}">
+    <style>
+        /* Estilo para el encabezado de la tabla */
+        #productos-tabla thead {
+            background-color: #333; /* Gris oscuro */
+            color: #fff;           /* Letras blancas */
+        }
+
+        /* Opcional: Estilo adicional para que la tabla se vea bien */
+        #productos-tabla {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        #productos-tabla th, #productos-tabla td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        #productos-tabla tbody tr:nth-child(even) {
+            background-color: #f2f2f2; /* Color alternativo para las filas */
+        }
+
+        #productos-tabla tbody tr:hover {
+            background-color: #ddd; /* Resaltar fila al pasar el mouse */
+        }
+    </style>
 </head>
 <body>
+    <!-- Barra lateral -->
     <div class="sidebar">
         <div class="perfil">
             <div class="perfil-imagen"></div>
@@ -16,7 +44,7 @@
         <ul>
             <li><a href="{% url 'adminusuarios' %}">Administración de Usuarios</a></li>
             <li><a href="{% url 'adminpage' %}">Volver al Inicio</a></li>
-            <!-- cerrar sesión -->
+            <!-- Cerrar sesión -->
             <li>
                 <form action="{% url 'logout' %}" method="post" style="display:inline;">
                     {% csrf_token %}
@@ -28,18 +56,18 @@
         </ul>
     </div>
 
+    <!-- Contenido principal -->
     <div class="main-content">
         <h1>Búsqueda de Productos</h1>
 
+        <!-- Controles de inventario -->
         <div class="inventory-controls">
             <input type="text" id="buscar-producto" placeholder="Buscar producto...">
             <a href="{% url 'crearproducto' %}"><button type="button">Crear Producto</button></a>
-            <button id="sumar-stock">Sumar Stock</button>
-            <button id="restar-stock">Restar Stock</button>
         </div>
 
-        <!-- Mostrar los productos en la tabla -->
-        <table>
+        <!-- Tabla de productos -->
+        <table id="productos-tabla">
             <thead>
                 <tr>
                     <th>Nombre</th>
@@ -48,19 +76,12 @@
                 </tr>
             </thead>
             <tbody>
-                {% for producto in productos %}
-                <tr>
-                    <td>{{ producto.nombre }}</td>
-                    <td>{{ producto.stock }}</td>
-                    <td>${{ producto.precio }}</td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="3">No hay productos disponibles</td>
-                </tr>
-                {% endfor %}
+                <!-- Las filas de productos se cargarán aquí con JavaScript -->
             </tbody>
         </table>
     </div>
+
+    <!-- Archivo JavaScript para manejar la carga de productos -->
+    <script src="{% static 'js/productos.js' %}"></script>
 </body>
 </html>

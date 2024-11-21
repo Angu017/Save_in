@@ -11,8 +11,13 @@ from django.shortcuts import get_object_or_404
 from .models import Producto, ProductModificationLog
 from django.shortcuts import render, get_object_or_404
 from .models import Producto
-
-
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import get_object_or_404
+from .models import Producto
 
 
 
@@ -162,12 +167,48 @@ def historial_modificaciones(request, producto_id):
     return render(request, 'historial_modificaciones.html', {'producto': producto, 'logs': logs})
 
 #mostrar productos en el html 
-def busqueda_productos(request):
-    # Obtén todos los productos de la base de datos
+def mostrar_productos(request):
+    productos = Producto.objects.all()
+    print(productos)  # Esto imprime los productos en la consola
+    return render(request, 'vendedor.html', {'productos': productos})
+
+def listar_productos(request):
+    # Obtener todos los productos de la base de datos
     productos = Producto.objects.all()
 
-    # Pasa los productos a la plantilla
-    return render(request, 'busqueda_productos.html', {'productos': productos})
+    # Pasar los productos al template
+    context = {
+        'productos': productos
+    }
+
+    return render(request, 'tu_template.html', context)
+
+
+
+def api_productos(request):
+    productos = Producto.objects.all()
+    data = [
+        {
+            "nombre": producto.nombre,
+            "stock": producto.stock,
+            "precio": producto.precio,
+        }
+        for producto in productos
+    ]
+    return JsonResponse(data, safe=False)
+
+
+
+#funcion eliminar productos
+@csrf_exempt
+def eliminar_producto(request, producto_id):
+    if request.method == 'DELETE':
+        producto = get_object_or_404(Producto, id=producto_id)
+        producto.delete()
+        return JsonResponse({'message': 'Producto eliminado correctamente'}, status=200)
+    return JsonResponse({'message': 'Método no permitido'}, status=405)
+
+
 
 #este boton lo guarde aqui mientras
 #<a href="{% url 'historial_modificaciones' producto.id %}">Ver Historial de Modificaciones</a>
