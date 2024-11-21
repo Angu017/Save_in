@@ -1,0 +1,158 @@
+/* General styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+/* Sidebar styling */
+.sidebar {
+    background-color: #333;
+    color: white;
+    width: 220px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding-top: 20px;
+}
+
+.sidebar .perfil {
+    text-align: center;
+    padding: 15px;
+}
+
+.perfil-imagen {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: #ccc;
+    margin: 0 auto;
+}
+
+.sidebar p {
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.sidebar ul li {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: white;
+    padding: 10px 0;
+    display: block;
+    background-color: #444;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.sidebar ul li a:hover {
+    background-color: #555;
+}
+
+/* Main content styling */
+.main-content {
+    margin-left: 250px;
+    padding: 20px;
+}
+
+.form-card {
+    background-color: #ffffff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    border-radius: 10px;
+    width: 500px;
+    margin: 0 auto;
+    margin-top: 50px;
+    text-align: center;
+}
+
+.form-card h1 {
+    color: #333;
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+/* Success and error messages */
+.success-message {
+    color: green;
+    font-size: 16px;
+}
+
+.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+.error ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.error ul li {
+    font-size: 14px;
+}
+
+/* Form styling */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Alinea los campos hacia la izquierda */
+}
+
+.form-group {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+label {
+    font-size: 16px;
+    margin-bottom: 8px;
+    display: block;
+    color: #333;
+}
+
+input, textarea, select {
+    padding: 12px;
+    margin: 5px 0;
+    width: 100%;
+    max-width: 400px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+textarea {
+    resize: vertical; /* Permite cambiar el tamaño verticalmente */
+    height: 100px;
+}
+
+/* Botón de submit */
+.btn-submit {
+    padding: 12px 20px;
+    background-color: #28a745; /* Verde */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    max-width: 400px;
+}
+
+.btn-submit:hover {
+    background-color: #218838; /* Verde más oscuro al pasar el mouse */
+}

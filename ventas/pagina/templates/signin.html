@@ -3,22 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Save_in</title>
-    <!-- Aquí puedes incluir CSS, JavaScript, etc. -->
+    <title>Inicio de Sesión</title>
 </head>
 <body>
-    <header>
-        <!-- Aquí puedes agregar un menú de navegación o barra de navegación -->
-    </header>
-
-    <div class="container">
-        {% block content %}
-        <!-- El contenido específico de cada página se insertará aquí -->
-        {% endblock %}
-    </div>
-
-    <footer>
-        <!-- Pie de página, si tienes uno -->
-    </footer>
+    <h1>Iniciar Sesión</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Ingresar</button>
+    </form>
 </body>
 </html>
+

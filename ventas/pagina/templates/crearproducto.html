@@ -1,15 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Producto</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/producto.css' %}">
+</head>
+<body>
+    <header>
+        <!-- Aquí puedes agregar un menú de navegación o barra de navegación -->
+    </header>
 
+    <div class="sidebar">
+        <div class="perfil">
+            <div class="perfil-imagen"></div>
+            <p>Nombre Usuario</p>
+        </div>
+        <ul>
+            <li><a href="{% url 'adminusuarios' %}">Administración de Usuarios</a></li>
+            <li><a href="{% url 'adminpage' %}">Volver al Inicio</a></li>
+            <!-- cerrar sesión -->
+            <li>
+                <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" style="padding: 10px 20px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: inherit;">
+                        Cerrar Sesión
+                    </button>
+                </form>
+            </li>
+        </ul>
+    </div>
 
-{% block content %}
-<h1>Crear Producto</h1>
+    <div class="main-content">
+        <div class="form-card">
+            <h1>Crear Producto</h1>
 
-{% if success %}
-    <p>¡Producto creado con éxito!</p>
-{% endif %}
+            {% if success %}
+                <p class="success-message">¡Producto creado con éxito!</p>
+            {% endif %}
 
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Guardar Producto</button>
-</form>
-{% endblock %}
+            <form method="POST">
+                {% csrf_token %}
+                <!-- Nombre del Producto -->
+                <div class="form-group">
+                    <label for="id_nombre_producto">Nombre del Producto</label>
+                    {{ form.nombre }}
+                </div>
+
+                <!-- Precio -->
+                <div class="form-group">
+                    <label for="id_precio">Precio</label>
+                    {{ form.precio }}
+                </div>
+
+                <!-- Stock -->
+                <div class="form-group">
+                    <label for="id_stock">Stock</label>
+                    {{ form.stock }}
+                </div>
+
+                <!-- Marca -->
+                <div class="form-group">
+                    <label for="id_marca">Marca</label>
+                    {{ form.marca }}
+                </div>
+
+                <!-- Descripción -->
+                <div class="form-group">
+                    <label for="id_descripcion">Descripción</label>
+                    {{ form.descripcion }}
+                </div>
+
+                <!-- Mostrar errores del formulario, si existen -->
+                {% if form.errors %}
+                    <div class="error">
+                        <p>Por favor, revisa los errores:</p>
+                        <ul>
+                            {% for field in form %}
+                                {% for error in field.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+
+                <button type="submit" class="btn-submit">Guardar Producto</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

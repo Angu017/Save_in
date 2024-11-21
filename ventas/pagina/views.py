@@ -127,19 +127,17 @@ def logout_view(request):
     logout(request)
     return redirect('index')  # Redirige a la página principal
 
-#crear productos
+#Crear Productos
 def crearproducto(request):
     if request.method == 'POST':
         form = ProductoForm(request.POST)
         if form.is_valid():
             form.save()
-            # Aquí puedes agregar un mensaje de éxito si lo deseas.
             return render(request, 'crearproducto.html', {'form': ProductoForm(), 'success': True})
     else:
         form = ProductoForm()
 
-    return render(request, 'crearproducto.html', {'form': form})
-
+    return render(request, 'crearproducto.html', {'form': form, 'success': False})
 def modificar_producto_stock(producto_id, nuevo_stock, usuario, razon=""):
     producto = get_object_or_404(Producto, id=producto_id)
     
@@ -157,13 +155,19 @@ def modificar_producto_stock(producto_id, nuevo_stock, usuario, razon=""):
     producto.save()
     print("Modificación registrada con éxito.")
 
-
+#es una funcion de prueba que cree para crear el historial de modificaciones de los productos aun esta en pruebas
 def historial_modificaciones(request, producto_id):
     producto = get_object_or_404(Producto, id=producto_id)
     logs = producto.modification_logs.all().order_by('-fecha_modificacion')  # Orden descendente
     return render(request, 'historial_modificaciones.html', {'producto': producto, 'logs': logs})
 
+#mostrar productos en el html 
+def busqueda_productos(request):
+    # Obtén todos los productos de la base de datos
+    productos = Producto.objects.all()
 
+    # Pasa los productos a la plantilla
+    return render(request, 'busqueda_productos.html', {'productos': productos})
 
 #este boton lo guarde aqui mientras
 #<a href="{% url 'historial_modificaciones' producto.id %}">Ver Historial de Modificaciones</a>
