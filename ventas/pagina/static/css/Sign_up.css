@@ -1,119 +1,162 @@
-*, *:before, *:after {
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
+/* Reset y base */
+*,
+*::before,
+*::after {
     box-sizing: border-box;
-  }
-  
-  body {
-    font-family: 'Nunito', sans-serif;
-    color: #f2db18;
-    background-color: #8a97a0;
-  }
-  
-  form {
-    max-width: 300px;
-    margin: 10px auto;
-    padding: 10px 20px;
-    background: #092352;
-    border-radius: 8px;
-  }
-  
-  h1 {
-    margin: 0 0 30px 0;
-    text-align: center;
-  }
-  
-  input[type="text"],
-  input[type="password"],
-  input[type="date"],
-  input[type="datetime"],
-  input[type="email"],
-  input[type="number"],
-  input[type="search"],
-  input[type="tel"],
-  input[type="time"],
-  input[type="url"],
-  textarea,
-  select {
-    background: rgba(255,255,255,0.1);
-    border: none;
-    font-size: 16px;
-    height: auto;
     margin: 0;
-    outline: 0;
-    padding: 15px;
+    padding: 0;
+}
+
+/* Fuente y fondo general */
+body {
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(90deg, #4b4d78, #092352); /* Azul elegante */
+    color: #ffffff; /* Texto blanco para buen contraste */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* Contenedor de formulario */
+.form-container {
+    background: #092352; /* Azul oscuro para el fondo */
     width: 100%;
-    background-color: #f2db18;
-    color: #8a97a0;
-    box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
-    margin-bottom: 30px;
-  }
-  
-  input[type="radio"],
-  input[type="checkbox"] {
-    margin: 0 4px 8px 0;
-  }
-  
-  select {
-    padding: 6px;
-    height: 32px;
-    border-radius: 2px;
-  }
-  
-  button {
-    padding: 19px 39px 18px 39px;
-    color: #FFF;
-    background-color: #092352;
-    font-size: 18px;
+    max-width: 420px;
+    padding: 40px 30px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    position: relative;
+    z-index: 1;
+}
+
+/* Contenido dentro del formulario */
+h1 {
+    color: #f2db18; /* Amarillo brillante para el título */
     text-align: center;
-    font-style: normal;
+    margin-bottom: 30px;
+    font-size: 28px;
+}
+
+/* Estilo del formulario */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Estilo de cada campo de formulario */
+input,
+textarea,
+select {
+    background: rgba(255, 255, 255, 0.1); /* Fondo más oscuro para los campos */
+    border: 1px solid #f2db18; /* Borde amarillo para campos */
+    font-size: 16px;
+    color: #ffffff; /* Texto blanco */
+    padding: 12px;
     border-radius: 5px;
     width: 100%;
-    border: 1px solid #f2db18;
-    border-width: 1px 1px 3px;
-    box-shadow: 0 -1px 0 rgba(255,255,255,0.1) inset;
-    margin-bottom: 10px;
-  }
-  
-  fieldset {
-    margin-bottom: 30px;
+    transition: background 0.3s, border-color 0.3s;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.2); /* Fondo más claro cuando se enfoca */
+    border-color: #f2db18; /* Borde amarillo brillante cuando enfocado */
+}
+
+/* Botón de registro */
+button {
+    background: #f2db18; /* Amarillo para el fondo del botón */
+    color: #092352; /* Azul oscuro para el texto */
+    padding: 15px;
+    font-size: 18px;
     border: none;
-  }
-  
-  legend {
-    font-size: 1.4em;
-    margin-bottom: 10px;
-  }
-  
-  label {
-    display: block;
-    margin-bottom: 8px;
-  }
-  
-  label.light {
-    font-weight: 300;
-    display: inline;
-  }
-  
-  .number {
-    background-color: #f2db18;
-    color: #fff;
-    height: 30px;
-    width: 30px;
-    display: inline-block;
-    font-size: 0.8em;
-    margin-right: 4px;
-    line-height: 30px;
-    text-align: center;
-    text-shadow: 0 1px 0 rgba(255,255,255,0.2);
-    border-radius: 100%;
-  }
-  
-  @media screen and (min-width: 480px) {
-  
-    form {
-      max-width: 480px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+button:hover,
+button:focus {
+    background: #d0b916; /* Amarillo más oscuro para hover */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Fondo decorativo del formulario */
+.form-container .background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.form-container .background .shape {
+    position: absolute;
+    background: #f2db18; /* Amarillo brillante para las formas de fondo */
+    border-radius: 50%;
+    z-index: -1;
+}
+
+/* Shapes del fondo */
+.form-container .background .shape1 {
+    height: 320px;
+    width: 320px;
+    top: -80px;
+    left: -80px;
+}
+
+.form-container .background .shape2 {
+    height: 160px;
+    width: 160px;
+    top: -120px;
+    right: 0;
+    background: #092352;
+}
+
+.form-container .background .shape3 {
+    height: 400px;
+    width: 220px;
+    top: 200px;
+    right: -150px;
+    background: #092352;
+}
+
+.form-container .background .shape4 {
+    height: 500px;
+    width: 200px;
+    bottom: -100px;
+    right: 100px;
+    background: #f2db18;
+}
+
+/* Estilos para pantallas pequeñas */
+@media (max-width: 480px) {
+    .form-container {
+        padding: 20px 15px;
+        width: 100%;
+        border-radius: 10px;
     }
-  
-  }
+
+    h1 {
+        font-size: 22px;
+    }
+
+    input,
+    button {
+        font-size: 16px;
+    }
+}
   
