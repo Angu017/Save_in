@@ -59,10 +59,9 @@
                         </div>
                      </nav>
                   </div>
-                  <div class="col-md-3 col-sm-5 d_none">
-                     <ul class="sign">
-                        <li><a class="sign_btn" href="{% url 'log_in' %}">Inicia sesión</a></li>
-                     </ul>
+                  <div class="col-md-3 col-sm-5 d-flex justify-content-end align-items-center gap-2">
+                     <a class="btn btn-warning text-dark" href="{% url 'signin' %}">Inicia sesión</a>
+                     <a class="btn btn-warning text-dark" href="{% url 'signup' %}">Regístrate</a>
                   </div>
                </div>
             </div>
