@@ -1,14 +1,28 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <title>Signup</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Registro</title>
+    <link rel="stylesheet" href="{% static 'css/sign_up.css' %}">
 </head>
 <body>
-    <h1>Formulario de Registro</h1>
-    <form action="{% url 'signup' %}" method="post">  <!-- Usar {% url 'signup' %} -->
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Registrar</button>
-    </form>
+    <div class="form-container">
+        <div class="background">
+            <div class="shape1"></div>
+            <div class="shape2"></div>
+            <div class="shape3"></div>
+            <div class="shape4"></div>
+        </div>
+        <div class="content">
+            <h1>Formulario de Registro</h1>
+            <form action="{% url 'signup' %}" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Registrar</button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>
