@@ -1,138 +1,115 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import check_password
 from django.core.exceptions import ValidationError
 from .forms import ProductoForm
-from django.shortcuts import get_object_or_404
-from .models import Producto, ProductModificationLog
-from django.shortcuts import render, get_object_or_404
-from .models import Producto
-from django.http import JsonResponse
+from .models import Producto, ProductModificationLog, Marca, Categoria  # Importar Marca y Categoria
+from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from django.shortcuts import get_object_or_404
-from .models import Producto
+from django.shortcuts import render, redirect
 
 
-
-#Usuario administrador djando: 4dm1n clave: Adm1n
- 
-# Create your views here.
+# Página principal
 def index(request):
-
     return render(request, 'index.html')
 
+# Página "Acerca de"
 def about(request):
-
     return render(request, 'about.html')
 
+# Página del cliente
 def client(request):
-
     return render(request, 'client.html')
 
+# Iniciar sesión
 def log_in(request):
-
     return render(request, 'log_in.html')
 
+# Registrar usuario
 def register(request):
-
     return render(request, 'register.html')
-def adminpage(request):
 
+# Página de administración
+def adminpage(request):
+    # Lógica de la vista para el admin
     return render(request, 'adminpage.html')
 
-def adminusuarios(request):
 
+# Página de administración de usuarios
+def adminusuarios(request):
     return render(request, 'adminusuarios.html')
 
+# Página de inventario para admins
 def inventarioadmin(request):
-
     return render(request, 'inventarioadmin.html')
 
+# Página para vendedores
 def vendedor(request):
+    productos = Producto.objects.all()
 
-    return render(request, 'vendedor.html')
+    # Filtros de Marca y Categoría
+    marca_id = request.GET.get('marca')
+    if marca_id:
+        productos = productos.filter(marca_id=marca_id)
 
-#Funcion de registro de nuevo Usuario
-#ademas de la creacion de nuevos usuarios esta contiene los formularios de django para el uso de validaciones del contraseña y que los nombres de usuario no se repitan
-#por lo que con esto contamos con validaciones de seguridad y obviamenten los campos no pueden estar vacios
+    categoria_id = request.GET.get('categoria')
+    if categoria_id:
+        productos = productos.filter(categoria_id=categoria_id)
+
+    # Paginación
+    paginator = Paginator(productos, 15)  # 15 productos por página
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    # Obtener marcas y categorías para los filtros
+    marcas = Marca.objects.all()
+    categorias = Categoria.objects.all()
+
+    return render(request, 'vendedor.html', {
+        'page_obj': page_obj,
+        'marcas': marcas,
+        'categorias': categorias
+    })
+
+# Función de registro de nuevo Usuario
 def signup(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
-        # Verificar si el formulario es válido
         if form.is_valid():
-            # Guardar el nuevo usuario
             user = form.save()
-            # Hacer login con el usuario recién creado
             login(request, user)
-            return redirect('adminpage')  # redirigir a la página de administración
+            return redirect('adminpage')
         else:
-            # Si no es válido, mostramos los errores
             return render(request, 'signup.html', {'form': form})
     else:
-        # Si la solicitud es GET, mostramos el formulario vacío
         form = UserCreationForm()
         return render(request, 'signup.html', {'form': form})
 
-#Funcion Inicio de Sesion, Aqui crea la funcion de inicio de sesion y utilizamos los formularios de nos da DJango
-#Tambien incluimos las validadiones de que los campos no pueden estar vacios para el inicio de sesion, ademas de que si las credenciales son correctas redirecciona a la pagina correspondiente
+# Función de inicio de sesión
 def signin(request):
     if request.method == "POST":
         form = AuthenticationForm(request, data=request.POST)
-        
         if form.is_valid():
-            # Obtener el usuario autenticado
             user = form.get_user()
-
-            # Verificar si el campo de usuario y contraseña no están vacíos
-            username = request.POST.get('username')
-            password = request.POST.get('password')
-            
-            if not username or not password:
-                return HttpResponse("El campo de usuario y contraseña no puede estar vacío.")
-            
-            # Verificar si las credenciales son correctas usando `authenticate`
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                # Si está marcado "recordarme"
-                remember_me = request.POST.get('remember_me')  # El checkbox se llama 'remember_me'
-
-                if remember_me:
-                    # Si está marcado, la sesión durará 2 semanas (default de Django)
-                    request.session.set_expiry(1209600)  # 1209600 segundos = 2 semanas
-                else:
-                    # Si no está marcado, la sesión durará lo normal (hasta que se cierre el navegador)
-                    request.session.set_expiry(0)  # 0 significa que la sesión expirará al cerrar el navegador
-
-                # Iniciar sesión del usuario
-                login(request, user)
-                
-                # Redirigir al usuario a la página de adminpage después de iniciar sesión
-                return redirect('adminpage')  # Puedes cambiar 'adminpage' por la URL que quieras
-            else:
-                # Si las credenciales no son correctas, mostrar mensaje de error
-                return HttpResponse("Credenciales incorrectas, intente nuevamente.")
+            login(request, user)
+            return redirect('adminpage')
         else:
-            # Si el formulario no es válido, devolverlo con los errores
             return render(request, 'signin.html', {'form': form})
-    
     else:
-        # Si es un GET, mostrar el formulario vacío
         form = AuthenticationForm()
         return render(request, 'signin.html', {'form': form})
 
-#Funcion de cerrar cesion
+# Función de cierre de sesión
 def logout_view(request):
     logout(request)
-    return redirect('index')  # Redirige a la página principal
+    return redirect('index')  
 
-#Crear Productos
+
+# Crear nuevo producto
 def crearproducto(request):
     if request.method == 'POST':
         form = ProductoForm(request.POST)
@@ -141,50 +118,45 @@ def crearproducto(request):
             return render(request, 'crearproducto.html', {'form': ProductoForm(), 'success': True})
     else:
         form = ProductoForm()
-
     return render(request, 'crearproducto.html', {'form': form, 'success': False})
-def modificar_producto_stock(producto_id, nuevo_stock, usuario, razon=""):
+
+# Editar producto
+@login_required
+def editar_producto(request, producto_id):
     producto = get_object_or_404(Producto, id=producto_id)
     
-    # Crear registro de modificación
-    ProductModificationLog.objects.create(
-        producto=producto,
-        usuario=usuario,
-        stock_anterior=producto.stock,
-        stock_nuevo=nuevo_stock,
-        razon=razon
-    )
-    
-    # Actualizar el producto
-    producto.stock = nuevo_stock
-    producto.save()
-    print("Modificación registrada con éxito.")
+    if request.method == 'POST':
+        form = ProductoForm(request.POST, instance=producto)
+        if form.is_valid():
+            # Guardar el producto con los nuevos datos
+            producto = form.save()
 
-#es una funcion de prueba que cree para crear el historial de modificaciones de los productos aun esta en pruebas
+            # Obtener el stock anterior y el nuevo
+            stock_anterior = producto.stock
+            nuevo_stock = form.cleaned_data['stock']
+
+            # Crear un log de la modificación
+            ProductModificationLog.objects.create(
+                producto=producto,
+                usuario=request.user,
+                stock_anterior=stock_anterior,
+                stock_nuevo=nuevo_stock,
+                razon=form.cleaned_data['descripcion']
+            )
+
+            return redirect('vendedor')  # Redirige al listado de productos de vendedor
+    else:
+        form = ProductoForm(instance=producto)
+    
+    return render(request, 'editar_producto.html', {'form': form, 'producto': producto})
+
+# Historial de modificaciones del producto
 def historial_modificaciones(request, producto_id):
     producto = get_object_or_404(Producto, id=producto_id)
-    logs = producto.modification_logs.all().order_by('-fecha_modificacion')  # Orden descendente
+    logs = producto.modification_logs.all().order_by('-fecha_modificacion')
     return render(request, 'historial_modificaciones.html', {'producto': producto, 'logs': logs})
 
-#mostrar productos en el html 
-def mostrar_productos(request):
-    productos = Producto.objects.all()
-    print(productos)  # Esto imprime los productos en la consola
-    return render(request, 'vendedor.html', {'productos': productos})
-
-def listar_productos(request):
-    # Obtener todos los productos de la base de datos
-    productos = Producto.objects.all()
-
-    # Pasar los productos al template
-    context = {
-        'productos': productos
-    }
-
-    return render(request, 'tu_template.html', context)
-
-
-
+# API de productos (para API externa)
 def api_productos(request):
     productos = Producto.objects.all()
     data = [
@@ -197,9 +169,7 @@ def api_productos(request):
     ]
     return JsonResponse(data, safe=False)
 
-
-
-#funcion eliminar productos
+# Eliminar producto
 @csrf_exempt
 def eliminar_producto(request, producto_id):
     if request.method == 'DELETE':
@@ -210,5 +180,16 @@ def eliminar_producto(request, producto_id):
 
 
 
-#este boton lo guarde aqui mientras
-#<a href="{% url 'historial_modificaciones' producto.id %}">Ver Historial de Modificaciones</a>
+#mostrar productos en la adminpage
+def productos_mayor_stock(request):
+    # Obtener los 20 productos con mayor stock
+    productos = Producto.objects.order_by('-stock')[:20]
+    data = [
+        {
+            "id": producto.id,
+            "nombre": producto.nombre,
+            "stock": producto.stock,
+        }
+        for producto in productos
+    ]
+    return JsonResponse(data, safe=False)

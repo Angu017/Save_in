@@ -35,3 +35,5 @@ class ProductoForm(forms.ModelForm):
         if not marca:
             raise forms.ValidationError('La marca del producto no puede estar vacía.')
         return marca
+    
+    

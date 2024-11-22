@@ -22,42 +22,31 @@
                     </button>
                 </form>
             </li>
-            
-            
-            
         </ul>
     </div>
 
     <div class="main-content">
-        <h1>¡Bienvenido, Administrador!</h1>
+        <!-- Mostrar el nombre del usuario que ha iniciado sesión -->
+        <h1>¡Bienvenido, {{ user.username }}!</h1>
         
         <div class="section">
             <h2>Productos con Mayor Stock</h2>
             <table>
                 <thead>
                     <tr>
-                        <th>Producto</th>
-                        <th>Cantidad</th>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Stock</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Producto A</td>
-                        <td>120</td>
-                    </tr>
-                    <tr>
-                        <td>Producto B</td>
-                        <td>100</td>
-                    </tr>
-                    <tr>
-                        <td>Producto C</td>
-                        <td>80</td>
-                    </tr>
+                    <!-- Aquí se agregarán los productos mediante JavaScript -->
                 </tbody>
             </table>
         </div>
-
-        
     </div>
+
+    <!-- Incluir el archivo JS -->
+    <script src="{% static 'js/stock.js' %}"></script>
 </body>
 </html>
