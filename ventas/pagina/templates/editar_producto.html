@@ -132,15 +132,22 @@
     <div class="sidebar">
         <div class="perfil">
             <div class="perfil-imagen"></div>
-            <p>Perfil</p>
+            <p>
+                {% if user.is_authenticated %}
+                    {{ user.username }}  <!-- Muestra el nombre de usuario logueado -->
+                {% else %}
+                    Invitado  <!-- En caso de que el usuario no esté logueado -->
+                {% endif %}
+            </p>
         </div>
         <ul>
             <li><a href="{% url 'adminpage' %}">Página de Inicio</a></li>
             <li><a href="{% url 'vendedor' %}" class="active">Registro Inventario</a></li>
+            <li><a href="{% url 'modificarperfil' %}" class="btn btn-primary w-100">Editar Perfil</a></li> <!-- Botón para editar perfil -->
             <li>
                 <form action="{% url 'logout' %}" method="post">
                     {% csrf_token %}
-                    <button type="submit">Cerrar Sesión</button>
+                    <button type="submit" class="btn btn-danger w-100">Cerrar Sesión</button>
                 </form>
             </li>
         </ul>

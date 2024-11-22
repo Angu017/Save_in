@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Perfil</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/producto.css' %}">
+    <link rel="stylesheet" href="{% static 'css/lateral.css' %}">
+</head>
+<body>
+    <header>
+        <!-- Aquí puedes agregar un menú de navegación o barra de navegación -->
+    </header>
+
+    <div class="sidebar">
+        <div class="perfil">
+            <div class="perfil-imagen"></div>
+            <p>
+                {% if user.is_authenticated %}
+                    {{ user.username }}  <!-- Muestra el nombre de usuario logueado -->
+                {% else %}
+                    Invitado  <!-- En caso de que el usuario no esté logueado -->
+                {% endif %}
+            </p>
+        </div>
+        <ul>
+            <li><a href="{% url 'adminpage' %}">Página de Inicio</a></li>
+            <li><a href="{% url 'vendedor' %}">Registro Inventario</a></li>
+            <li><a href="{% url 'modificarperfil' %}" class="active">Editar Perfil</a></li>
+            <li>
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger w-100">Cerrar Sesión</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <div class="form-card">
+            <h1>Editar Perfil</h1>
+
+            {% if success %}
+                <p class="success-message">¡Perfil actualizado con éxito!</p>
+            {% endif %}
+
+            <form method="POST">
+                {% csrf_token %}
+                
+                <!-- Nombre de Usuario -->
+                <div class="form-group">
+                    <label for="id_username">Nombre de Usuario</label>
+                    {{ user_form.username }}
+                </div>
+
+                <!-- Correo Electrónico -->
+                <div class="form-group">
+                    <label for="id_email">Correo Electrónico</label>
+                    {{ user_form.email }}
+                </div>
+
+                <!-- Nueva Contraseña -->
+                <div class="form-group">
+                    <label for="id_password1">Nueva Contraseña</label>
+                    {{ password_form.password1 }}
+                </div>
+
+                <!-- Confirmar Contraseña -->
+                <div class="form-group">
+                    <label for="id_password2">Confirmar Contraseña</label>
+                    {{ password_form.password2 }}
+                </div>
+
+                <!-- Información del Perfil -->
+                <div class="form-group">
+                    <label for="id_role">Rol</label>
+                    {{ profile_form.role }}
+                </div>
+
+                <div class="form-group">
+                    <label for="id_phone">Teléfono</label>
+                    {{ profile_form.phone }}
+                </div>
+
+                <div class="form-group">
+                    <label for="id_address">Dirección</label>
+                    {{ profile_form.address }}
+                </div>
+
+                <div class="form-group">
+                    <label for="id_first_name">Primer Nombre</label>
+                    {{ profile_form.first_name }}
+                </div>
+
+                <div class="form-group">
+                    <label for="id_last_name">Apellido</label>
+                    {{ profile_form.last_name }}
+                </div>
+
+                <div class="form-group">
+                    <label for="id_email">Correo Electrónico</label>
+                    {{ profile_form.email }}
+                </div>
+
+                <!-- Mostrar errores del formulario, si existen -->
+                {% if user_form.errors %}
+                    <div class="error">
+                        <p>Por favor, revisa los errores del nombre de usuario:</p>
+                        <ul>
+                            {% for field in user_form %}
+                                {% for error in field.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+
+                {% if password_form.errors %}
+                    <div class="error">
+                        <p>Por favor, revisa los errores de la contraseña:</p>
+                        <ul>
+                            {% for field in password_form %}
+                                {% for error in field.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+
+                {% if profile_form.errors %}
+                    <div class="error">
+                        <p>Por favor, revisa los errores del perfil:</p>
+                        <ul>
+                            {% for field in profile_form %}
+                                {% for error in field.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+
+                <button type="submit" class="btn-submit">Guardar Cambios</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

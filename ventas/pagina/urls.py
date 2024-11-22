@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from .views import index, about, client, log_in, register, adminpage, adminusuarios, inventarioadmin, vendedor, signup, signin, logout_view, crearproducto, editar_producto, historial_modificaciones, api_productos, eliminar_producto, productos_mayor_stock, payment_success, process_payment, paypal_view 
+from .views import index, about, client, log_in, register, adminpage, adminusuarios, inventarioadmin, vendedor, signup, signin, logout_view, crearproducto, editar_producto, historial_modificaciones, api_productos, eliminar_producto, productos_mayor_stock, payment_success, process_payment, paypal_view, modificarperfil, ver_perfil 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,5 +24,7 @@ urlpatterns = [
     path('api/productos_mayor_stock/', productos_mayor_stock, name='productos_mayor_stock'),
     path('process_payment/', process_payment, name='process_payment'),
     path('payment-success/', payment_success, name='payment_success'),
-     path('paypal/', paypal_view, name='paypal'),
+    path('paypal/', paypal_view, name='paypal'),
+    path('modificarperfil/', modificarperfil, name='modificarperfil'),
+    path('ver_perfil/', ver_perfil, name='ver_perfil'),
 ]

@@ -1,6 +1,11 @@
 from django.forms import ModelForm
 from .models import Producto
 from django import forms
+from .models import UserProfile
+from django import forms
+from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
+from django.contrib.auth.models import User
+from .models import UserProfile
 
 
 class ProductoForm(forms.ModelForm):
@@ -36,4 +41,19 @@ class ProductoForm(forms.ModelForm):
             raise forms.ValidationError('La marca del producto no puede estar vacía.')
         return marca
     
-    
+# Formulario para editar el UserProfile
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['role', 'phone', 'address', 'first_name', 'last_name', 'email']
+
+# Formulario para editar los datos del usuario (como el nombre de usuario)
+class CustomUserChangeForm(UserChangeForm):
+    class Meta:
+        model = User
+        fields = ['username', 'email']  # O los campos que desees permitir editar
+
+# Formulario para cambiar la contraseña
+class CustomPasswordChangeForm(PasswordChangeForm):
+    class Meta:
+        model = User

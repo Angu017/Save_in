@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Perfil de Usuario</h2>
+
+  <div id="perfil-info">
+    <p>Nombre de usuario: <span id="username"></span></p>
+    <p>Correo electrónico: <span id="email"></span></p>
+    <p>Nombre: <span id="first_name"></span></p>
+    <p>Apellido: <span id="last_name"></span></p>
+  </div>
+
+  <script>
+    // Inyectamos los datos del perfil en las variables de JavaScript
+    const perfilData = {{ perfil_data|safe }};
+    
+    // Ahora, utilizamos JavaScript para mostrar esos datos
+    document.getElementById('username').textContent = perfilData.username;
+    document.getElementById('email').textContent = perfilData.email;
+    document.getElementById('first_name').textContent = perfilData.first_name;
+    document.getElementById('last_name').textContent = perfilData.last_name;
+  </script>
+
+{% endblock %}

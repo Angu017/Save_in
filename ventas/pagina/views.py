@@ -1,17 +1,34 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth import get_user_model
-from django.contrib.auth.hashers import check_password
+from django.contrib.auth import authenticate, login, logout, get_user_model, update_session_auth_hash
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UserChangeForm, PasswordChangeForm
+from django.contrib import messages
 from django.core.exceptions import ValidationError
-from .forms import ProductoForm
-from .models import Producto, ProductModificationLog, Marca, Categoria  # Importar Marca y Categoria
-from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.views.decorators.csrf import csrf_exempt
 import paypalrestsdk
 from django.conf import settings
+from .forms import ProductoForm, UserProfileForm, CustomUserChangeForm, CustomPasswordChangeForm
+from .models import Producto, ProductModificationLog, Marca, Categoria, UserProfile
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+
+
+@login_required
+def ver_perfil(request):
+    user = request.user
+    perfil_data = {
+        'username': user.username,
+        'email': user.email,
+        'first_name': user.first_name,
+        'last_name': user.last_name,
+    }
+    return render(request, 'pagina/ver_perfil.html', {'perfil_data': perfil_data})
+
+
+
+def modificarperfil(request):
+    return render(request, 'modificarperfil.html')
 
 # Página principal
 def index(request):
@@ -73,18 +90,42 @@ def vendedor(request):
         'categorias': categorias
     })
 
-# Función de registro de nuevo Usuario
+# Función de registro de nuevo Usuario por defecto muestra crear usuarios
 def signup(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)  # Inicia sesión al registrar
-            return redirect('paypal')  # Redirige a la vista de PayPal después del registro
+            return redirect('adminpage')  # Redirige a la página de administración después del registro
     else:
         form = UserCreationForm()
 
     return render(request, 'signup.html', {'form': form})
+
+
+
+
+# Función de registro de nuevo Usuario con el integrado de metodo de pago
+#def signup(request):
+#    if request.method == 'POST':
+#        form = UserCreationForm(request.POST)
+#        if form.is_valid():
+#            user = form.save()
+#            login(request, user)  # Inicia sesión al registrar
+#            return redirect('paypal')  # Redirige a la vista de PayPal después del registro
+#    else:
+#        form = UserCreationForm()
+#
+#    return render(request, 'signup.html', {'form': form})
+
+
+
+
+
+
+
+
 
 # Función de inicio de sesión
 def signin(request):
@@ -240,3 +281,56 @@ def payment_success(request):
 # Vista para la página de PayPal
 def paypal_view(request):
     return render(request, 'paypal.html')  # Renderiza el formulario de PayPal
+
+
+def modificarperfil(request):
+    if request.method == 'POST':
+        # Obtener los formularios con los datos del POST
+        user_form = CustomUserChangeForm(request.POST, instance=request.user)
+        password_form = CustomPasswordChangeForm(user=request.user, data=request.POST)
+        profile_form = UserProfileForm(request.POST, instance=request.user.profile)
+
+        # Verificar que todos los formularios sean válidos
+        if user_form.is_valid() and password_form.is_valid() and profile_form.is_valid():
+            # Guardar los cambios en el usuario
+            user_form.save()
+            
+            # Guardar los cambios en la contraseña
+            password_form.save()
+            
+            # Guardar los cambios en el perfil
+            profile_form.save()
+
+            # Mantener la sesión activa después de cambiar la contraseña
+            update_session_auth_hash(request, password_form.user)
+            
+            messages.success(request, "¡Perfil y contraseña actualizados con éxito!")
+            return redirect('modificarperfil')  # Redirige a la misma página
+
+        else:
+            messages.error(request, "Hubo un error al actualizar los datos.")
+    else:
+        # Si la solicitud es GET, rellenar los formularios con los datos actuales del usuario
+        user_form = CustomUserChangeForm(instance=request.user)
+        password_form = CustomPasswordChangeForm(user=request.user)
+        profile_form = UserProfileForm(instance=request.user.profile)
+
+    return render(request, 'modificarperfil.html', {
+        'user_form': user_form,
+        'password_form': password_form,
+        'profile_form': profile_form,
+    })
+
+from django.shortcuts import render
+from django.contrib.auth.models import User
+
+def ver_perfil(request):
+    user = request.user
+    perfil_data = {
+        'username': user.username,
+        'email': user.email,
+        'first_name': user.first_name,
+        'last_name': user.last_name,
+    }
+    return render(request, 'pagina/ver_perfil.html', {'perfil_data': perfil_data})
+
