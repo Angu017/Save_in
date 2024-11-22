@@ -159,4 +159,14 @@ button:focus {
         font-size: 16px;
     }
 }
+
+.error-messages {
+    color: red;
+    font-size: 14px;
+}
+.error-messages ul {
+    list-style-type: none;
+    padding: 0;
+}
+
   

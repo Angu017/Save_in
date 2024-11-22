@@ -19,7 +19,35 @@
             <h1>Formulario de Registro</h1>
             <form action="{% url 'signup' %}" method="post">
                 {% csrf_token %}
-                {{ form.as_p }}
+                
+                <!-- Mostrar Errores del Formulario -->
+                {% if form.errors %}
+                    <div class="error-messages">
+                        <ul>
+                            {% for field in form %}
+                                {% for error in field.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+                
+                <div>
+                    <label for="id_username">Nombre de usuario</label>
+                    <input type="text" name="username" required id="id_username" value="{{ form.username.value }}">
+                </div>
+                
+                <div>
+                    <label for="id_password1">Contraseña</label>
+                    <input type="password" name="password1" required id="id_password1" value="{{ form.password1.value }}">
+                </div>
+                
+                <div>
+                    <label for="id_password2">Confirmar contraseña</label>
+                    <input type="password" name="password2" required id="id_password2" value="{{ form.password2.value }}">
+                </div>
+                
                 <button type="submit">Registrar</button>
             </form>
         </div>
