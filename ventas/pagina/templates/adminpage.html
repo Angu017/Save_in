@@ -6,24 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Administración</title>
     <link rel="stylesheet" href="{% static '/css/adminstyle.css' %}">
+    <link rel="stylesheet" href="{% static 'css/lateral.css' %}">
 </head>
 <body>
     <div class="sidebar">
-        <h2>Admin Panel</h2>
+        <div class="perfil">
+            <div class="perfil-imagen"></div>
+            <p>Perfil</p>
+        </div>
         <ul>
-            <li><a href="{% url 'adminusuarios' %}">Administración de Usuarios</a></li>
-            <li><a href="{% url 'vendedor' %}">Administración de Inventario</a></li>
-            <!-- cerrar sesión -->
+            <li><a href="{% url 'adminpage' %}">Página de Inicio</a></li>
+            <li><a href="{% url 'vendedor' %}" class="active">Registro Inventario</a></li>
             <li>
-                <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                <form action="{% url 'logout' %}" method="post">
                     {% csrf_token %}
-                    <button type="submit" style="padding: 10px 20px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: inherit;">
-                        Cerrar Sesión
-                    </button>
+                    <button type="submit">Cerrar Sesión</button>
                 </form>
             </li>
         </ul>
     </div>
+    
 
     <div class="main-content">
         <!-- Mostrar el nombre del usuario que ha iniciado sesión -->

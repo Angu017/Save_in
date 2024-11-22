@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout con PayPal</title>
+    <!-- Incluye el SDK de PayPal -->
+    <script src="https://www.paypal.com/sdk/js?client-id=Adad0EgVu3sVdjGIQ8AonmtCuAPrGJyw7dV03UJQKLnDgFxgHmg42q-z_ba-rUaotoU50DgB4G-SWZbW&currency=CLP"></script>
+
+
+</head>
+<body>
+    
+
+    <!-- El contenedor donde se va a renderizar el botón de PayPal -->
+    <div id="paypal-button-container"></div>
+
+    <script>
+        // Configuración del botón de PayPal
+        paypal.Buttons({
+            // Crear la orden en el servidor
+            createOrder: function(data, actions) {
+                return fetch('http://localhost:3000/create-order', {  // Cambia esta URL a la que corresponda con tu backend
+                    method: 'POST',
+                })
+                .then(function(response) {
+                    return response.json();
+                })
+                .then(function(orderData) {
+                    return orderData.orderID;  // El ID de la orden devuelto por el servidor
+                });
+            },
+            // Aprobar la orden y realizar el pago
+            onApprove: function(data, actions) {
+                return fetch('http://localhost:3000/capture-payment', {  // Cambia esta URL a la que corresponda con tu backend
+                    method: 'POST',
+                    body: JSON.stringify({
+                        orderID: data.orderID
+                    }),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(function(response) {
+                    return response.json();
+                })
+                .then(function(details) {
+                    alert('Pago completado por ' + details.payer.name.given_name);
+                    // Redirigir o hacer algo más con los datos del pago
+                    window.location.href = '/gracias'; // Página de éxito
+                });
+            },
+            // Manejo de errores
+            onError: function(err) {
+                console.error('Error en el pago:', err);
+                alert('Hubo un error con el pago. Por favor, intenta nuevamente.');
+            }
+        }).render('#paypal-button-container');  // Renderiza el botón en el contenedor
+    </script>
+</body>
+</html>

@@ -1,3 +1,4 @@
+/* General */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -5,43 +6,7 @@ body {
     display: flex;
 }
 
-.sidebar {
-    background-color: #343a40;
-    color: white;
-    width: 250px;
-    height: 100vh;
-    padding: 15px;
-}
-
-.sidebar h2 {
-    color: #ffffff;
-    font-size: 1.5em;
-    text-align: center;
-}
-
-.sidebar ul {
-    list-style: none;
-    padding: 0;
-}
-
-.sidebar ul li {
-    margin: 20px 0;
-}
-
-.sidebar ul li a {
-    color: #ffffff;
-    text-decoration: none;
-    display: block;
-    padding: 10px;
-    background-color: #495057;
-    border-radius: 5px;
-    text-align: center;
-}
-
-.sidebar ul li a:hover {
-    background-color: #6c757d;
-}
-
+/* Contenido principal */
 .main-content {
     padding: 20px;
     flex-grow: 1;
@@ -52,6 +17,7 @@ body {
     font-size: 2em;
 }
 
+/* Secciones de contenido */
 .section {
     margin-top: 30px;
 }
@@ -61,6 +27,7 @@ body {
     margin-bottom: 10px;
 }
 
+/* Tablas */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -77,6 +44,7 @@ th {
     color: white;
 }
 
+/* Listas (no relacionadas con la barra lateral) */
 ul {
     padding: 0;
     list-style: none;

@@ -29,6 +29,10 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+PAYPAL_CLIENT_ID = 'Adad0EgVu3sVdjGIQ8AonmtCuAPrGJyw7dV03UJQKLnDgFxgHmg42q-z_ba-rUaotoU50DgB4G-SWZbW'
+PAYPAL_CLIENT_SECRET = 'EHUMuQx5DaTWdgSwMGiWMhEk8CqW-x_TfxoLN43EnTZWazZ2IedjmbtAD_ptHtZpWazHhjBsRE-JaXTd'
+
+
 # Application definition
 
 INSTALLED_APPS = [

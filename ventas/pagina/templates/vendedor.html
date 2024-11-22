@@ -7,16 +7,29 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/vendedor.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/lateral.css' %}">
+   
 </head>
 <body>
     <!-- Menú lateral de navegación -->
     <div class="sidebar">
+        <div class="perfil">
+            <div class="perfil-imagen"></div>
+            <p>Perfil</p>
+        </div>
         <ul>
-            <li><a href="{% url 'adminpage' %}">Página de administración</a></li>
-            <li><a href="{% url 'vendedor' %}" class="active">Vendedor</a></li>
-            <li><a href="{% url 'logout' %}">Cerrar sesión</a></li>
+            <li><a href="{% url 'adminpage' %}">Página de Inicio</a></li>
+            <li><a href="{% url 'vendedor' %}" class="active">Registro Inventario</a></li>
+            <li>
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Cerrar Sesión</button>
+                </form>
+            </li>
         </ul>
     </div>
+    
+    
 
     <!-- Contenido principal -->
     <div class="main-content">

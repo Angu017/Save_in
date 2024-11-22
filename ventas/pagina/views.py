@@ -10,8 +10,8 @@ from .models import Producto, ProductModificationLog, Marca, Categoria  # Import
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.views.decorators.csrf import csrf_exempt
-from django.shortcuts import render, redirect
-
+import paypalrestsdk
+from django.conf import settings
 
 # Página principal
 def index(request):
@@ -35,9 +35,7 @@ def register(request):
 
 # Página de administración
 def adminpage(request):
-    # Lógica de la vista para el admin
     return render(request, 'adminpage.html')
-
 
 # Página de administración de usuarios
 def adminusuarios(request):
@@ -81,13 +79,12 @@ def signup(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)
-            return redirect('adminpage')
-        else:
-            return render(request, 'signup.html', {'form': form})
+            login(request, user)  # Inicia sesión al registrar
+            return redirect('paypal')  # Redirige a la vista de PayPal después del registro
     else:
         form = UserCreationForm()
-        return render(request, 'signup.html', {'form': form})
+
+    return render(request, 'signup.html', {'form': form})
 
 # Función de inicio de sesión
 def signin(request):
@@ -106,8 +103,7 @@ def signin(request):
 # Función de cierre de sesión
 def logout_view(request):
     logout(request)
-    return redirect('index')  
-
+    return redirect('index')
 
 # Crear nuevo producto
 def crearproducto(request):
@@ -178,9 +174,7 @@ def eliminar_producto(request, producto_id):
         return JsonResponse({'message': 'Producto eliminado correctamente'}, status=200)
     return JsonResponse({'message': 'Método no permitido'}, status=405)
 
-
-
-#mostrar productos en la adminpage
+# Mostrar productos con mayor stock
 def productos_mayor_stock(request):
     # Obtener los 20 productos con mayor stock
     productos = Producto.objects.order_by('-stock')[:20]
@@ -193,3 +187,56 @@ def productos_mayor_stock(request):
         for producto in productos
     ]
     return JsonResponse(data, safe=False)
+
+# Configuración de PayPal
+paypalrestsdk.configure({
+    "mode": "sandbox",  # o "live" para producción
+    "client_id": settings.PAYPAL_CLIENT_ID,
+    "client_secret": settings.PAYPAL_CLIENT_SECRET
+})
+
+# Función para crear la orden de PayPal
+def create_paypal_order():
+    order = paypalrestsdk.Payment({
+        "intent": "sale",
+        "payer": {
+            "payment_method": "paypal"
+        },
+        "transactions": [{
+            "amount": {
+                "total": "10000.00",  # Monto en pesos chilenos
+                "currency": "CLP"  # Pesos chilenos
+            },
+            "description": "Compra de producto"
+        }],
+        "redirect_urls": {
+            "return_url": "http://tu_dominio.com/payment-success",
+            "cancel_url": "http://tu_dominio.com/payment-cancelled"
+        }
+    })
+
+    if order.create():
+        return order
+    else:
+        return None
+
+# Vista para procesar el pago
+def process_payment(request):
+    if request.method == "POST":
+        order = create_paypal_order()
+        if order:
+            return JsonResponse({'order_id': order.id})
+        else:
+            return JsonResponse({'error': 'No se pudo crear la orden'}, status=400)
+    return render(request, 'paypal.html')
+
+# Vista de éxito del pago
+def payment_success(request):
+    if request.user.is_authenticated:
+        return redirect('adminpage')
+    else:
+        return redirect('signin')
+
+# Vista para la página de PayPal
+def paypal_view(request):
+    return render(request, 'paypal.html')  # Renderiza el formulario de PayPal

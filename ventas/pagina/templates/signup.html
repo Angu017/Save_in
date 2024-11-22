@@ -6,8 +6,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulario de Registro</title>
     <link rel="stylesheet" href="{% static 'css/sign_up.css' %}">
+    <style>
+        /* Estilo para el botón de retroceso */
+        .back-btn {
+            position: fixed;  /* Fijar el botón en la esquina superior izquierda */
+            top: 10px;  /* Alineación superior */
+            left: 10px;  /* Alineación izquierda */
+            font-size: 20px;  /* Tamaño pequeño de la flecha */
+            background: none;
+            border: none;
+            color: #007bff;
+            cursor: pointer;
+            padding: 5px 10px;  /* Añadir un poco de espacio alrededor */
+            border-radius: 3px;  /* Bordes redondeados para el botón */
+        }
+
+        /* Cambiar el color cuando el ratón pasa sobre el botón */
+        .back-btn:hover {
+            color: #0056b3;
+        }
+
+        /* Estilo del formulario */
+        .form-container {
+            padding-top: 50px; /* Para que el contenido no se superponga con el botón */
+        }
+    </style>
 </head>
 <body>
+    <!-- Botón de flecha para regresar a la página anterior -->
+    <button class="back-btn" onclick="history.back()">←</button>
+
     <div class="form-container">
         <div class="background">
             <div class="shape1"></div>

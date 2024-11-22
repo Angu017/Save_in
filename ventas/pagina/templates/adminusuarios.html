@@ -17,8 +17,17 @@
         </div>
         <ul>
             <li><a href="{% url 'adminusuarios' %}">Usuarios</a></li>
-            <li><a href="{% url 'vendedor' %}">Inventario</a></li>
-            <li><a href="{% url 'index' %}">Cerrar Sesión</a></li>
+            <li><a href="{% url 'adminpage' %}">Página de Inicio</a></li>
+            <li><a href="{% url 'vendedor' %}" class="active">Registro Inventario</a></li>
+            <!-- cerrar sesión -->
+            <li>
+                <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" style="padding: 10px 20px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: inherit;">
+                        Cerrar Sesión
+                    </button>
+                </form>
+            </li>
         </ul>
     </div>
 

@@ -6,6 +6,7 @@
     <title>Crear Producto</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/producto.css' %}">
+    <link rel="stylesheet" href="{% static 'css/lateral.css' %}">
 </head>
 <body>
     <header>
@@ -15,18 +16,15 @@
     <div class="sidebar">
         <div class="perfil">
             <div class="perfil-imagen"></div>
-            <p>Nombre Usuario</p>
+            <p>Perfil</p>
         </div>
         <ul>
-            <li><a href="{% url 'adminusuarios' %}">Administración de Usuarios</a></li>
-            <li><a href="{% url 'adminpage' %}">Volver al Inicio</a></li>
-            <!-- cerrar sesión -->
+            <li><a href="{% url 'adminpage' %}">Página de Inicio</a></li>
+            <li><a href="{% url 'vendedor' %}" class="active">Registro Inventario</a></li>
             <li>
-                <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                <form action="{% url 'logout' %}" method="post">
                     {% csrf_token %}
-                    <button type="submit" style="padding: 10px 20px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: inherit;">
-                        Cerrar Sesión
-                    </button>
+                    <button type="submit">Cerrar Sesión</button>
                 </form>
             </li>
         </ul>
