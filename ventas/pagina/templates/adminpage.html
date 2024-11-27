@@ -23,8 +23,7 @@
         <ul>
             <li><a href="{% url 'adminpage' %}">Página de Inicio</a></li>
             <li><a href="{% url 'vendedor' %}" class="active">Registro Inventario</a></li>
-            <li><a href="{% url 'modificarperfil' %}" class="btn btn-primary w-100">Editar Perfil</a></li> <!-- Botón para editar perfil -->
-            <!--<li><a href="{% url 'ver_perfil' %}">Ver perfil</a></li>--> <!-- comentado mientras por que da error -->
+            <li><a href="{% url 'modificarperfil' %}" class="btn btn-primary w-100">Editar Perfil</a></li>
             <li>
                 <form action="{% url 'logout' %}" method="post">
                     {% csrf_token %}
@@ -33,30 +32,70 @@
             </li>
         </ul>
     </div>
-    
 
     <div class="main-content">
         <!-- Mostrar el nombre del usuario que ha iniciado sesión -->
         <h1>¡Bienvenido, {{ user.username }}!</h1>
         
+        <!-- Tabla para productos con la fecha de vencimiento más cercana -->
         <div class="section">
-            <h2>Productos con Mayor Stock</h2>
-            <table>
+            <h2>Productos con la Fecha de Vencimiento Más Cercana</h2>
+            <table id="productos-vencimiento-table">
                 <thead>
                     <tr>
                         <th>ID</th>
                         <th>Nombre</th>
+                        <th>Fecha de Vencimiento</th>
                         <th>Stock</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Aquí se agregarán los productos mediante JavaScript -->
+                    {% for producto in productos_vencimiento %}
+                        <tr>
+                            <td>{{ producto.id }}</td>
+                            <td>{{ producto.nombre }}</td>
+                            <td>{{ producto.fecha_vencimiento }}</td>
+                            <td>{{ producto.stock }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="4">No hay productos con fecha de vencimiento cercana.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Tabla para productos con mayor stock -->
+        <div class="section">
+            <h2>Productos con Mayor Stock</h2>
+            <table id="productos-stock-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Marca</th>
+                        <th>Categoría</th>
+                        <th>Stock</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for producto in productos_mayor_stock %}
+                        <tr>
+                            <td>{{ producto.id }}</td>
+                            <td>{{ producto.nombre }}</td>
+                            <td>{{ producto.marca }}</td>
+                            <td>{{ producto.categoria }}</td>
+                            <td>{{ producto.stock }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="5">No hay productos con alto stock.</td>
+                        </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
     </div>
-
-    <!-- Incluir el archivo JS -->
-    <script src="{% static 'js/stock.js' %}"></script>
 </body>
 </html>

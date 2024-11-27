@@ -12,6 +12,11 @@ from .forms import ProductoForm, UserProfileForm, CustomUserChangeForm, CustomPa
 from .models import Producto, ProductModificationLog, Marca, Categoria, UserProfile
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
+from django.db.models import F
+from django.utils.timezone import now
+
+
+
 
 
 @login_required
@@ -62,7 +67,8 @@ def adminusuarios(request):
 def inventarioadmin(request):
     return render(request, 'inventarioadmin.html')
 
-# Página para vendedores
+# Vista Vendedor
+@login_required
 def vendedor(request):
     productos = Producto.objects.all()
 
@@ -74,6 +80,9 @@ def vendedor(request):
     categoria_id = request.GET.get('categoria')
     if categoria_id:
         productos = productos.filter(categoria_id=categoria_id)
+
+    # Ordenar por fecha de vencimiento (productos más cercanos a vencer primero)
+    productos = productos.order_by('fecha_vencimiento')
 
     # Paginación
     paginator = Paginator(productos, 15)  # 15 productos por página
@@ -140,11 +149,15 @@ def signin(request):
     else:
         form = AuthenticationForm()
         return render(request, 'signin.html', {'form': form})
+    
+
+
 
 # Función de cierre de sesión
 def logout_view(request):
     logout(request)
     return redirect('index')
+
 
 # Crear nuevo producto
 def crearproducto(request):
@@ -152,10 +165,13 @@ def crearproducto(request):
         form = ProductoForm(request.POST)
         if form.is_valid():
             form.save()
-            return render(request, 'crearproducto.html', {'form': ProductoForm(), 'success': True})
+            return redirect('vendedor')  # Redirige a la lista de productos
     else:
         form = ProductoForm()
-    return render(request, 'crearproducto.html', {'form': form, 'success': False})
+
+    return render(request, 'crearproducto.html', {'form': form})
+
+
 
 # Editar producto
 @login_required
@@ -165,33 +181,22 @@ def editar_producto(request, producto_id):
     if request.method == 'POST':
         form = ProductoForm(request.POST, instance=producto)
         if form.is_valid():
-            # Guardar el producto con los nuevos datos
-            producto = form.save()
-
-            # Obtener el stock anterior y el nuevo
-            stock_anterior = producto.stock
-            nuevo_stock = form.cleaned_data['stock']
-
-            # Crear un log de la modificación
-            ProductModificationLog.objects.create(
-                producto=producto,
-                usuario=request.user,
-                stock_anterior=stock_anterior,
-                stock_nuevo=nuevo_stock,
-                razon=form.cleaned_data['descripcion']
-            )
-
-            return redirect('vendedor')  # Redirige al listado de productos de vendedor
+            form.save()  # Guarda los cambios del producto
+            return redirect('vendedor')
     else:
         form = ProductoForm(instance=producto)
     
     return render(request, 'editar_producto.html', {'form': form, 'producto': producto})
+
+
 
 # Historial de modificaciones del producto
 def historial_modificaciones(request, producto_id):
     producto = get_object_or_404(Producto, id=producto_id)
     logs = producto.modification_logs.all().order_by('-fecha_modificacion')
     return render(request, 'historial_modificaciones.html', {'producto': producto, 'logs': logs})
+
+
 
 # API de productos (para API externa)
 def api_productos(request):
@@ -217,17 +222,41 @@ def eliminar_producto(request, producto_id):
 
 # Mostrar productos con mayor stock
 def productos_mayor_stock(request):
-    # Obtener los 20 productos con mayor stock
-    productos = Producto.objects.order_by('-stock')[:20]
-    data = [
+    # Obtener los 5 productos con mayor stock
+    productos_mayor_stock = Producto.objects.order_by('-stock')[:5]
+    productos_fecha_vencimiento = Producto.objects.order_by('fecha_vencimiento')[:5]
+
+    # Crear los datos para los productos con mayor stock
+    data_mayor_stock = [
         {
             "id": producto.id,
             "nombre": producto.nombre,
+            "marca": producto.marca,
+            "categoria": producto.categoria,
             "stock": producto.stock,
         }
-        for producto in productos
+        for producto in productos_mayor_stock
     ]
-    return JsonResponse(data, safe=False)
+
+    # Crear los datos para los productos con la fecha de vencimiento más cercana
+    data_fecha_vencimiento = [
+        {
+            "id": producto.id,
+            "nombre": producto.nombre,
+            "fecha_vencimiento": producto.fecha_vencimiento.strftime('%d/%m/%Y'),
+            "stock": producto.stock,
+        }
+        for producto in productos_fecha_vencimiento
+    ]
+
+    print(data_mayor_stock)  # Agregar para depurar
+    print(data_fecha_vencimiento)  # Agregar para depurar
+
+    # Retornar ambas listas en un solo JSON
+    return JsonResponse({
+        "productos_mayor_stock": data_mayor_stock,
+        "productos_fecha_vencimiento": data_fecha_vencimiento,
+    })
 
 # Configuración de PayPal
 paypalrestsdk.configure({
@@ -334,3 +363,65 @@ def ver_perfil(request):
     }
     return render(request, 'pagina/ver_perfil.html', {'perfil_data': perfil_data})
 
+# API de productos con la fecha de vencimiento más cercana
+def api_productos_fecha_vencimiento(request):
+    # Obtener los 5 productos con la fecha de vencimiento más cercana
+    productos = Producto.objects.filter(fecha_vencimiento__isnull=False).order_by('fecha_vencimiento')[:5]
+    
+    data = [
+        {
+            "id": producto.id,
+            "nombre": producto.nombre,
+            "fecha_vencimiento": producto.fecha_vencimiento.strftime('%Y-%m-%d'),  # Formato de fecha
+            "stock": producto.stock,
+        }
+        for producto in productos
+    ]
+    
+    return JsonResponse(data, safe=False)
+
+
+# API de productos con mayor stock
+def api_productos_mayor_stock(request):
+    # Obtener los 5 productos con mayor stock
+    productos = Producto.objects.all().order_by('-stock')[:5]
+    
+    data = [
+        {
+            "id": producto.id,
+            "nombre": producto.nombre,
+            "marca": producto.marca,
+            "categoria": producto.categoria,
+            "stock": producto.stock,
+        }
+        for producto in productos
+    ]
+    
+    return JsonResponse(data, safe=False)
+
+
+def adminpage(request):
+    # Obtener los productos con mayor stock
+    productos_mayor_stock = Producto.objects.order_by('-stock')[:5]
+    
+    # Obtener los productos con la fecha de vencimiento más cercana
+    productos_vencimiento = Producto.objects.filter(
+        fecha_vencimiento__gte=now()
+    ).order_by('fecha_vencimiento')[:5]
+    
+    # Pasar los datos al template
+    return render(request, 'adminpage.html', {
+        'productos_mayor_stock': productos_mayor_stock,
+        'productos_vencimiento': productos_vencimiento,
+    })
+
+
+
+def productos_fecha_vencimiento(request):
+    productos = Producto.objects.filter(fecha_vencimiento__gte=now()).order_by('fecha_vencimiento')[:5]
+    return render(request, 'template.html', {'productos_vencimiento': productos})
+
+
+def productos_mayor_stock(request):
+    productos = Producto.objects.order_by('-stock')[:5]  # Obtén los 5 con mayor stock
+    return render(request, 'template.html', {'productos_mayor_stock': productos})

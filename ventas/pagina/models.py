@@ -8,27 +8,33 @@ from django.utils import timezone
 
 # Create your models here.
 
+def obtener_fecha_actual():
+    return timezone.now().date()
+
 class Marca(models.Model):
-    nombre = models.CharField(max_length=50)
+    nombre = models.CharField(max_length=100)
+
     def __str__(self):
         return self.nombre
-    
+
 class Categoria(models.Model):
-    nombre = models.CharField(max_length=50)
+    nombre = models.CharField(max_length=100)
+
     def __str__(self):
-        return self.nombre    
+        return self.nombre
 
 class Producto(models.Model):
-    nombre = models.CharField(max_length=50)
-    precio = models.IntegerField()
+    nombre = models.CharField(max_length=100)
+    precio = models.DecimalField(max_digits=10, decimal_places=4)
     stock = models.IntegerField()
-    fechaingreso = models.DateField(default=timezone.now)
-    marca = models.ForeignKey('Marca', on_delete=models.PROTECT)
-    descripcion = models.TextField(default="Sin descripción")
-    
+    descripcion = models.TextField()
+    marca = models.ForeignKey(Marca, on_delete=models.CASCADE)
+    categoria = models.ForeignKey(Categoria, null=True, blank=True, on_delete=models.SET_NULL)
+    fecha_vencimiento = models.DateField(default=timezone.now)
+
     def __str__(self):
         return self.nombre
-
+    
 class ProductModificationLog(models.Model):
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE, related_name="modification_logs")  # Relación con Producto
     usuario = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)  # Relación con el usuario
