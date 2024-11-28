@@ -34,7 +34,49 @@ def ver_perfil(request):
 
 
 def modificarperfil(request):
-    return render(request, 'modificarperfil.html')
+    # Verifica si el usuario tiene un perfil; si no, lo crea
+    try:
+        profile = request.user.profile
+    except UserProfile.DoesNotExist:
+        profile = UserProfile.objects.create(user=request.user)
+
+    if request.method == 'POST':
+        # Obtener los formularios con los datos del POST
+        user_form = CustomUserChangeForm(request.POST, instance=request.user)
+        password_form = CustomPasswordChangeForm(user=request.user, data=request.POST)
+        profile_form = UserProfileForm(request.POST, instance=profile)  # Usa 'profile' en lugar de 'request.user.profile'
+
+        # Verificar que todos los formularios sean válidos
+        if user_form.is_valid() and password_form.is_valid() and profile_form.is_valid():
+            # Guardar los cambios en el usuario
+            user_form.save()
+
+            # Guardar los cambios en la contraseña
+            password_form.save()
+
+            # Guardar los cambios en el perfil
+            profile_form.save()
+
+            # Mantener la sesión activa después de cambiar la contraseña
+            update_session_auth_hash(request, password_form.user)
+
+            messages.success(request, "¡Perfil y contraseña actualizados con éxito!")
+            return redirect('modificarperfil')  # Redirige a la misma página
+
+        else:
+            messages.error(request, "Hubo un error al actualizar los datos.")
+    else:
+        # Si la solicitud es GET, rellenar los formularios con los datos actuales del usuario
+        user_form = CustomUserChangeForm(instance=request.user)
+        password_form = CustomPasswordChangeForm(user=request.user)
+        profile_form = UserProfileForm(instance=profile)  # Usa 'profile' en lugar de 'request.user.profile'
+
+    return render(request, 'modificarperfil.html', {
+        'user_form': user_form,
+        'password_form': password_form,
+        'profile_form': profile_form,
+    })
+
 
 # Página principal
 def index(request):
@@ -68,7 +110,9 @@ def adminusuarios(request):
 def inventarioadmin(request):
     return render(request, 'inventarioadmin.html')
 
+################################################################################################################################################
 # Vista Vendedor
+################################################################################################################################################
 @login_required
 def vendedor(request):
     productos = Producto.objects.all()
@@ -99,8 +143,12 @@ def vendedor(request):
         'marcas': marcas,
         'categorias': categorias
     })
+################################################################################################################################################
 
+
+################################################################################################################################################
 # Función de registro de nuevo Usuario por defecto muestra crear usuarios
+################################################################################################################################################
 def signup(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
@@ -112,6 +160,7 @@ def signup(request):
         form = UserCreationForm()
 
     return render(request, 'signup.html', {'form': form})
+################################################################################################################################################
 
 
 
@@ -136,8 +185,9 @@ def signup(request):
 
 
 
-
+################################################################################################################################################
 # Función de inicio de sesión
+################################################################################################################################################
 def signin(request):
     if request.method == "POST":
         form = AuthenticationForm(request, data=request.POST)
@@ -150,17 +200,20 @@ def signin(request):
     else:
         form = AuthenticationForm()
         return render(request, 'signin.html', {'form': form})
-    
+################################################################################################################################################    
 
 
-
+################################################################################################################################################
 # Función de cierre de sesión
+################################################################################################################################################
 def logout_view(request):
     logout(request)
     return redirect('index')
+################################################################################################################################################
 
-
+################################################################################################################################################
 # Crear nuevo producto
+################################################################################################################################################
 def crearproducto(request):
     if request.method == 'POST':
         form = ProductoForm(request.POST)
@@ -171,10 +224,11 @@ def crearproducto(request):
         form = ProductoForm()
 
     return render(request, 'crearproducto.html', {'form': form})
+################################################################################################################################################
 
-
-
+################################################################################################################################################
 # Editar producto
+#################################################################################################################################################
 @login_required
 def editar_producto(request, producto_id):
     producto = get_object_or_404(Producto, id=producto_id)
@@ -188,7 +242,7 @@ def editar_producto(request, producto_id):
         form = ProductoForm(instance=producto)
     
     return render(request, 'editar_producto.html', {'form': form, 'producto': producto})
-
+#################################################################################################################################################
 
 
 # Historial de modificaciones del producto
@@ -212,7 +266,10 @@ def api_productos(request):
     ]
     return JsonResponse(data, safe=False)
 
-# Eliminar producto
+
+##########################################################################################################################
+#Eliminar Productos
+######################################################################################################################
 @csrf_exempt
 def eliminar_producto(request, producto_id):
     if request.method == 'DELETE':
@@ -220,6 +277,7 @@ def eliminar_producto(request, producto_id):
         producto.delete()
         return JsonResponse({'message': 'Producto eliminado correctamente'}, status=200)
     return JsonResponse({'message': 'Método no permitido'}, status=405)
+##############################################################################################################################
 
 # Mostrar productos con mayor stock
 def productos_mayor_stock(request):
@@ -259,6 +317,10 @@ def productos_mayor_stock(request):
         "productos_fecha_vencimiento": data_fecha_vencimiento,
     })
 
+
+########################################################################################################################
+#PayPal
+########################################################################################################################
 # Configuración de PayPal
 paypalrestsdk.configure({
     "mode": "sandbox",  # o "live" para producción
@@ -311,45 +373,8 @@ def payment_success(request):
 # Vista para la página de PayPal
 def paypal_view(request):
     return render(request, 'paypal.html')  # Renderiza el formulario de PayPal
+#############################################################################################################################
 
-#modificar perfil
-def modificarperfil(request):
-    if request.method == 'POST':
-        # Obtener los formularios con los datos del POST
-        user_form = CustomUserChangeForm(request.POST, instance=request.user)
-        password_form = CustomPasswordChangeForm(user=request.user, data=request.POST)
-        profile_form = UserProfileForm(request.POST, instance=request.user.profile)
-
-        # Verificar que todos los formularios sean válidos
-        if user_form.is_valid() and password_form.is_valid() and profile_form.is_valid():
-            # Guardar los cambios en el usuario
-            user_form.save()
-            
-            # Guardar los cambios en la contraseña
-            password_form.save()
-            
-            # Guardar los cambios en el perfil
-            profile_form.save()
-
-            # Mantener la sesión activa después de cambiar la contraseña
-            update_session_auth_hash(request, password_form.user)
-            
-            messages.success(request, "¡Perfil y contraseña actualizados con éxito!")
-            return redirect('modificarperfil')  # Redirige a la misma página
-
-        else:
-            messages.error(request, "Hubo un error al actualizar los datos.")
-    else:
-        # Si la solicitud es GET, rellenar los formularios con los datos actuales del usuario
-        user_form = CustomUserChangeForm(instance=request.user)
-        password_form = CustomPasswordChangeForm(user=request.user)
-        profile_form = UserProfileForm(instance=request.user.profile)
-
-    return render(request, 'modificarperfil.html', {
-        'user_form': user_form,
-        'password_form': password_form,
-        'profile_form': profile_form,
-    })
 
 from django.shortcuts import render
 from django.contrib.auth.models import User
@@ -400,7 +425,9 @@ def api_productos_mayor_stock(request):
     
     return JsonResponse(data, safe=False)
 
+####################################################################################################################################################
 #Mostrar las tablas con los productos proximos a vencer y los con mayor stock en la pagina principal
+####################################################################################################################################################
 def adminpage(request):
     # Obtener los productos con mayor stock
     productos_mayor_stock = Producto.objects.order_by('-stock')[:5]
@@ -427,7 +454,7 @@ def productos_mayor_stock(request):
     productos = Producto.objects.order_by('-stock')[:5]  # Obtén los 5 con mayor stock
     return render(request, 'template.html', {'productos_mayor_stock': productos})
 
-
+##########################################################################################################################################################
 
 
 
