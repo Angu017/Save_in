@@ -446,7 +446,7 @@ def cargar_excel(request):
             df.columns = df.columns.str.strip()
             
             # Verificar si las columnas necesarias están presentes
-            required_columns = ["Nombre", "Precio", "Descripcion", "Marca", "Categoria", "Fecha Vencimiento"]
+            required_columns = ["Nombre", "Precio", "Descripcion", "Marca", "Categoria", "Fecha Vencimiento", "Stock"]
             missing_columns = [col for col in required_columns if col not in df.columns]
             if missing_columns:
                 return HttpResponse(f"Faltan las siguientes columnas en el archivo Excel: {', '.join(missing_columns)}")
@@ -459,13 +459,11 @@ def cargar_excel(request):
                 marca_nombre = row["Marca"]
                 categoria_nombre = row["Categoria"]
                 fecha_vencimiento = row["Fecha Vencimiento"]
+                stock = row["Stock"]  # Usar el stock del archivo Excel
                 
                 # Obtener o crear la marca y categoría si no existen
                 marca, created = Marca.objects.get_or_create(nombre=marca_nombre)
                 categoria, created = Categoria.objects.get_or_create(nombre=categoria_nombre)
-                
-                # Asignar stock predeterminado (por ejemplo, 0)
-                stock = 0
                 
                 # Crear el producto
                 Producto.objects.create(
@@ -475,14 +473,14 @@ def cargar_excel(request):
                     marca=marca,
                     categoria=categoria,
                     fecha_vencimiento=fecha_vencimiento,
-                    stock=stock  # Asignamos el valor predeterminado
+                    stock=stock  # Asignar el stock del archivo Excel
                 )
 
-            return HttpResponse("Productos cargados exitosamente.")
-        
+            # Redirigir de nuevo a la página de vendedor para actualizar los productos
+            return redirect('vendedor')  # Cambia esto al nombre de tu vista de vendedor
+
         except Exception as e:
             return HttpResponse(f"Error al cargar el archivo: {str(e)}")
     else:
         return HttpResponse("No se ha enviado un archivo válido.")
-
 #######################################################################################################################################    
