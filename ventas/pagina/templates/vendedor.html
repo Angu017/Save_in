@@ -8,6 +8,11 @@
     <link rel="stylesheet" href="{% static 'css/vendedor.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="{% static 'css/lateral.css' %}">
+
+
+    
+
+
 </head>
 <body>
     <!-- Menú lateral de navegación -->
@@ -35,14 +40,43 @@
         </ul>
     </div>
 
+    
+
+    
+
     <!-- Contenido principal -->
     <div class="main-content">
         <div class="header">
+            
+            {% if messages %}
+            <div class="messages">
+            {% for message in messages %}
+                <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                {{ message }}
+                </div>
+            {% endfor %}
+            </div>
+            {% endif %}
+            <!-- Botón de subir archivo-->
+            <form method="POST" enctype="multipart/form-data" action="{% url 'cargar_excel' %}">
+                {% csrf_token %}
+                <label for="archivo_excel">Subir archivo Excel:</label>
+                <input type="file" name="archivo_excel" id="archivo_excel" required>
+                <button type="submit">Cargar Excel</button>
+            </form>
+            
+            
+
+
             <h1>Productos del Vendedor</h1>
             <!-- Botón de crear producto -->
             <a href="{% url 'crearproducto' %}" class="btn-create">
                 <i class="fas fa-plus"></i> Crear producto
             </a>
+            
+            
+
+
         </div>
 
         <!-- Filtros -->

@@ -11,11 +11,12 @@ from django.conf import settings
 from .forms import ProductoForm, UserProfileForm, CustomUserChangeForm, CustomPasswordChangeForm
 from .models import Producto, ProductModificationLog, Marca, Categoria, UserProfile
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
 from django.db.models import F
 from django.utils.timezone import now
-
-
+import openpyxl
+from django.contrib import messages
+from django.utils.timezone import now
+import pandas as pd
 
 
 
@@ -311,7 +312,7 @@ def payment_success(request):
 def paypal_view(request):
     return render(request, 'paypal.html')  # Renderiza el formulario de PayPal
 
-
+#modificar perfil
 def modificarperfil(request):
     if request.method == 'POST':
         # Obtener los formularios con los datos del POST
@@ -352,7 +353,7 @@ def modificarperfil(request):
 
 from django.shortcuts import render
 from django.contrib.auth.models import User
-
+#ver perfil
 def ver_perfil(request):
     user = request.user
     perfil_data = {
@@ -399,7 +400,7 @@ def api_productos_mayor_stock(request):
     
     return JsonResponse(data, safe=False)
 
-
+#Mostrar las tablas con los productos proximos a vencer y los con mayor stock en la pagina principal
 def adminpage(request):
     # Obtener los productos con mayor stock
     productos_mayor_stock = Producto.objects.order_by('-stock')[:5]
@@ -425,3 +426,63 @@ def productos_fecha_vencimiento(request):
 def productos_mayor_stock(request):
     productos = Producto.objects.order_by('-stock')[:5]  # Obtén los 5 con mayor stock
     return render(request, 'template.html', {'productos_mayor_stock': productos})
+
+
+
+
+
+
+######################################################################################################################################
+#Cargar Execel
+######################################################################################################################################
+def cargar_excel(request):
+    if request.method == "POST" and request.FILES["archivo_excel"]:
+        archivo = request.FILES["archivo_excel"]
+        try:
+            # Cargar el archivo Excel
+            df = pd.read_excel(archivo)
+            
+            # Verificar y limpiar los nombres de las columnas
+            df.columns = df.columns.str.strip()
+            
+            # Verificar si las columnas necesarias están presentes
+            required_columns = ["Nombre", "Precio", "Descripcion", "Marca", "Categoria", "Fecha Vencimiento"]
+            missing_columns = [col for col in required_columns if col not in df.columns]
+            if missing_columns:
+                return HttpResponse(f"Faltan las siguientes columnas en el archivo Excel: {', '.join(missing_columns)}")
+
+            # Procesar cada fila del Excel
+            for index, row in df.iterrows():
+                nombre = row["Nombre"]
+                precio = row["Precio"]
+                descripcion = row["Descripcion"]
+                marca_nombre = row["Marca"]
+                categoria_nombre = row["Categoria"]
+                fecha_vencimiento = row["Fecha Vencimiento"]
+                
+                # Obtener o crear la marca y categoría si no existen
+                marca, created = Marca.objects.get_or_create(nombre=marca_nombre)
+                categoria, created = Categoria.objects.get_or_create(nombre=categoria_nombre)
+                
+                # Asignar stock predeterminado (por ejemplo, 0)
+                stock = 0
+                
+                # Crear el producto
+                Producto.objects.create(
+                    nombre=nombre,
+                    precio=precio,
+                    descripcion=descripcion,
+                    marca=marca,
+                    categoria=categoria,
+                    fecha_vencimiento=fecha_vencimiento,
+                    stock=stock  # Asignamos el valor predeterminado
+                )
+
+            return HttpResponse("Productos cargados exitosamente.")
+        
+        except Exception as e:
+            return HttpResponse(f"Error al cargar el archivo: {str(e)}")
+    else:
+        return HttpResponse("No se ha enviado un archivo válido.")
+
+#######################################################################################################################################    
