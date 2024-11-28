@@ -45,19 +45,19 @@
                 <p class="success-message">¡Perfil actualizado con éxito!</p>
             {% endif %}
 
-            <form method="POST">
+            <form id="profile-form" method="POST">
                 {% csrf_token %}
                 
                 <!-- Nombre de Usuario -->
                 <div class="form-group">
                     <label for="id_username">Nombre de Usuario</label>
-                    {{ user_form.username }}
+                    <input type="text" id="id_username" name="username" value="{{ profile_data.username }}">
                 </div>
 
                 <!-- Correo Electrónico -->
                 <div class="form-group">
                     <label for="id_email">Correo Electrónico</label>
-                    {{ user_form.email }}
+                    <input type="email" id="id_email" name="email" value="{{ profile_data.email }}">
                 </div>
 
                 <!-- Nueva Contraseña -->
@@ -75,27 +75,31 @@
                 <!-- Información del Perfil -->
                 <div class="form-group">
                     <label for="id_role">Rol</label>
-                    {{ profile_form.role }}
+                    <select id="id_role" name="role">
+                        <option value="admin" {% if profile_data.role == 'admin' %}selected{% endif %}>Admin</option>
+                        <option value="editor" {% if profile_data.role == 'editor' %}selected{% endif %}>Editor</option>
+                        <option value="viewer" {% if profile_data.role == 'viewer' %}selected{% endif %}>Viewer</option>
+                    </select>
                 </div>
 
                 <div class="form-group">
                     <label for="id_phone">Teléfono</label>
-                    {{ profile_form.phone }}
+                    <input type="text" id="id_phone" name="phone" value="{{ profile_data.phone }}">
                 </div>
 
                 <div class="form-group">
                     <label for="id_address">Dirección</label>
-                    {{ profile_form.address }}
+                    <textarea id="id_address" name="address">{{ profile_data.address }}</textarea>
                 </div>
 
                 <div class="form-group">
                     <label for="id_first_name">Primer Nombre</label>
-                    {{ profile_form.first_name }}
+                    <input type="text" id="id_first_name" name="first_name" value="{{ profile_data.first_name }}">
                 </div>
 
                 <div class="form-group">
                     <label for="id_last_name">Apellido</label>
-                    {{ profile_form.last_name }}
+                    <input type="text" id="id_last_name" name="last_name" value="{{ profile_data.last_name }}">
                 </div>
 
                 <button type="submit" class="btn-submit">Guardar Cambios</button>
@@ -104,18 +108,18 @@
     </div>
 
     <script>
-        // Cargar los datos de usuario y perfil
+        // Datos enviados desde Django como JSON (para asegurar que la edición funcione)
         var profileData = {{ profile_data|json_script:"profile_data" }};
         
         document.addEventListener('DOMContentLoaded', function() {
             // Asignar los datos a los campos del formulario
-            document.getElementById('id_username').value = profileData.username;
-            document.getElementById('id_email').value = profileData.email;
-            document.getElementById('id_role').value = profileData.role;
-            document.getElementById('id_phone').value = profileData.phone;
-            document.getElementById('id_address').value = profileData.address;
-            document.getElementById('id_first_name').value = profileData.first_name;
-            document.getElementById('id_last_name').value = profileData.last_name;
+            document.getElementById('id_username').value = profileData.username || "";
+            document.getElementById('id_email').value = profileData.email || "";
+            document.getElementById('id_role').value = profileData.role || "viewer";
+            document.getElementById('id_phone').value = profileData.phone || "";
+            document.getElementById('id_address').value = profileData.address || "";
+            document.getElementById('id_first_name').value = profileData.first_name || "";
+            document.getElementById('id_last_name').value = profileData.last_name || "";
         });
     </script>
 </body>

@@ -18,7 +18,7 @@ from django.contrib import messages
 from django.utils.timezone import now
 import pandas as pd
 from django.contrib.auth import update_session_auth_hash
-
+import json
 
 
 
@@ -44,49 +44,42 @@ def ver_perfil(request):
 ############################################################################################################################################################
 #modificarperfil
 #############################################################################################################################################################
+@login_required
 def modificarperfil(request):
-    # Obtiene o crea el perfil del usuario
-    try:
-        profile = request.user.profile
-    except UserProfile.DoesNotExist:
-        profile = UserProfile.objects.create(user=request.user)
-
     if request.method == 'POST':
-        # Obtener los formularios con los datos del POST
-        user_form = CustomUserChangeForm(request.POST, instance=request.user)
-        password_form = CustomPasswordChangeForm(user=request.user, data=request.POST)
-        profile_form = UserProfileForm(request.POST, instance=profile) 
+        # Manejo de datos enviados por el formulario
+        user = request.user
+        profile = user.profile
 
-        # Verificar que todos los formularios sean válidos
-        if user_form.is_valid() and password_form.is_valid() and profile_form.is_valid():
-            # Guardar los cambios en el usuario (nombre de usuario y correo electrónico)
-            user_form.save()
+        # Actualizamos los campos del usuario y del perfil con los datos recibidos
+        user.username = request.POST['username']
+        user.email = request.POST['email']
+        profile.role = request.POST['role']
+        profile.phone = request.POST['phone']
+        profile.address = request.POST['address']
+        profile.first_name = request.POST['first_name']
+        profile.last_name = request.POST['last_name']
 
-            # Guardar los cambios en la contraseña
-            if password_form.cleaned_data.get('new_password1'):  # Verificar si la contraseña se ha cambiado
-                password_form.save()
-                update_session_auth_hash(request, password_form.user)  # Mantener la sesión activa
+        # Guardamos los cambios en la base de datos
+        user.save()
+        profile.save()
 
-            # Guardar los cambios en el perfil
-            profile_form.save()
+        # Retornar respuesta indicando éxito
+        return JsonResponse({'success': True})
 
-            messages.success(request, "¡Perfil y contraseña actualizados con éxito!")
-            return redirect('verPerfil')  # Redirige al perfil actualizado
+    # Si el método es GET, cargamos los datos actuales del perfil
+    profile_data = {
+        'username': request.user.username,
+        'email': request.user.email,
+        'role': request.user.profile.role,
+        'phone': request.user.profile.phone,
+        'address': request.user.profile.address,
+        'first_name': request.user.profile.first_name,
+        'last_name': request.user.profile.last_name,
+    }
 
-        else:
-            messages.error(request, "Hubo un error al actualizar los datos.")
-    else:
-        # Si la solicitud es GET, rellenar los formularios con los datos actuales del usuario
-        user_form = CustomUserChangeForm(instance=request.user)
-        password_form = CustomPasswordChangeForm(user=request.user)
-        profile_form = UserProfileForm(instance=profile)
-
-    return render(request, 'modificarperfil.html', {
-        'user_form': user_form,
-        'password_form': password_form,
-        'profile_form': profile_form,
-    })
-
+    # Renderizamos la página de edición con los datos actuales
+    return render(request, "modificarperfil.html", {"profile_data": profile_data})
 
 
 ##########################################################################################################################################################
