@@ -30,7 +30,9 @@
         <ul>
             <li><a href="{% url 'adminpage' %}">Página de Inicio</a></li>
             <li><a href="{% url 'vendedor' %}" class="active">Registro Inventario</a></li>
-            <li><a href="{% url 'modificarperfil' %}" class="btn btn-primary w-100">Editar Perfil</a></li> <!-- Botón para editar perfil -->
+            <li><a href="{% url 'verPerfil' %}" class="btn btn-primary w-100">Ver Perfil</a></li>
+
+
             <li>
                 <form action="{% url 'logout' %}" method="post">
                     {% csrf_token %}

@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from .views import index, about, client, log_in, register, adminpage, adminusuarios, inventarioadmin, vendedor, signup, signin, logout_view, crearproducto, editar_producto, historial_modificaciones, api_productos, eliminar_producto, productos_mayor_stock, payment_success, process_payment, paypal_view, modificarperfil, ver_perfil, api_productos_fecha_vencimiento, api_productos_mayor_stock, cargar_excel
+from .views import index, about, client, log_in, register, adminpage, adminusuarios, inventarioadmin, vendedor, signup, signin, logout_view, crearproducto, editar_producto, historial_modificaciones, api_productos, eliminar_producto, productos_mayor_stock, payment_success, process_payment, paypal_view, modificarperfil, api_productos_fecha_vencimiento, api_productos_mayor_stock, cargar_excel, verPerfil
 
 
 urlpatterns = [
@@ -26,10 +26,9 @@ urlpatterns = [
     path('payment-success/', payment_success, name='payment_success'),
     path('paypal/', paypal_view, name='paypal'),
     path('modificarperfil/', modificarperfil, name='modificarperfil'),
-    path('ver_perfil/', ver_perfil, name='ver_perfil'),
     path('api/productos/', api_productos, name='api_productos'),
     path('api/productos_fecha_vencimiento/', api_productos_fecha_vencimiento, name='api_productos_fecha_vencimiento'),
     path('api/productos_mayor_stock/', api_productos_mayor_stock, name='api_productos_mayor_stock'),
     path("cargar_excel/", cargar_excel, name="cargar_excel"),
-    
+    path('verPerfil/', verPerfil, name='verPerfil'),
 ]

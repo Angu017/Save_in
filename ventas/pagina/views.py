@@ -17,6 +17,15 @@ import openpyxl
 from django.contrib import messages
 from django.utils.timezone import now
 import pandas as pd
+from django.contrib.auth import update_session_auth_hash
+
+
+
+
+
+
+
+
 
 
 
@@ -32,9 +41,11 @@ def ver_perfil(request):
     return render(request, 'pagina/ver_perfil.html', {'perfil_data': perfil_data})
 
 
-
+############################################################################################################################################################
+#modificarperfil
+#############################################################################################################################################################
 def modificarperfil(request):
-    # Verifica si el usuario tiene un perfil; si no, lo crea
+    # Obtiene o crea el perfil del usuario
     try:
         profile = request.user.profile
     except UserProfile.DoesNotExist:
@@ -44,24 +55,23 @@ def modificarperfil(request):
         # Obtener los formularios con los datos del POST
         user_form = CustomUserChangeForm(request.POST, instance=request.user)
         password_form = CustomPasswordChangeForm(user=request.user, data=request.POST)
-        profile_form = UserProfileForm(request.POST, instance=profile)  # Usa 'profile' en lugar de 'request.user.profile'
+        profile_form = UserProfileForm(request.POST, instance=profile) 
 
         # Verificar que todos los formularios sean válidos
         if user_form.is_valid() and password_form.is_valid() and profile_form.is_valid():
-            # Guardar los cambios en el usuario
+            # Guardar los cambios en el usuario (nombre de usuario y correo electrónico)
             user_form.save()
 
             # Guardar los cambios en la contraseña
-            password_form.save()
+            if password_form.cleaned_data.get('new_password1'):  # Verificar si la contraseña se ha cambiado
+                password_form.save()
+                update_session_auth_hash(request, password_form.user)  # Mantener la sesión activa
 
             # Guardar los cambios en el perfil
             profile_form.save()
 
-            # Mantener la sesión activa después de cambiar la contraseña
-            update_session_auth_hash(request, password_form.user)
-
             messages.success(request, "¡Perfil y contraseña actualizados con éxito!")
-            return redirect('modificarperfil')  # Redirige a la misma página
+            return redirect('verPerfil')  # Redirige al perfil actualizado
 
         else:
             messages.error(request, "Hubo un error al actualizar los datos.")
@@ -69,13 +79,19 @@ def modificarperfil(request):
         # Si la solicitud es GET, rellenar los formularios con los datos actuales del usuario
         user_form = CustomUserChangeForm(instance=request.user)
         password_form = CustomPasswordChangeForm(user=request.user)
-        profile_form = UserProfileForm(instance=profile)  # Usa 'profile' en lugar de 'request.user.profile'
+        profile_form = UserProfileForm(instance=profile)
 
     return render(request, 'modificarperfil.html', {
         'user_form': user_form,
         'password_form': password_form,
         'profile_form': profile_form,
     })
+
+
+
+##########################################################################################################################################################
+
+
 
 
 # Página principal
@@ -511,3 +527,26 @@ def cargar_excel(request):
     else:
         return HttpResponse("No se ha enviado un archivo válido.")
 #######################################################################################################################################    
+
+
+
+
+########################################################################################################
+#Ver Perfil
+#########################################################################################################
+def verPerfil(request):
+    try:
+        profile = request.user.profile  # Obtener el perfil del usuario
+    except UserProfile.DoesNotExist:
+        profile = None  # Si no tiene perfil, lo asignamos a None
+
+    return render(request, 'verPerfil.html', {
+        'username': request.user.username,
+        'email': request.user.email,
+        'role': profile.role if profile else '',
+        'phone': profile.phone if profile else '',
+        'address': profile.address if profile else '',
+        'first_name': profile.first_name if profile else '',
+        'last_name': profile.last_name if profile else '',
+    })
+################################################################################################

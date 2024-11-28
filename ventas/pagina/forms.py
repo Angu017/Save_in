@@ -61,7 +61,6 @@ class ProductoForm(forms.ModelForm):
         return fecha_vencimiento
     
 
-# Formulario para editar el UserProfile
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile

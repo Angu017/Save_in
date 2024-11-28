@@ -27,7 +27,7 @@
         <ul>
             <li><a href="{% url 'adminpage' %}">Página de Inicio</a></li>
             <li><a href="{% url 'vendedor' %}">Registro Inventario</a></li>
-            <li><a href="{% url 'modificarperfil' %}" class="active">Editar Perfil</a></li>
+            <li><a href="{% url 'verPerfil' %}" class="btn btn-primary w-100">Ver Perfil</a></li>
             <li>
                 <form action="{% url 'logout' %}" method="post">
                     {% csrf_token %}
@@ -98,54 +98,25 @@
                     {{ profile_form.last_name }}
                 </div>
 
-                <div class="form-group">
-                    <label for="id_email">Correo Electrónico</label>
-                    {{ profile_form.email }}
-                </div>
-
-                <!-- Mostrar errores del formulario, si existen -->
-                {% if user_form.errors %}
-                    <div class="error">
-                        <p>Por favor, revisa los errores del nombre de usuario:</p>
-                        <ul>
-                            {% for field in user_form %}
-                                {% for error in field.errors %}
-                                    <li>{{ error }}</li>
-                                {% endfor %}
-                            {% endfor %}
-                        </ul>
-                    </div>
-                {% endif %}
-
-                {% if password_form.errors %}
-                    <div class="error">
-                        <p>Por favor, revisa los errores de la contraseña:</p>
-                        <ul>
-                            {% for field in password_form %}
-                                {% for error in field.errors %}
-                                    <li>{{ error }}</li>
-                                {% endfor %}
-                            {% endfor %}
-                        </ul>
-                    </div>
-                {% endif %}
-
-                {% if profile_form.errors %}
-                    <div class="error">
-                        <p>Por favor, revisa los errores del perfil:</p>
-                        <ul>
-                            {% for field in profile_form %}
-                                {% for error in field.errors %}
-                                    <li>{{ error }}</li>
-                                {% endfor %}
-                            {% endfor %}
-                        </ul>
-                    </div>
-                {% endif %}
-
                 <button type="submit" class="btn-submit">Guardar Cambios</button>
             </form>
         </div>
     </div>
+
+    <script>
+        // Cargar los datos de usuario y perfil
+        var profileData = {{ profile_data|json_script:"profile_data" }};
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Asignar los datos a los campos del formulario
+            document.getElementById('id_username').value = profileData.username;
+            document.getElementById('id_email').value = profileData.email;
+            document.getElementById('id_role').value = profileData.role;
+            document.getElementById('id_phone').value = profileData.phone;
+            document.getElementById('id_address').value = profileData.address;
+            document.getElementById('id_first_name').value = profileData.first_name;
+            document.getElementById('id_last_name').value = profileData.last_name;
+        });
+    </script>
 </body>
 </html>
