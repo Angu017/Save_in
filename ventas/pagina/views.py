@@ -167,34 +167,34 @@ def vendedor(request):
 ################################################################################################################################################
 # Función de registro de nuevo Usuario por defecto muestra crear usuarios
 ################################################################################################################################################
-def signup(request):
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)  # Inicia sesión al registrar
-            return redirect('adminpage')  # Redirige a la página de administración después del registro
-    else:
-        form = UserCreationForm()
-
-    return render(request, 'signup.html', {'form': form})
-################################################################################################################################################
-
-
-
-
-# Función de registro de nuevo Usuario con el integrado de metodo de pago
 #def signup(request):
 #    if request.method == 'POST':
 #        form = UserCreationForm(request.POST)
 #        if form.is_valid():
 #            user = form.save()
 #            login(request, user)  # Inicia sesión al registrar
-#            return redirect('paypal')  # Redirige a la vista de PayPal después del registro
+#            return redirect('adminpage')  # Redirige a la página de administración después del registro
 #    else:
 #        form = UserCreationForm()
 #
 #    return render(request, 'signup.html', {'form': form})
+################################################################################################################################################
+
+
+
+
+# Función de registro de nuevo Usuario con el integrado de metodo de pago
+def signup(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)  # Inicia sesión al registrar
+            return redirect('paypal')  # Redirige a la vista de PayPal después del registro
+    else:
+        form = UserCreationForm()
+
+    return render(request, 'signup.html', {'form': form})
 
 
 
@@ -370,14 +370,14 @@ def create_paypal_order():
         },
         "transactions": [{
             "amount": {
-                "total": "10000.00",  # Monto en pesos chilenos
+                "total": "15000.00",  # Monto en pesos chilenos
                 "currency": "CLP"  # Pesos chilenos
             },
             "description": "Compra de producto"
         }],
         "redirect_urls": {
-            "return_url": "http://tu_dominio.com/payment-success",
-            "cancel_url": "http://tu_dominio.com/payment-cancelled"
+            "return_url": "http://127.0.0.1:8000/signin/",
+            "cancel_url": "http://127.0.0.1:8000"
         }
     })
 

@@ -1,3 +1,4 @@
+
 from django.apps import AppConfig
 
 class PaginaConfig(AppConfig):
@@ -5,4 +6,4 @@ class PaginaConfig(AppConfig):
     name = 'pagina'
 
     def ready(self):
-        import pagina.signals
+        import pagina.signals  
