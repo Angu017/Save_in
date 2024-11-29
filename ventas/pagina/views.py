@@ -19,7 +19,8 @@ from django.utils.timezone import now
 import pandas as pd
 from django.contrib.auth import update_session_auth_hash
 import json
-
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 
 
@@ -51,21 +52,29 @@ def modificarperfil(request):
         user = request.user
         profile = user.profile
 
-        # Actualizamos los campos del usuario y del perfil con los datos recibidos
-        user.username = request.POST['username']
-        user.email = request.POST['email']
-        profile.role = request.POST['role']
-        profile.phone = request.POST['phone']
-        profile.address = request.POST['address']
-        profile.first_name = request.POST['first_name']
-        profile.last_name = request.POST['last_name']
+        try:
+            # Actualizamos los campos del usuario y del perfil con los datos recibidos
+            user.username = request.POST.get('username', user.username)
+            user.email = request.POST.get('email', user.email)
+            profile.role = request.POST.get('role', profile.role)
+            profile.phone = request.POST.get('phone', profile.phone)
+            profile.address = request.POST.get('address', profile.address)
+            profile.first_name = request.POST.get('first_name', profile.first_name)
+            profile.last_name = request.POST.get('last_name', profile.last_name)
 
-        # Guardamos los cambios en la base de datos
-        user.save()
-        profile.save()
+            # Guardamos los cambios en la base de datos
+            user.save()
+            profile.save()
 
-        # Retornar respuesta indicando éxito
-        return JsonResponse({'success': True})
+            # Agregamos un mensaje de éxito
+            messages.success(request, "Perfil actualizado correctamente.")
+            # Redirigimos a la vista de perfil
+            return HttpResponseRedirect(reverse('verPerfil'))
+
+        except Exception as e:
+            # En caso de error, mostramos un mensaje
+            messages.error(request, f"Error al actualizar el perfil: {str(e)}")
+            return HttpResponseRedirect(reverse('modificarperfil'))
 
     # Si el método es GET, cargamos los datos actuales del perfil
     profile_data = {
