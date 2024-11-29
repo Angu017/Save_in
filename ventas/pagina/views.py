@@ -212,7 +212,22 @@ def signin(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect('adminpage')
+
+            # Obtener el rol desde el perfil del usuario
+            try:
+                user_profile = user.profile  # Accede al perfil relacionado del usuario
+                role = user_profile.role
+            except UserProfile.DoesNotExist:
+                role = None  # Si no tiene un perfil, no hay rol
+
+            # Redirigir según el rol del usuario
+            if role == 'admin':
+                return redirect('adminusuarios')  # Redirigir a la página de administración de usuarios
+            elif role in ['editor', 'viewer']:
+                return redirect('adminpage')  # Redirigir a la página de admin o similar
+            else:
+                return redirect('home')  # Si no tiene rol definido, redirigir a una página predeterminada
+
         else:
             return render(request, 'signin.html', {'form': form})
     else:
