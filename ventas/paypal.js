@@ -34,7 +34,7 @@ app.post('/create-order', async (req, res) => {
             intent: 'CAPTURE',
             purchase_units: [{
                 amount: {
-                    value: '5000'  // Monto de la compra en CLP
+                    value: '15000'  // Monto de la compra en CLP
                 }
             }]
         }, {
