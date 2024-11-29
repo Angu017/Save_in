@@ -45,13 +45,16 @@
 
             <div class="card">
                 <div class="card-body">
-                    <p><strong>Nombre de usuario:</strong> {{ username }}</p>
-                    <p><strong>Correo electrónico:</strong> {{ email }}</p>
+                    <p><strong>Nombres:</strong> {{ first_name }}</p>
+                    <p><strong>Apellidos:</strong> {{ last_name }}</p>
                     <p><strong>Rol:</strong> {{ role }}</p>
+                    <p><strong>Nombre de usuario:</strong> {{ username }}</p>
                     <p><strong>Teléfono:</strong> {{ phone }}</p>
+                    <p><strong>Correo electrónico:</strong> {{ email }}</p>
+                    
+                    
                     <p><strong>Dirección:</strong> {{ address }}</p>
-                    <p><strong>Primer Nombre:</strong> {{ first_name }}</p>
-                    <p><strong>Apellido:</strong> {{ last_name }}</p>
+                    
                     
                     <!-- Botón de editar -->
                     <a href="{% url 'modificarperfil' %}" class="btn btn-primary w-100">Editar Perfil</a>
