@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from .views import index, about, client, log_in, register, adminpage, adminusuarios, inventarioadmin, vendedor, signup, signin, logout_view, crearproducto, editar_producto, historial_modificaciones, api_productos, eliminar_producto, productos_mayor_stock, payment_success, process_payment, paypal_view, modificarperfil, api_productos_fecha_vencimiento, api_productos_mayor_stock, cargar_excel, verPerfil
+from .views import index, about, client, log_in, register, adminpage, adminusuarios, inventarioadmin, vendedor, signup, signin, logout_view, crearproducto, editar_producto, historial_modificaciones, api_productos, eliminar_producto, productos_mayor_stock, payment_success, process_payment, paypal_view, modificarperfil, api_productos_fecha_vencimiento, api_productos_mayor_stock, cargar_excel, verPerfil, obtener_usuarios, eliminar_usuario, cambiar_rol
 
 
 urlpatterns = [
@@ -31,4 +31,8 @@ urlpatterns = [
     path('api/productos_mayor_stock/', api_productos_mayor_stock, name='api_productos_mayor_stock'),
     path("cargar_excel/", cargar_excel, name="cargar_excel"),
     path('verPerfil/', verPerfil, name='verPerfil'),
+    path('api/usuarios/', obtener_usuarios, name='obtener_usuarios'),
+    path('api/eliminar_usuario/<str:username>/', eliminar_usuario, name='eliminar_usuario'),
+    path('api/usuarios/<str:username>/cambiar_rol/', cambiar_rol, name='cambiar_rol'),
+
 ]

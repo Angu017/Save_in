@@ -2,7 +2,8 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import User 
 from django.utils import timezone
-
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 
@@ -46,6 +47,11 @@ class ProductModificationLog(models.Model):
     def __str__(self):
         return f"Modificación de {self.producto.nombre} por {self.usuario.username} en {self.fecha_modificacion}"
 
+from django.db import models
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')  # Relación con User
     role = models.CharField(max_length=50, choices=[('admin', 'Admin'), ('editor', 'Editor'), ('viewer', 'Viewer')], default='viewer')  # Roles
@@ -57,6 +63,17 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+# Señal para crear un perfil automáticamente al crear un usuario
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()
+
     
     
     

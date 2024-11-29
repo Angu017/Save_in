@@ -6,99 +6,143 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Usuarios</title>
     <link rel="stylesheet" href="{% static 'css/adminusuarios.css' %}">
-    <!-- Enlace a Google Icons para los iconos -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
     <div class="sidebar">
-        <div class="perfil">
-            <div class="perfil-imagen"></div>
-            <p>Perfil</p>
-        </div>
-        <ul>
-            <li><a href="{% url 'adminusuarios' %}">Usuarios</a></li>
-            <li><a href="{% url 'adminpage' %}">Página de Inicio</a></li>
-            <li><a href="{% url 'vendedor' %}" class="active">Registro Inventario</a></li>
-            <!-- cerrar sesión -->
-            <li>
-                <form action="{% url 'logout' %}" method="post" style="display:inline;">
-                    {% csrf_token %}
-                    <button type="submit" style="padding: 10px 20px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: inherit;">
-                        Cerrar Sesión
-                    </button>
-                </form>
-            </li>
-        </ul>
+        <!-- Sidebar content -->
     </div>
 
     <div class="main-content">
         <h1>Lista de Usuarios</h1>
-        <table>
+
+        <div class="filters">
+            <select id="roleFilter" onchange="applyFilter()">
+                <option value="">Filtrar por Rol</option>
+                <option value="admin">Admin</option>
+                <option value="editor">Editor</option>
+                <option value="viewer">Viewer</option>
+            </select>
+
+            <input type="text" id="searchInput" onkeyup="searchUser()" placeholder="Buscar usuario...">
+        </div>
+
+        <table id="userTable">
             <thead>
                 <tr>
                     <th>Nombre Usuario</th>
-                    <th>Rol</th>
-                    <th>Almacén</th>
-                    <th>Acciones</th>
+                    <th>Rol del Usuario</th>
+                    <th>Eliminar</th>
+                    <th>Cambiar Rol</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>Pepe</td>
-                    <td>
-                        <button class="accordion">Seleccionar Rol</button>
-                        <div class="panel">
-                            <p>Dueño</p>
-                            <p>Vendedor</p>
-                        </div>
-                    </td>
-                    <td>
-                        <button class="accordion">Seleccionar Almacén</button>
-                        <div class="panel">
-                            <p>DonPepe</p>
-                            <p>Almacén Norte</p>
-                            <p>Almacén Sur</p>
-                        </div>
-                    </td>
-                    <td>
-                        <button class="btn eliminar">
-                            <span class="material-icons">delete</span> Eliminar
-                        </button>
-                        <button class="btn editar">
-                            <span class="material-icons">edit</span> Editar
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Juan</td>
-                    <td>
-                        <button class="accordion">Seleccionar Rol</button>
-                        <div class="panel">
-                            <p>Dueño</p>
-                            <p>Vendedor</p>
-                        </div>
-                    </td>
-                    <td>
-                        <button class="accordion">Seleccionar Almacén</button>
-                        <div class="panel">
-                            <p>DonPepe</p>
-                            <p>Almacén Norte</p>
-                            <p>Almacén Sur</p>
-                        </div>
-                    </td>
-                    <td>
-                        <button class="btn eliminar">
-                            <span class="material-icons">delete</span> Eliminar
-                        </button>
-                        <button class="btn editar">
-                            <span class="material-icons">edit</span> Editar
-                        </button>
-                    </td>
-                </tr>
-            </tbody>
+            <tbody id="userTableBody"></tbody>
         </table>
+
+        <div id="pagination"></div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        let currentPage = 1;
+
+        // Función para obtener usuarios
+        function fetchUsers(page = 1) {
+            const role = document.getElementById('roleFilter').value;
+            const url = role ? `/api/usuarios/?page=${page}&role=${role}` : `/api/usuarios/?page=${page}`;
+            
+            fetch(url)
+                .then(response => response.json())
+                .then(data => displayUsers(data))
+                .catch(error => console.error('Error fetching users:', error));
+        }
+
+        // Función para mostrar los usuarios en la tabla
+        function displayUsers(data) {
+            const tableBody = document.getElementById('userTableBody');
+            tableBody.innerHTML = '';  // Limpiar la tabla antes de añadir nuevos usuarios
+
+            data.usuarios.forEach(user => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${user.username}</td>
+                    <td>${user.role}</td>
+                    <td>
+                        <button onclick="deleteUser('${user.username}')">Eliminar</button>
+                    </td>
+                    <td>
+                        <!-- Dropdown para cambiar el rol -->
+                        <select onchange="changeRole('${user.username}', this.value)">
+                            <option value="admin" ${user.role === 'admin' ? 'selected' : ''}>Admin</option>
+                            <option value="editor" ${user.role === 'editor' ? 'selected' : ''}>Editor</option>
+                            <option value="viewer" ${user.role === 'viewer' ? 'selected' : ''}>Viewer</option>
+                        </select>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+
+            updatePagination(data.total_pages, data.current_page);
+        }
+
+        // Función para cambiar el rol de un usuario
+        function changeRole(username, role) {
+            fetch(`/api/usuarios/${username}/cambiar_rol/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: `role=${role}`
+            })
+            .then(response => response.json())
+            .then(() => fetchUsers(currentPage))  // Refrescar la lista de usuarios
+            .catch(error => console.error('Error changing role:', error));
+        }
+
+        // Función para eliminar un usuario
+        function deleteUser(username) {
+            fetch(`/api/eliminar_usuario/${username}/`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken')
+                }
+            })
+            .then(() => fetchUsers(currentPage))  // Refrescar la lista de usuarios
+            .catch(error => console.error('Error deleting user:', error));
+        }
+
+        // Función para actualizar la paginación
+        function updatePagination(totalPages, currentPage) {
+            const pagination = document.getElementById('pagination');
+            pagination.innerHTML = '';  // Limpiar la paginación
+
+            for (let i = 1; i <= totalPages; i++) {
+                const button = document.createElement('button');
+                button.innerText = i;
+                button.onclick = () => fetchUsers(i);  // Ir a la página correspondiente
+                pagination.appendChild(button);
+            }
+        }
+
+        // Función para obtener una cookie (CSRF token)
+        function getCookie(name) {
+            const cookies = document.cookie.split(';');
+            for (let cookie of cookies) {
+                cookie = cookie.trim();
+                if (cookie.startsWith(`${name}=`)) {
+                    return cookie.substring(name.length + 1);
+                }
+            }
+            return '';
+        }
+
+        // Función para aplicar el filtro de rol
+        function applyFilter() {
+            fetchUsers(currentPage);
+        }
+
+        // Iniciar la carga de usuarios al cargar la página
+        fetchUsers(currentPage);
+    </script>
 </body>
 </html>

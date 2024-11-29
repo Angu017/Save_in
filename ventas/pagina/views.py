@@ -24,11 +24,11 @@ from django.urls import reverse
 
 
 
+############################################################################################################################
 
 
 
-
-
+############################################################################################################################
 
 @login_required
 def ver_perfil(request):
@@ -552,3 +552,75 @@ def verPerfil(request):
         'last_name': profile.last_name if profile else '',
     })
 ################################################################################################
+
+
+################################################################################################################################################################################################
+#Administracion de usuarios
+################################################################################################################################################################################################
+@csrf_exempt
+def eliminar_usuario(request, username):
+    if request.method == 'DELETE':
+        try:
+            usuario = User.objects.get(username=username)
+            usuario.delete()  # Esto eliminará el perfil también gracias a la relación OneToOne
+            return JsonResponse({'status': 'success'}, status=200)
+        except User.DoesNotExist:
+            return JsonResponse({'error': 'Usuario no encontrado'}, status=404)
+    else:
+        return JsonResponse({'error': 'Método no permitido'}, status=405)
+
+@csrf_exempt
+def cambiar_rol(request, username):
+    if request.method == 'POST':
+        nuevo_rol = request.POST.get('role')
+        roles_permitidos = ['admin', 'editor', 'viewer']
+        if nuevo_rol not in roles_permitidos:
+            return JsonResponse({'error': 'Rol inválido'}, status=400)
+
+        try:
+            usuario = User.objects.get(username=username)
+            perfil = usuario.profile
+            perfil.role = nuevo_rol
+            perfil.save()
+            return JsonResponse({'status': 'success'}, status=200)
+        except User.DoesNotExist:
+            return JsonResponse({'error': 'Usuario no encontrado'}, status=404)
+        except Exception as e:
+            return JsonResponse({'error': f'Error inesperado: {str(e)}'}, status=500)
+    else:
+        return JsonResponse({'error': 'Método no permitido'}, status=405)
+
+def obtener_usuarios(request):
+    usuarios = User.objects.all()  # Todos los usuarios por defecto
+    
+    # Filtrar por rol si se proporciona
+    role = request.GET.get('role')
+    if role:
+        usuarios = usuarios.filter(profile__role=role)  # Filtrar por rol (ajustar según tu modelo)
+    
+    # Filtrar por nombre de usuario si se proporciona
+    search = request.GET.get('search')
+    if search:
+        usuarios = usuarios.filter(username__icontains=search)  # Filtrar por nombre de usuario
+
+    # Paginación
+    paginator = Paginator(usuarios, 5)  # 5 usuarios por página
+    page_number = request.GET.get('page', 1)  # Página actual
+    page_obj = paginator.get_page(page_number)
+    
+    # Preparar los datos para la respuesta JSON
+    usuarios_data = []
+    for usuario in page_obj:
+        usuarios_data.append({
+            'username': usuario.username,
+            'role': usuario.profile.role,  # Ajusta según tu estructura de datos
+            'roles': ['admin', 'editor', 'viewer']  # Asume que esos son los roles posibles
+        })
+    
+    return JsonResponse({
+        'usuarios': usuarios_data,
+        'total_pages': paginator.num_pages,
+        'current_page': page_number
+    })
+
+################################################################################################################################################################################################    
