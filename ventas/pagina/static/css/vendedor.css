@@ -106,3 +106,77 @@ body {
     text-decoration: underline;
 }
 
+/* Contenedor general de la tabla */
+.product-table {
+    width: 90%; /* Ajusta el ancho al 90% del contenedor */
+    max-width: 1000px; /* Define un límite máximo de ancho */
+    margin: auto; /* Centrar la tabla */
+    border-collapse: collapse; /* Quitar espacio entre bordes */
+    font-size: 14px; /* Reducir el tamaño de la fuente */
+}
+
+/* Encabezados de tabla */
+.product-table th {
+    padding: 8px; /* Espaciado interno menor */
+    text-align: left;
+    background-color: #f2f2f2;
+}
+
+/* Filas de tabla */
+.product-table td {
+    padding: 6px; /* Espaciado interno menor */
+    text-align: left;
+    border-bottom: 1px solid #ddd; /* Separación más fina entre filas */
+}
+
+/* Opcional: Compactar las filas */
+.product-table tr {
+    height: 30px; /* Altura de fila menor */
+}
+
+/* Reducir espaciado general de la tabla */
+.product-table {
+    border-spacing: 2px; /* Espacio más compacto */
+}
+
+.perfil {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row; /* Organiza los elementos en una fila */
+    margin-bottom: 20px;
+}
+
+.perfil-imagen {
+    width: 80px;
+    height: 80px;
+    background-color: #6c757d;
+    border-radius: 50%;
+    margin-right: 10px; /* Espacio entre la imagen y el texto */
+}
+
+.perfil-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.perfil-info p {
+    margin: 0; /* Elimina márgenes por defecto */
+    font-size: 1rem;
+}
+.header-title-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 10px; /* Espacio entre el título y el botón */
+}
+
+.header-title-container h1 {
+    margin: 0; /* Evita márgenes adicionales */
+}
+
+h1 {
+    text-align: center;
+}
