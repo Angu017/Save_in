@@ -20,7 +20,6 @@
 .perfil-imagen {
     width: 80px;
     height: 80px;
-    background-color: #ccc; /* Fondo gris claro */
     border-radius: 50%; /* Imagen circular */
     margin-bottom: 10px;
 }
@@ -36,52 +35,4 @@
     list-style-type: none;
     padding: 0;
     width: 100%;
-}
-
-.sidebar ul li {
-    width: 100%;
-    text-align: center;
-    margin-bottom: 10px;
-}
-
-.sidebar ul li a,
-.sidebar ul li button {
-    display: block;
-    width: 90%; /* Ajuste del ancho de los botones */
-    padding: 10px;
-    color: #fff; /* Texto blanco */
-    background-color: #555; /* Fondo gris oscuro */
-    border: none; /* Sin bordes */
-    border-radius: 5px; /* Bordes redondeados */
-    text-decoration: none;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-/* Estilo para botón activo */
-.sidebar ul li a.active {
-    background-color: #007bff; /* Azul */
-}
-
-/* Hover para botones */
-.sidebar ul li a:hover,
-.sidebar ul li button:hover {
-    background-color: #777; /* Gris más claro al pasar el ratón */
-}
-
-/* Botón de cerrar sesión */
-.sidebar ul li button {
-    background-color: #ff4444; /* Rojo */
-}
-
-.sidebar ul li button:hover {
-    background-color: #cc0000; /* Rojo más oscuro */
-}
-
-/* Eliminación de bordes blancos */
-.sidebar ul li a,
-.sidebar ul li button {
-    box-shadow: none; /* Elimina sombras */
-    outline: none; /* Elimina bordes de enfoque */
 }
