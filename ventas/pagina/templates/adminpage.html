@@ -5,29 +5,149 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Administración De Stock</title>
-    <link rel="stylesheet" href="{% static '/css/adminstyle.css' %}">
     <link rel="stylesheet" href="{% static 'css/lateral.css' %}">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            background-color: #343a40;
+            width: 250px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+            border: none;
+        }
+
+        .perfil {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .perfil-imagen {
+            width: 100px;
+            height: 100px;
+            background-color: #ccc;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+        }
+
+        .perfil p {
+            margin: 0;
+            font-size: 1.1em;
+        }
+
+        .sidebar ul {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            width: 100%;
+        }
+
+        .sidebar ul li {
+            margin: 10px 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .btn {
+            width: 100%; /* Asegura que todos los botones tengan el mismo tamaño */
+        }
+
+        .btn-primary {
+            background-color: #007bff; /* Color de fondo azul */
+            border-color: #007bff; /* Color del borde azul */
+        }
+
+        .btn-primary:hover,
+        .btn-primary.focus,
+        .btn-primary.focus-visible {
+            background-color: #0056b3; /* Azul oscuro para el hover */
+            border-color: #004085; /* Borde azul oscuro */
+        }
+
+        .main-content {
+            margin-left: 270px;
+            padding: 20px;
+        }
+
+        .main-content h1 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .section h2 {
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        table {
+            width: 80%; /* Ajusta el ancho de la tabla */
+            margin: 0 auto; /* Centra la tabla */
+            border-collapse: collapse;
+            font-size: 0.9em;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 5px;
+            text-align: center;
+            vertical-align: middle;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        th {
+            background-color: #004085; /* Azul oscuro */
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        /* Eliminamos el hover */
+        tr:hover {
+            background-color: inherit;
+        }
+
+        /* Ajuste de ancho de columnas */
+        th:nth-child(1), td:nth-child(1) { width: 5%; } /* ID */
+        th:nth-child(2), td:nth-child(2) { width: 20%; } /* Nombre */
+        th:nth-child(3), td:nth-child(3) { width: 20%; } /* Fecha de vencimiento / Marca */
+        th:nth-child(4), td:nth-child(4) { width: 15%; } /* Stock */
+        th:nth-child(5), td:nth-child(5) { width: 15%; } /* Categoría */
+    </style>
 </head>
 <body>
+    <!-- Menú lateral de navegación -->
     <div class="sidebar">
         <div class="perfil">
             <div class="perfil-imagen"></div>
             <p>
                 {% if user.is_authenticated %}
-                    {{ user.username }}  <!-- Muestra el nombre de usuario logueado -->
+                    <strong>{{ user.username }}</strong>
                 {% else %}
-                    Invitado  <!-- En caso de que el usuario no esté logueado -->
+                    Invitado
                 {% endif %}
             </p>
         </div>
         <ul>
-            
-            <li><a href="{% url 'vendedor' %}" class="active">Registro Inventario</a></li>
-            <li><a href="{% url 'verPerfil' %}" class="btn btn-primary w-100">Ver Perfil</a></li>
+            <li><a href="{% url 'adminpage' %}" class="btn btn-primary btn-block">Página de Inicio</a></li>
+            <li><a href="{% url 'vendedor' %}" class="btn btn-primary btn-block active">Registro Inventario</a></li>
+            <li><a href="{% url 'verPerfil' %}" class="btn btn-primary btn-block">Ver Perfil</a></li>
             <li>
                 <form action="{% url 'logout' %}" method="post">
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-danger w-100">Cerrar Sesión</button>
+                    <button type="submit" class="btn btn-primary btn-block">Cerrar Sesión</button>
                 </form>
             </li>
         </ul>
