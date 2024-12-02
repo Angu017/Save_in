@@ -11,6 +11,28 @@
 <body>
     <div class="sidebar">
         <!-- Sidebar content -->
+        <div class="perfil">
+            <div class="perfil-imagen"></div>
+            <p>
+                {% if user.is_authenticated %}
+                    <strong>{{ user.username }}</strong>
+                {% else %}
+                    Invitado
+                {% endif %}
+            </p>
+        </div>
+        <ul>
+            <li><a href="{% url 'adminusuarios' %}" class="btn btn-primary w-100">Administracion Usuarios</a></li>
+            <li><a href="{% url 'perfilad' %}" class="btn btn-primary btn-block">Ver Perfil</a></li>
+            <li>
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary btn-block">Cerrar Sesión</button>
+                </form>
+            </li>
+        </ul>
+
+
     </div>
 
     <div class="main-content">

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Perfil</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/producto.css' %}">
+    <link rel="stylesheet" href="{% static 'css/lateral.css' %}">
+</head>
+<body>
+    <header>
+        <!-- Agrega aquí el menú de navegación si es necesario -->
+    </header>
+
+    <div class="sidebar">
+        <div class="perfil">
+            <div class="perfil-imagen"></div>
+            <p>
+                {% if user.is_authenticated %}
+                    {{ user.username }} <!-- Nombre de usuario logueado -->
+                {% else %}
+                    Invitado <!-- Usuario no autenticado -->
+                {% endif %}
+            </p>
+        </div>
+        <ul>
+            <li><a href="{% url 'adminusuarios' %}">Administracion Usuarios</a></li>
+            <li><a href="{% url 'perfilad' %}" class="btn btn-primary w-100">Ver Perfil</a></li>
+            <li>
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger w-100">Cerrar Sesión</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <div class="form-card">
+            <h1>Editar Perfil</h1>
+
+            <!-- Mostrar mensajes de éxito o error -->
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li class="message {{ message.tags }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+            <!-- Formulario para editar perfil -->
+            <form method="POST" id="profileFormAd">
+                {% csrf_token %}
+
+                <!-- Nombres -->
+                <div class="form-group">
+                    <label for="id_first_name">Nombres</label>
+                    <input type="text" id="id_first_name" name="first_name" value="{{ profile_data.first_name }}" required>
+                </div>
+
+                <!-- Apellidos -->
+                <div class="form-group">
+                    <label for="id_last_name">Apellidos</label>
+                    <input type="text" id="id_last_name" name="last_name" value="{{ profile_data.last_name }}" required>
+                </div>
+
+                <!-- Nombre de Usuario -->
+                <div class="form-group">
+                    <label for="id_username">Nombre de Usuario</label>
+                    <input type="text" id="id_username" name="username" value="{{ profile_data.username }}" required>
+                </div>
+
+                <!-- Correo Electrónico -->
+                <div class="form-group">
+                    <label for="id_email">Correo Electrónico</label>
+                    <input type="email" id="id_email" name="email" value="{{ profile_data.email }}" required>
+                </div>
+
+                <!-- Teléfono -->
+                <div class="form-group">
+                    <label for="id_phone">Teléfono</label>
+                    <input type="text" id="id_phone" name="phone" value="{{ profile_data.phone }}" required>
+                </div>
+
+                <!-- Dirección -->
+                <div class="form-group">
+                    <label for="id_address">Dirección</label>
+                    <textarea id="id_address" name="address" required>{{ profile_data.address }}</textarea>
+                </div>
+
+                <button type="submit" class="btn-submit">Guardar Cambios</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

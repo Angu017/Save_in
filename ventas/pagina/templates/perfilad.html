@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil Administrador</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/producto.css' %}">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Tu CSS aquí */
+    </style>
+</head>
+<body>
+    <header>
+        <!-- Aquí puedes agregar un menú de navegación o barra de navegación -->
+    </header>
+
+    <!-- Menú Lateral -->
+    <div class="sidebar">
+        <div class="perfil">
+            <div class="perfil-imagen"></div>
+            <p>
+                {% if user.is_authenticated %}
+                    {{ user.username }}  <!-- Muestra el nombre de usuario logueado -->
+                {% else %}
+                    Invitado  <!-- En caso de que el usuario no esté logueado -->
+                {% endif %}
+            </p>
+        </div>
+        <ul>
+            
+            <li><a href="{% url 'adminusuarios' %}" class="btn btn-primary w-100">Administracion Usuarios</a></li>
+            <li><a href="{% url 'perfilad' %}" class="btn btn-primary w-100">Ver Perfil</a></li>
+            <li>
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary w-100">Cerrar Sesión</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Contenido Principal -->
+    <div class="main-content">
+        <div class="form-card">
+            <h1>Perfil de Administrador</h1>
+
+            <div class="card">
+                <div class="card-body">
+                    <p><strong>Nombres:</strong> {{ first_name }}</p>
+                    <p><strong>Apellidos:</strong> {{ last_name }}</p>
+                    <p><strong>Rol:</strong> {{ role }}</p>
+                    <p><strong>Nombre de usuario:</strong> {{ username }}</p>
+                    <p><strong>Teléfono:</strong> {{ phone }}</p>
+                    <p><strong>Correo electrónico:</strong> {{ email }}</p>
+                    <p><strong>Dirección:</strong> {{ address }}</p>
+
+                    <!-- Botón de editar -->
+                    <a href="{% url 'editarad' %}" class="btn btn-primary w-100">Editar Perfil</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

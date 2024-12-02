@@ -94,6 +94,59 @@ def modificarperfil(request):
 ##########################################################################################################################################################
 
 
+############################################################################################################################################################
+#modificarperfil admin
+#############################################################################################################################################################
+@login_required
+def editarad(request):
+    if request.method == 'POST':
+        # Manejo de datos enviados por el formulario
+        user = request.user
+        profile = user.profile  # Asegúrate de que `profile` sea el `related_name` definido en el modelo `UserProfile`
+
+        try:
+            # Actualizamos los campos del usuario y del perfil con los datos recibidos
+            user.username = request.POST.get('username', user.username)
+            user.email = request.POST.get('email', user.email)
+            profile.role = request.POST.get('role', profile.role)
+            profile.phone = request.POST.get('phone', profile.phone)
+            profile.address = request.POST.get('address', profile.address)
+            profile.first_name = request.POST.get('first_name', profile.first_name)
+            profile.last_name = request.POST.get('last_name', profile.last_name)
+
+            # Guardamos los cambios en la base de datos
+            user.save()
+            profile.save()
+
+            # Agregamos un mensaje de éxito
+            messages.success(request, "Perfil de administrador actualizado correctamente.")
+            # Redirigimos a la vista del perfil del administrador
+            return HttpResponseRedirect(reverse('verPerfilAdmin'))  # Asegúrate de tener una URL para esta vista
+
+        except Exception as e:
+            # En caso de error, mostramos un mensaje
+            messages.error(request, f"Error al actualizar el perfil: {str(e)}")
+            return HttpResponseRedirect(reverse('editarad'))  # Cambiado para que vuelva a esta vista
+
+    # Si el método es GET, cargamos los datos actuales del perfil
+    profile_data = {
+        'username': request.user.username,
+        'email': request.user.email,
+        'role': request.user.profile.role,
+        'phone': request.user.profile.phone,
+        'address': request.user.profile.address,
+        'first_name': request.user.profile.first_name,
+        'last_name': request.user.profile.last_name,
+    }
+
+    # Renderizamos la página de edición con los datos actuales
+    return render(request, "editarad.html", {"profile_data": profile_data})
+
+############################################################################################################################################################
+
+
+
+
 
 
 # Página principal
@@ -570,6 +623,32 @@ def verPerfil(request):
         'last_name': profile.last_name if profile else '',
     })
 ################################################################################################
+
+########################################################################################################
+# Ver Perfil Admin
+#########################################################################################################
+def perfilad(request):
+    try:
+        profile = request.user.profile  # Obtener el perfil del usuario
+    except UserProfile.DoesNotExist:
+        profile = None  # Si no tiene perfil, lo asignamos a None
+
+    return render(request, 'perfilad.html', {
+        'username': request.user.username,
+        'email': request.user.email,
+        'role': profile.role if profile else '',
+        'phone': profile.phone if profile else '',
+        'address': profile.address if profile else '',
+        'first_name': profile.first_name if profile else '',
+        'last_name': profile.last_name if profile else '',
+    })
+########################################################################################################
+
+
+
+
+
+
 
 
 ################################################################################################################################################################################################
