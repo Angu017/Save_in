@@ -1,0 +1,8 @@
+client id: Adad0EgVu3sVdjGIQ8AonmtCuAPrGJyw7dV03UJQKLnDgFxgHmg42q-z_ba-rUaotoU50DgB4G-SWZbW
+
+secret key: EHUMuQx5DaTWdgSwMGiWMhEk8CqW-x_TfxoLN43EnTZWazZ2IedjmbtAD_ptHtZpWazHhjBsRE-JaXTd
+
+
+correo vendedor: sb-4czlv34281613@business.example.com
+
+contra: 3o=Rv[.M

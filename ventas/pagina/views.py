@@ -303,6 +303,7 @@ def logout_view(request):
 ################################################################################################################################################
 # Crear nuevo producto
 ################################################################################################################################################
+@login_required
 def crearproducto(request):
     if request.method == 'POST':
         form = ProductoForm(request.POST)
@@ -410,58 +411,8 @@ def productos_mayor_stock(request):
 ########################################################################################################################
 #PayPal
 ########################################################################################################################
-# Configuración de PayPal
-paypalrestsdk.configure({
-    "mode": "sandbox",  # o "live" para producción
-    "client_id": settings.PAYPAL_CLIENT_ID,
-    "client_secret": settings.PAYPAL_CLIENT_SECRET
-})
-
-# Función para crear la orden de PayPal
-def create_paypal_order():
-    order = paypalrestsdk.Payment({
-        "intent": "sale",
-        "payer": {
-            "payment_method": "paypal"
-        },
-        "transactions": [{
-            "amount": {
-                "total": "15000.00",  # Monto en pesos chilenos
-                "currency": "CLP"  # Pesos chilenos
-            },
-            "description": "Compra de producto"
-        }],
-        "redirect_urls": {
-            "return_url": "http://127.0.0.1:8000/signin/",
-            "cancel_url": "http://127.0.0.1:8000"
-        }
-    })
-
-    if order.create():
-        return order
-    else:
-        return None
-
-# Vista para procesar el pago
-def process_payment(request):
-    if request.method == "POST":
-        order = create_paypal_order()
-        if order:
-            return JsonResponse({'order_id': order.id})
-        else:
-            return JsonResponse({'error': 'No se pudo crear la orden'}, status=400)
+def paypal(request):
     return render(request, 'paypal.html')
-
-# Vista de éxito del pago
-def payment_success(request):
-    if request.user.is_authenticated:
-        return redirect('adminpage')
-    else:
-        return redirect('signin')
-
-# Vista para la página de PayPal
-def paypal_view(request):
-    return render(request, 'paypal.html')  # Renderiza el formulario de PayPal
 #############################################################################################################################
 
 
