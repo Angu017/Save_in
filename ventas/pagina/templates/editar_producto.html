@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -94,7 +95,8 @@
 
         /* Formulario */
         .form-container {
-            margin-left: 260px; /* Para dejar espacio para el menú lateral */
+            margin-left: 260px;
+            /* Para dejar espacio para el menú lateral */
             padding: 40px;
             display: flex;
             justify-content: center;
@@ -118,7 +120,8 @@
         }
 
         .btn {
-            width: 48%; /* Para que los botones estén alineados correctamente */
+            width: 48%;
+            /* Para que los botones estén alineados correctamente */
         }
 
         .d-flex button,
@@ -126,7 +129,112 @@
             text-align: center;
         }
     </style>
+    <style>
+        /* Eliminar los puntos y el subrayado de los enlaces */
+        .sidebar ul li a,
+        .sidebar ul li form button {
+            list-style: none;
+            text-decoration: none;
+        }
+
+        /* Botones */
+        .btn-primary {
+            background-color: #007bff;
+            /* Azul */
+            border: none;
+            /* Eliminar borde */
+            box-shadow: none;
+            /* Eliminar sombra */
+        }
+
+        .btn-primary:hover,
+        .btn-primary:focus {
+            background-color: #0056b3;
+            /* Azul más oscuro al pasar el cursor o al recibir foco */
+            border: none;
+            /* Asegura que no tenga borde */
+            box-shadow: none;
+            /* Eliminar sombra al hacer hover o foco */
+        }
+
+        .btn-danger {
+            background-color: #007bff;
+            /* Azul igual que el botón primario */
+            border: none;
+            /* Eliminar borde */
+            box-shadow: none;
+            /* Eliminar sombra */
+            font-weight: bold;
+            /* Hacer el texto más llamativo */
+        }
+
+        .btn-danger:hover,
+        .btn-danger:focus {
+            background-color: #0056b3;
+            /* Azul más oscuro al pasar el cursor */
+            border: none;
+            /* Asegura que no tenga borde */
+            box-shadow: none;
+            /* Eliminar sombra al hacer hover o foco */
+        }
+
+        /* Estilizar la lista de botones en la barra lateral */
+        .sidebar ul {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            /* Eliminar puntos de la lista */
+        }
+
+        .sidebar ul li {
+            width: 100%;
+            margin-bottom: 10px;
+            /* Espacio entre los botones */
+        }
+
+        .sidebar ul li a,
+        .sidebar ul li button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            text-align: center;
+            border-radius: 5px;
+            color: white;
+            box-sizing: border-box;
+            /* Asegura que el padding no afecte el tamaño total */
+        }
+
+        .sidebar ul li a {
+            background-color: #007bff;
+            /* Azul */
+        }
+
+        .sidebar ul li a:hover {
+            background-color: #0056b3;
+            /* Azul más oscuro al pasar el cursor */
+        }
+
+        .sidebar ul li form button {
+            background-color: #007bff;
+            /* Azul igual que el botón primario */
+        }
+
+        .sidebar ul li form button:hover {
+            background-color: #0056b3;
+            /* Azul más oscuro al pasar el cursor */
+        }
+
+        /* Estilizar el nombre de usuario */
+        .perfil p {
+            font-size: 1.5em;
+            /* Tamaño de fuente más grande */
+            font-weight: bold;
+            /* Negrita */
+            margin: 0;
+        }
+    </style>
 </head>
+
 <body>
     <!-- Menú lateral -->
     <div class="sidebar">
@@ -134,9 +242,9 @@
             <div class="perfil-imagen"></div>
             <p>
                 {% if user.is_authenticated %}
-                    {{ user.username }}  <!-- Muestra el nombre de usuario logueado -->
+                {{ user.username }} <!-- Muestra el nombre de usuario logueado -->
                 {% else %}
-                    Invitado  <!-- En caso de que el usuario no esté logueado -->
+                Invitado <!-- En caso de que el usuario no esté logueado -->
                 {% endif %}
             </p>
         </div>
@@ -173,4 +281,5 @@
     <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
