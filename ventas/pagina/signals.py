@@ -18,3 +18,6 @@ def save_user_profile(sender, instance, **kwargs):
     # Solo guardar el perfil si existe
     if hasattr(instance, 'profile'):
         instance.profile.save()
+
+
+        

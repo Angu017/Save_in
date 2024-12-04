@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% csrf_token %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marcas y Categorías</title>
+    <style>
+        table {
+            width: 50%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .pagination {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .pagination button {
+            margin: 0 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .delete-btn {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+
+
+
+    <h1 style="text-align: center;">Marcas y Categorías</h1>
+
+
+    <!-- Menú lateral de navegación -->
+    <div class="sidebar">
+        <div class="perfil">
+            <div class="perfil-imagen"></div>
+            <p>
+                {% if user.is_authenticated %}
+                    {{ user.username }}
+                {% else %}
+                    Invitado
+                {% endif %}
+            </p>
+        </div>
+        <ul>
+            <li><a href="{% url 'adminpage' %}">Página de Inicio</a></li>
+            <li><a href="{% url 'vendedor' %}" class="active">Registro Inventario</a></li>
+            <li><a href="{% url 'verPerfil' %}" class="btn-primary">Ver Perfil</a></li>
+            <li>
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn">Cerrar Sesión</button>
+                </form>
+            </li>
+        </ul>
+
+        
+
+    </div>
+    
+
+    <h1 style="text-align: center;">Crear Marcas y Categorías</h1>
+
+    <!-- Formulario para crear Marca -->
+    <div class="form-container">
+        <h2>Crear Marca</h2>
+        <form method="POST" action="{% url 'crear_marca' %}">
+            {% csrf_token %}
+            <input type="text" name="nombre" placeholder="Nombre de la Marca" required>
+            <button type="submit">Crear Marca</button>
+        </form>
+    </div>
+
+    <!-- Formulario para crear Categoría -->
+    <div class="form-container">
+        <h2>Crear Categoría</h2>
+        <form method="POST" action="{% url 'crear_categoria' %}">
+            {% csrf_token %}
+            <input type="text" name="nombre" placeholder="Nombre de la Categoría" required>
+            <button type="submit">Crear Categoría</button>
+        </form>
+    </div>
+
+
+    <!-- Tabla de Marcas -->
+    <h2 style="text-align: center;">Marcas</h2>
+    <table id="tabla-marcas">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Se llenará dinámicamente -->
+        </tbody>
+    </table>
+    <div class="pagination" id="paginacion-marcas"></div>
+
+    <!-- Tabla de Categorías -->
+    <h2 style="text-align: center;">Categorías</h2>
+    <table id="tabla-categorias">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Se llenará dinámicamente -->
+        </tbody>
+    </table>
+    <div class="pagination" id="paginacion-categorias"></div>
+
+    <!-- Script para manejar las tablas -->
+    <script>
+        // Los datos de marcas y categorías son pasados como JSON desde Django
+        const marcas = JSON.parse('{{ marcas|escapejs }}');
+        const categorias = JSON.parse('{{ categorias|escapejs }}');
+        const itemsPorPagina = 6;
+    
+        function renderTabla(datos, idTabla, idPaginacion, tipo) {
+            const tabla = document.querySelector(`#${idTabla} tbody`);
+            const paginacion = document.getElementById(idPaginacion);
+            let paginaActual = 1;
+    
+            function mostrarPagina(pagina) {
+                const inicio = (pagina - 1) * itemsPorPagina;
+                const fin = inicio + itemsPorPagina;
+                const datosPagina = datos.slice(inicio, fin);
+    
+                // Limpia la tabla y la llena con los datos actuales
+                tabla.innerHTML = "";
+                datosPagina.forEach(item => {
+                    const fila = document.createElement("tr");
+                    fila.innerHTML = `
+                        <td>${item.id}</td>
+                        <td>${item.nombre}</td>
+                        <td>
+                            <button class="delete-btn" data-id="${item.id}" data-tipo="${tipo}">Eliminar</button>
+                        </td>`;
+                    tabla.appendChild(fila);
+                });
+    
+                // Actualiza la paginación
+                actualizarPaginacion(pagina);
+            }
+    
+            function actualizarPaginacion(pagina) {
+                paginacion.innerHTML = "";
+                const totalPaginas = Math.ceil(datos.length / itemsPorPagina);
+    
+                for (let i = 1; i <= totalPaginas; i++) {
+                    const boton = document.createElement("button");
+                    boton.textContent = i;
+                    boton.disabled = i === pagina;
+                    boton.addEventListener("click", () => {
+                        paginaActual = i;
+                        mostrarPagina(paginaActual);
+                    });
+                    paginacion.appendChild(boton);
+                }
+            }
+    
+            function eliminarItem(id, tipo) {
+                const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;  // Obtener CSRF Token
+    
+                fetch('/eliminar-item/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrfToken
+                    },
+                    body: JSON.stringify({ id: id, tipo: tipo })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        // Filtra el elemento eliminado
+                        const index = datos.findIndex(item => item.id === id);
+                        if (index !== -1) {
+                            datos.splice(index, 1); // Elimina el elemento del array
+                            mostrarPagina(paginaActual); // Refresca la tabla
+                        }
+                    } else {
+                        alert('Error al eliminar');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Hubo un error al eliminar el elemento.');
+                });
+            }
+    
+            // Evento para manejar el botón de eliminación
+            tabla.addEventListener("click", (e) => {
+                if (e.target.classList.contains("delete-btn")) {
+                    const id = parseInt(e.target.dataset.id, 10);
+                    const tipo = e.target.dataset.tipo;
+    
+                    // Confirmación de eliminación
+                    if (confirm(`¿Seguro que deseas eliminar esta ${tipo}?`)) {
+                        eliminarItem(id, tipo);
+                    }
+                }
+            });
+    
+            // Muestra la primera página al cargar
+            mostrarPagina(paginaActual);
+        }
+    
+        // Renderiza ambas tablas
+        renderTabla(marcas, "tabla-marcas", "paginacion-marcas", "marca");
+        renderTabla(categorias, "tabla-categorias", "paginacion-categorias", "categoría");
+    </script>
+    
+</body>
+</html>

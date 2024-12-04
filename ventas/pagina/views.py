@@ -25,8 +25,60 @@ from django.urls import reverse
 
 
 ############################################################################################################################
+def catmarca(request):
+    # Obtener todas las marcas y categorías
+    marcas = list(Marca.objects.all().values('id', 'nombre'))
+    categorias = list(Categoria.objects.all().values('id', 'nombre'))
+
+    # Pasar las marcas y categorías al template en formato JSON
+    return render(request, 'catmarca.html', {
+        'marcas': json.dumps(marcas),
+        'categorias': json.dumps(categorias),
+    })
+
+@csrf_exempt
+def eliminar_item(request):
+    if request.method == "POST":
+        try:
+            # Obtener los datos del POST (id y tipo)
+            data = json.loads(request.body)
+            tipo = data.get('tipo')
+            item_id = data.get('id')
+
+            if tipo == "marca":
+                Marca.objects.filter(id=item_id).delete()
+            elif tipo == "categoría":
+                Categoria.objects.filter(id=item_id).delete()
+
+            return JsonResponse({"status": "success"})
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)}, status=400)
+
+    return JsonResponse({"status": "error", "message": "Invalid request"}, status=400)
 
 
+def gestion_marcas_categorias(request):
+    marcas = Marca.objects.all()
+    categorias = Categoria.objects.all()
+    
+    return render(request, 'catmarca.html', {
+        'marcas': marcas,
+        'categorias': categorias,
+    })
+
+# Función para crear una marca
+def crear_marca(request):
+    if request.method == "POST":
+        nombre = request.POST.get("nombre")
+        Marca.objects.create(nombre=nombre)
+        return redirect('catmarca')  # Redirige a la página de gestión
+
+# Función para crear una categoría
+def crear_categoria(request):
+    if request.method == "POST":
+        nombre = request.POST.get("nombre")
+        Categoria.objects.create(nombre=nombre)
+        return redirect('catmarca')  # Redirige a la página de gestión
 
 ############################################################################################################################
 
@@ -360,7 +412,6 @@ def api_productos(request):
 ##########################################################################################################################
 #Eliminar Productos
 ######################################################################################################################
-@csrf_exempt
 def eliminar_producto(request, producto_id):
     if request.method == 'DELETE':
         producto = get_object_or_404(Producto, id=producto_id)

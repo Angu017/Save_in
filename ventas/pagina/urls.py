@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from .views import index, about, client, log_in, register, adminpage, adminusuarios, inventarioadmin, vendedor, signup, signin, logout_view, crearproducto, editar_producto, historial_modificaciones, api_productos, eliminar_producto, productos_mayor_stock, modificarperfil, api_productos_fecha_vencimiento, api_productos_mayor_stock, cargar_excel, verPerfil, obtener_usuarios, eliminar_usuario, cambiar_rol, perfilad, editarad, paypal
+from .views import index, about, client, log_in, register, adminpage, adminusuarios, inventarioadmin, vendedor, signup, signin, logout_view, crearproducto, editar_producto, historial_modificaciones, api_productos, eliminar_producto, productos_mayor_stock, modificarperfil, api_productos_fecha_vencimiento, api_productos_mayor_stock, cargar_excel, verPerfil, obtener_usuarios, eliminar_usuario, cambiar_rol, perfilad, editarad, paypal, catmarca, eliminar_item, crear_categoria, crear_marca, gestion_marcas_categorias
 
 
 urlpatterns = [
@@ -22,8 +22,8 @@ urlpatterns = [
     path('historialmodificaciones/<int:producto_id>/', historial_modificaciones, name='historial_modificaciones'),
     path('eliminar_producto/<int:producto_id>/', eliminar_producto, name='eliminar_producto'),
     path('api/productos_mayor_stock/', productos_mayor_stock, name='productos_mayor_stock'),
-    
-   
+    path('catmarca/', catmarca, name='catmarca'),
+    path('eliminar-item/', eliminar_item, name='eliminar-item'),
     path('paypal/', paypal, name='paypal'),
     path('modificarperfil/', modificarperfil, name='modificarperfil'),
     path('api/productos/', api_productos, name='api_productos'),
@@ -36,6 +36,8 @@ urlpatterns = [
     path('api/usuarios/<str:username>/cambiar_rol/', cambiar_rol, name='cambiar_rol'),
     path('perfilad', perfilad, name='perfilad'),
     path('editarad', editarad, name='editarad'),
-
-
+    path('crear-marca/', crear_marca, name='crear_marca'),
+    path('crear-categoria/', crear_categoria, name='crear_categoria'),
+    path('gestion-marcas-categorias/', gestion_marcas_categorias, name='gestion_marcas_categorias'),
+    path('eliminar-item/', eliminar_item, name='eliminar_item'),
 ]

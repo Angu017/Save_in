@@ -218,6 +218,10 @@
             <a href="{% url 'crearproducto' %}" class="btn-create">
                 <i class="fas fa-plus"></i> Crear producto
             </a>
+            
+            <a href="{% url 'catmarca' %}" class="btn-create">
+                <i class="fas fa-plus"></i> Categorias y Marcas
+            </a>
         </div>
 
         <!-- Barra de filtros -->
@@ -282,8 +286,9 @@
                                 <a href="{% url 'editar_producto' producto.id %}" class="btn-edit">
                                     <i class="fas fa-pencil-alt"></i> Editar
                                 </a>
-                                <a href="#" class="btn-delete" data-id="{{ producto.id }}">
+                                <a > <button class="btn-delete" data-url="{% url 'eliminar_producto' producto.id %}">
                                     <i class="fas fa-trash-alt"></i> Eliminar
+                                </button>
                                 </a>
                             </td>
                         </tr>
@@ -309,5 +314,46 @@
             {% endif %}
         </div>
     </div>
+
+    <!-- JavaScript para eliminar productos -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const deleteButtons = document.querySelectorAll(".btn-delete");
+
+            deleteButtons.forEach(button => {
+                button.addEventListener("click", event => {
+                    event.preventDefault();
+                    const url = button.getAttribute("data-url");
+
+                    if (confirm("¿Estás seguro de que deseas eliminar este producto?")) {
+                        fetch(url, {
+                            method: "DELETE",
+                            headers: {
+                                "X-CSRFToken": "{{ csrf_token }}",
+                                "Content-Type": "application/json"
+                            }
+                        })
+                        .then(response => {
+                            if (response.ok) {
+                                return response.json();
+                            }
+                            throw new Error("Error al eliminar el producto.");
+                        })
+                        .then(data => {
+                            alert(data.message);
+                            location.reload();
+                        })
+                        .catch(error => {
+                            console.error("Error:", error);
+                            alert("No se pudo eliminar el producto.");
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+
+
+
 </body>
 </html>

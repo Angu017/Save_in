@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Marcas y Categorías</title>
+    <style>
+        table {
+            width: 50%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .pagination {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .pagination button {
+            margin: 0 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .delete-btn {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .form-container {
+            text-align: center;
+            margin: 20px;
+        }
+        input {
+            padding: 10px;
+            margin: 5px;
+            width: 200px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1 style="text-align: center;">Crear Marcas y Categorías</h1>
+
+    <!-- Formulario para crear Marca -->
+    <div class="form-container">
+        <h2>Crear Marca</h2>
+        <form method="POST" action="{% url 'crear_marca' %}">
+            {% csrf_token %}
+            <input type="text" name="nombre" placeholder="Nombre de la Marca" required>
+            <button type="submit">Crear Marca</button>
+        </form>
+    </div>
+
+    <!-- Formulario para crear Categoría -->
+    <div class="form-container">
+        <h2>Crear Categoría</h2>
+        <form method="POST" action="{% url 'crear_categoria' %}">
+            {% csrf_token %}
+            <input type="text" name="nombre" placeholder="Nombre de la Categoría" required>
+            <button type="submit">Crear Categoría</button>
+        </form>
+    </div>
+
+    <!-- Tabla de Marcas -->
+    <h2 style="text-align: center;">Marcas</h2>
+    <table id="tabla-marcas">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for marca in marcas %}
+            <tr>
+                <td>{{ marca.id }}</td>
+                <td>{{ marca.nombre }}</td>
+                <td>
+                    <form method="POST" action="{% url 'eliminar_item' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="tipo" value="marca">
+                        <input type="hidden" name="id" value="{{ marca.id }}">
+                        <button type="submit" class="delete-btn">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Tabla de Categorías -->
+    <h2 style="text-align: center;">Categorías</h2>
+    <table id="tabla-categorias">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for categoria in categorias %}
+            <tr>
+                <td>{{ categoria.id }}</td>
+                <td>{{ categoria.nombre }}</td>
+                <td>
+                    <form method="POST" action="{% url 'eliminar_item' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="tipo" value="categoria">
+                        <input type="hidden" name="id" value="{{ categoria.id }}">
+                        <button type="submit" class="delete-btn">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>
