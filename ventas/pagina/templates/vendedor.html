@@ -252,7 +252,7 @@
         <div class="upload-form">
             <form method="POST" enctype="multipart/form-data" action="{% url 'cargar_excel' %}">
                 {% csrf_token %}
-                <input type="file" name="excel_file" id="excel_file">
+                <input type="file" name="archivo_excel" id="excel_file">
                 <button type="submit">Subir Excel</button>
             </form>
         </div>
