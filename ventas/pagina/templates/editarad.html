@@ -10,8 +10,13 @@
     <style>
         /* General Body Styling */
         body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f1f1f1;
-            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: row;
+            min-height: 100vh;
         }
 
         /* Menú Lateral */
@@ -27,6 +32,7 @@
             flex-direction: column;
             align-items: center;
             padding: 20px 0;
+            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
         }
 
         .sidebar .perfil {
@@ -40,11 +46,13 @@
             background-color: #6c757d;
             border-radius: 50%;
             margin: 0 auto;
+            margin-bottom: 10px;
         }
 
         .sidebar p {
             margin-top: 10px;
             font-size: 1.2rem;
+            font-weight: bold;
             color: #fff;
         }
 
@@ -52,190 +60,155 @@
             list-style: none;
             padding: 0;
             width: 100%;
+            text-align: center; /* Centra los enlaces y botones */
         }
 
         .sidebar ul li {
             margin: 15px 0;
             width: 100%;
-            text-align: center;
+        }
+
+        .sidebar ul li a,
+        .sidebar ul li button {
+            text-decoration: none;
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 4px; /* Botones con bordes rectos */
+            display: block;
+            width: 100%;
+            transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+            font-size: 1.1rem;
+            box-sizing: border-box;
         }
 
         .sidebar ul li a {
-            text-decoration: none;
-            color: #fff;
-            padding: 10px 20px;
-            display: block;
-            border-radius: 5px;
-            transition: background-color 0.3s;
+            background-color: #007bff;
         }
 
-        .sidebar ul li a.active,
         .sidebar ul li a:hover {
-            background-color: #495057;
+            background-color: #0056b3;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
         }
 
-        .sidebar form button {
-            background: none;
+        .sidebar ul li form button {
+            background-color: #007bff;
             border: none;
-            color: #fff;
-            padding: 10px 20px;
-            cursor: pointer;
-            display: block;
-            text-align: center;
-            width: 100%;
-            border-radius: 5px;
+            font-weight: bold;
         }
 
-        .sidebar form button:hover {
-            background-color: #495057;
+        .sidebar ul li form button:hover {
+            background-color: #0056b3;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
         }
 
-        /* Formulario */
-        .form-container {
-            margin-left: 260px;
-            /* Para dejar espacio para el menú lateral */
-            padding: 40px;
+        /* Contenido Principal */
+        .main-content {
+            margin-left: 250px;
+            flex-grow: 1;
             display: flex;
             justify-content: center;
             align-items: center;
+            padding: 20px;
+            background: linear-gradient(to bottom right, #ffd700, #007bff);
+            border-radius: 10px;
             min-height: 100vh;
+            box-sizing: border-box;
+            transition: margin-left 0.3s;
         }
 
-        .form-container form {
-            background-color: #f9f9f9;
-            padding: 30px;
+        .form-card {
+            width: 100%;
+            max-width: 600px;
+            background-color: #ffffff;
+            padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            width: 100%;
-            max-width: 500px;
+            margin: 0 auto;
         }
 
-        .form-container h3 {
+        .form-card h1 {
             text-align: center;
             color: #333;
             margin-bottom: 20px;
         }
 
-        .btn {
-            width: 48%;
-            /* Para que los botones estén alineados correctamente */
+        .form-group {
+            margin-bottom: 15px;
         }
 
-        .d-flex button,
-        .d-flex a {
-            text-align: center;
-        }
-    </style>
-    <style>
-        /* Eliminar los puntos y el subrayado de los enlaces */
-        .sidebar ul li a,
-        .sidebar ul li form button {
-            list-style: none;
-            text-decoration: none;
-        }
-
-        /* Botones */
-        .btn-primary {
-            background-color: #007bff;
-            /* Azul */
-            border: none;
-            /* Eliminar borde */
-            box-shadow: none;
-            /* Eliminar sombra */
-        }
-
-        .btn-primary:hover,
-        .btn-primary:focus {
-            background-color: #0056b3;
-            /* Azul más oscuro al pasar el cursor o al recibir foco */
-            border: none;
-            /* Asegura que no tenga borde */
-            box-shadow: none;
-            /* Eliminar sombra al hacer hover o foco */
-        }
-
-        .btn-danger {
-            background-color: #007bff;
-            /* Azul igual que el botón primario */
-            border: none;
-            /* Eliminar borde */
-            box-shadow: none;
-            /* Eliminar sombra */
-            font-weight: bold;
-            /* Hacer el texto más llamativo */
-        }
-
-        .btn-danger:hover,
-        .btn-danger:focus {
-            background-color: #0056b3;
-            /* Azul más oscuro al pasar el cursor */
-            border: none;
-            /* Asegura que no tenga borde */
-            box-shadow: none;
-            /* Eliminar sombra al hacer hover o foco */
-        }
-
-        /* Estilizar la lista de botones en la barra lateral */
-        .sidebar ul {
-            padding: 0;
-            margin: 0;
-            list-style: none;
-            /* Eliminar puntos de la lista */
-        }
-
-        .sidebar ul li {
-            width: 100%;
-            margin-bottom: 10px;
-            /* Espacio entre los botones */
-        }
-
-        .sidebar ul li a,
-        .sidebar ul li button {
+        .form-group label {
             display: block;
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
             width: 100%;
             padding: 10px;
-            text-align: center;
-            border-radius: 5px;
-            color: white;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: 1px solid #ccc;
             box-sizing: border-box;
-            /* Asegura que el padding no afecte el tamaño total */
+            margin-top: 5px;
         }
 
-        .sidebar ul li a {
+        .form-group textarea {
+            resize: vertical;
+        }
+
+        .btn-submit {
             background-color: #007bff;
-            /* Azul */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            width: 100%;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+            display: block;
+            margin: 0 auto; /* Centra el botón */
         }
 
-        .sidebar ul li a:hover {
+        .btn-submit:hover {
             background-color: #0056b3;
-            /* Azul más oscuro al pasar el cursor */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
         }
 
-        .sidebar ul li form button {
-            background-color: #007bff;
-            /* Azul igual que el botón primario */
+        .btn-submit:active {
+            background-color: #003366;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transform: translateY(1px);
         }
 
-        .sidebar ul li form button:hover {
-            background-color: #0056b3;
-            /* Azul más oscuro al pasar el cursor */
+        .messages {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 20px;
         }
 
-        /* Estilizar el nombre de usuario */
-        .perfil p {
-            font-size: 1.5em;
-            /* Tamaño de fuente más grande */
-            font-weight: bold;
-            /* Negrita */
-            margin: 0;
+        .message {
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .message.success {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .message.error {
+            background-color: #dc3545;
+            color: white;
         }
     </style>
 </head>
 <body>
-    <header>
-        <!-- Agrega aquí el menú de navegación si es necesario -->
-    </header>
-
     <div class="sidebar">
         <div class="perfil">
             <div class="perfil-imagen"></div>
@@ -248,12 +221,12 @@
             </p>
         </div>
         <ul>
-            <li><a href="{% url 'adminusuarios' %}">Administracion Usuarios</a></li>
-            <li><a href="{% url 'perfilad' %}" class="btn btn-primary w-100">Ver Perfil</a></li>
+            <li><a href="{% url 'adminusuarios' %}">Administración Usuarios</a></li>
+            <li><a href="{% url 'perfilad' %}">Ver Perfil</a></li>
             <li>
                 <form action="{% url 'logout' %}" method="post">
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-danger w-100">Cerrar Sesión</button>
+                    <button type="submit">Cerrar Sesión</button>
                 </form>
             </li>
         </ul>
