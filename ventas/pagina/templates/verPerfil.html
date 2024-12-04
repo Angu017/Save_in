@@ -8,51 +8,61 @@
     <link rel="stylesheet" href="{% static 'css/producto.css' %}">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        /* Eliminar los puntos y el subrayado de los enlaces */
-        .sidebar ul li a,
-        .sidebar ul li form button {
-            list-style: none;
-            text-decoration: none;
+        /* Estilo general para la página */
+        body {
+            display: flex;
+            min-height: 100vh;
+            flex-direction: row;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom right, #ffd700, #007bff);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        /* Botones */
-        .btn-primary {
-            background-color: #007bff; /* Azul */
-            border: none; /* Eliminar borde */
-            box-shadow: none; /* Eliminar sombra */
+        /* Estilo para la barra lateral */
+        .sidebar {
+            width: 250px;
+            background-color: #343a40;
+            color: white;
+            padding: 20px;
+            overflow-y: auto;
+            height: 100vh;
         }
 
-        .btn-primary:hover,
-        .btn-primary:focus {
-            background-color: #0056b3; /* Azul más oscuro al pasar el cursor o al recibir foco */
-            border: none; /* Asegura que no tenga borde */
-            box-shadow: none; /* Eliminar sombra al hacer hover o foco */
+        /* Estilo para el contenido principal */
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
         }
 
-        .btn-danger {
-            background-color: #007bff; /* Azul igual que el botón primario */
-            border: none; /* Eliminar borde */
-            box-shadow: none; /* Eliminar sombra */
-            font-weight: bold; /* Hacer el texto más llamativo */
+        .form-card {
+            width: 100%;
+            max-width: 800px; /* Ajusta el tamaño del card */
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
-        .btn-danger:hover,
-        .btn-danger:focus {
-            background-color: #0056b3; /* Azul más oscuro al pasar el cursor */
-            border: none; /* Asegura que no tenga borde */
-            box-shadow: none; /* Eliminar sombra al hacer hover o foco */
+        .form-card h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
         }
 
         /* Estilizar la lista de botones en la barra lateral */
         .sidebar ul {
             padding: 0;
             margin: 0;
-            list-style: none; /* Eliminar puntos de la lista */
+            list-style: none;
         }
 
         .sidebar ul li {
             width: 100%;
-            margin-bottom: 10px; /* Espacio entre los botones */
+            margin-bottom: 10px;
         }
 
         .sidebar ul li a,
@@ -63,47 +73,33 @@
             text-align: center;
             border-radius: 5px;
             color: white;
-            box-sizing: border-box; /* Asegura que el padding no afecte el tamaño total */
+            box-sizing: border-box;
+            background-color: #007bff;
         }
 
-        .sidebar ul li a {
-            background-color: #007bff; /* Azul */
-        }
-
-        .sidebar ul li a:hover {
-            background-color: #0056b3; /* Azul más oscuro al pasar el cursor */
-        }
-
-        .sidebar ul li form button {
-            background-color: #007bff; /* Azul igual que el botón primario */
-        }
-
+        .sidebar ul li a:hover,
         .sidebar ul li form button:hover {
-            background-color: #0056b3; /* Azul más oscuro al pasar el cursor */
+            background-color: #0056b3;
         }
 
         /* Estilizar el nombre de usuario */
         .perfil p {
-            font-size: 1.5em; /* Tamaño de fuente más grande */
-            font-weight: bold; /* Negrita */
+            font-size: 1.5em;
+            font-weight: bold;
             margin: 0;
         }
     </style>
 </head>
 <body>
-    <header>
-        <!-- Aquí puedes agregar un menú de navegación o barra de navegación -->
-    </header>
-
     <!-- Menú Lateral -->
     <div class="sidebar">
         <div class="perfil">
             <div class="perfil-imagen"></div>
             <p>
                 {% if user.is_authenticated %}
-                    {{ user.username }}  <!-- Muestra el nombre de usuario logueado -->
+                    {{ user.username }}
                 {% else %}
-                    Invitado  <!-- En caso de que el usuario no esté logueado -->
+                    Invitado
                 {% endif %}
             </p>
         </div>
@@ -124,7 +120,6 @@
     <div class="main-content">
         <div class="form-card">
             <h1>Perfil de Usuario</h1>
-
             <div class="card">
                 <div class="card-body">
                     <p><strong>Nombres:</strong> {{ first_name }}</p>
@@ -134,8 +129,6 @@
                     <p><strong>Teléfono:</strong> {{ phone }}</p>
                     <p><strong>Correo electrónico:</strong> {{ email }}</p>
                     <p><strong>Dirección:</strong> {{ address }}</p>
-
-                    <!-- Botón de editar -->
                     <a href="{% url 'modificarperfil' %}" class="btn btn-primary w-100">Editar Perfil</a>
                 </div>
             </div>
