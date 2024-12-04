@@ -185,3 +185,74 @@ button i {
         font-size: 16px;
     }
 }
+
+/* Estilo de los botones de acción */
+.action-buttons a {
+    background-color:  #f2db18; /* Color amarillo */
+    color: #092352; /* Color de texto azul oscuro */
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+    font-weight: bold;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s ease;
+    margin: 10px;
+}
+
+.action-buttons a:hover,
+.action-buttons a:focus {
+    background-color:  #f2db18; /* Amarillo más oscuro */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+/* Botones adicionales */
+.action-buttons {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column; /* Apilar los botones verticalmente */
+    align-items: center; /* Centrar los botones */
+}
+
+.action-buttons a {
+    display: block; /* Asegura que los botones estén en bloque */
+    background-color: #f1c40f; /* Color de fondo amarillo */
+    color: #2e2e2e; /* Color de texto */
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    margin: 5px 0; /* Espaciado vertical entre los botones */
+    font-size: 16px;
+    width: 100%; /* Ancho completo para mantener el mismo porte */
+    text-align: center; /* Centrar el texto */
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.action-buttons a:hover {
+    background-color: #d4b40f; /* Fondo más oscuro */
+}
+
+/* Estilo del título "Iniciar Sesión" */
+.screen__content h1 {
+    color: #f1c40f; /* Color amarillo */
+    font-size: 28px; /* Tamaño de fuente mayor */
+    text-align: center; /* Centrar el texto */
+    margin-bottom: 20px; /* Espaciado inferior */
+    font-weight: bold; /* Negrita para mayor énfasis */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Sombra sutil */
+}
+
+/* Estilo de los mensajes de validación */
+.form .error-message {
+    color: #d9534f; /* Color rojo para errores */
+    font-size: 14px; /* Tamaño de fuente pequeño */
+    margin-top: 10px; /* Espaciado superior */
+    text-align: center; /* Centrar el mensaje */
+}
+
+/* Estilo de los mensajes de éxito */
+.form .success-message {
+    color: #5bc0de; /* Color azul para mensajes de éxito */
+    font-size: 14px;
+    margin-top: 10px;
+    text-align: center;
+}
