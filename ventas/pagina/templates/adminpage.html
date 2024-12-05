@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     {% load static %}
     <meta charset="UTF-8">
@@ -9,6 +8,7 @@
     <link rel="stylesheet" href="{% static 'css/lateral.css' %}">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        
         .sidebar {
             display: flex;
             flex-direction: column;
@@ -174,136 +174,247 @@
             background-color: #ddd;
         }
 
-        .btn {
+        /* Estilo personalizado para botones verdes */
+        .btn-verde {
+            background-color: #28a745;
+            /* Color verde */
+            color: white;
+            /* Color del texto */
+            border: none;
+            /* Sin borde */
+            padding: 10px 20px;
+            /* Espaciado interno */
+            font-size: 18px;
+            /* Tamaño de fuente aumentado */
+            border-radius: 5px;
+            /* Bordes redondeados */
+            cursor: pointer;
+            /* Cambiar el cursor al pasar sobre el botón */
             width: 100%;
-            /* Asegura que todos los botones tengan el mismo tamaño */
+            /* Botón ocupa todo el ancho del contenedor */
+            text-align: center;
+            /* Centrar texto del botón */
         }
 
-        .btn-primary {
-            background-color: #007bff;
-            /* Color de fondo azul */
-            border-color: #007bff;
-            /* Color del borde azul */
+        /* Efecto hover */
+        .btn-verde:hover {
+            background-color: #218838;
+            /* Verde más oscuro */
         }
 
-        .btn-primary:hover,
-        .btn-primary.focus,
-        .btn-primary.focus-visible {
-            background-color: #0056b3;
-            /* Azul oscuro para el hover */
-            border-color: #004085;
-            /* Borde azul oscuro */
+        /* Centrar formularios y elementos */
+        .form-container {
+            max-width: 400px;
+            margin: 0 auto;
+            text-align: center;
         }
+
+        .form-container h1,
+        .form-container h2 {
+            margin-bottom: 20px;
+        }
+
+        /* Estilo para campos de entrada */
+        .form-container input {
+            width: 100%;
+            /* Ocupa todo el ancho del contenedor */
+            padding: 10px;
+            /* Espaciado interno */
+            margin-bottom: 15px;
+            /* Espacio debajo del input */
+            border: 1px solid #ccc;
+            /* Borde gris */
+            border-radius: 5px;
+            /* Bordes redondeados */
+            font-size: 18px;
+            /* Tamaño de fuente ajustado */
+        }
+
+        /* Estilo para el placeholder */
+        .form-container input::placeholder {
+            font-size: 18px;
+            /* Tamaño igual al texto del botón */
+            color: #6c757d;
+            /* Color gris claro */
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+
+        }
+
+        h2 {
+            text-align: center;
+            /* Centra el texto */
+            width: 100%;
+            /* Asegura que el h2 ocupe todo el ancho posible */
+            margin-bottom: 20px;
+            /* Opcional: agrega espacio debajo */
+        }
+
 
         .main-content {
-            margin-left: 270px;
+            margin-left: 260px;
+            /* Mantén el espacio reservado para la barra lateral */
+            min-height: 100vh;
+            /* Asegura que ocupe todo el alto de la pantalla */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            /* Centra verticalmente */
+            align-items: center;
+            /* Centra horizontalmente */
             padding: 20px;
+            background-color: #f8f9fa;
+            /* Color de fondo */
         }
 
-        .main-content h1 {
-            margin-bottom: 20px;
+        /* Estilo para campos de entrada */
+        .form-container input {
+            width: 100%;
+            /* Ocupa todo el ancho del contenedor */
+            padding: 10px;
+            /* Espaciado interno */
+            margin-bottom: 15px;
+            /* Espacio debajo del input */
+            border: 1px solid #ccc;
+            /* Borde gris */
+            border-radius: 5px;
+            /* Bordes redondeados */
+            font-size: 18px;
+            /* Tamaño de fuente ajustado */
             text-align: center;
+            /* Centra el texto dentro del input */
         }
 
-        .section {
-            margin-bottom: 20px;
-        }
-
-        .section h2 {
-            margin-bottom: 10px;
+        /* Estilo para el placeholder dentro de .form-container */
+        .form-container input::placeholder {
+            font-size: 18px;
+            /* Tamaño igual al texto del botón */
+            color: #6c757d;
+            /* Color gris claro */
             text-align: center;
+            /* Centra el texto del placeholder */
         }
-
-        table {
-            width: 80%;
-            /* Ajusta el ancho de la tabla */
-            margin: 0 auto;
-            /* Centra la tabla */
-            border-collapse: collapse;
-            font-size: 0.9em;
-        }
-
-        th,
-        td {
-            border: 1px solid #ddd;
-            padding: 5px;
-            text-align: center;
-            vertical-align: middle;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        th {
-            background-color: #004085;
-            /* Azul oscuro */
-            color: white;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-
-        /* Eliminamos el hover */
-        tr:hover {
-            background-color: inherit;
-        }
-
-        /* Ajuste de ancho de columnas */
-        th:nth-child(1),
-        td:nth-child(1) {
-            width: 5%;
-        }
-
-        /* ID */
-        th:nth-child(2),
-        td:nth-child(2) {
-            width: 20%;
-        }
-
-        /* Nombre */
-        th:nth-child(3),
-        td:nth-child(3) {
-            width: 20%;
-        }
-
-        /* Fecha de vencimiento / Marca */
-        th:nth-child(4),
-        td:nth-child(4) {
-            width: 15%;
-        }
-
-        /* Stock */
-        th:nth-child(5),
-        td:nth-child(5) {
-            width: 15%;
-        }
-
-        /* Categoría */
+        .perfil {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+            .perfil p {
+                margin: 0;
+                font-size: 1.1em;
+            }
+    
+            .sidebar ul {
+                padding: 0;
+                margin: 0;
+                list-style: none;
+                width: 100%;
+            }
+    
+            .sidebar ul li {
+                margin: 10px 0;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+            }
+    
+            .btn {
+                width: 100%; /* Asegura que todos los botones tengan el mismo tamaño */
+            }
+    
+            .btn-primary {
+                background-color: #007bff; /* Color de fondo azul */
+                border-color: #007bff; /* Color del borde azul */
+            }
+    
+            .btn-primary:hover,
+            .btn-primary.focus,
+            .btn-primary.focus-visible {
+                background-color: #0056b3; /* Azul oscuro para el hover */
+                border-color: #004085; /* Borde azul oscuro */
+            }
+    
+            .main-content {
+                margin-left: 270px;
+                padding: 20px;
+            }
+    
+            .main-content h1 {
+                margin-bottom: 20px;
+                text-align: center;
+            }
+    
+            .section {
+                margin-bottom: 20px;
+            }
+    
+            .section h2 {
+                margin-bottom: 10px;
+                text-align: center;
+            }
+    
+            table {
+                width: 80%; /* Ajusta el ancho de la tabla */
+                margin: 0 auto; /* Centra la tabla */
+                border-collapse: collapse;
+                font-size: 0.9em;
+            }
+    
+            th, td {
+                border: 1px solid #ddd;
+                padding: 5px;
+                text-align: center;
+                vertical-align: middle;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+    
+            th {
+                background-color: #004085; /* Azul oscuro */
+                color: white;
+            }
+    
+            tr:nth-child(even) {
+                background-color: #f9f9f9;
+            }
+    
+            /* Eliminamos el hover */
+            tr:hover {
+                background-color: inherit;
+            }
+    
+            /* Ajuste de ancho de columnas */
+            th:nth-child(1), td:nth-child(1) { width: 5%; } /* ID */
+            th:nth-child(2), td:nth-child(2) { width: 20%; } /* Nombre */
+            th:nth-child(3), td:nth-child(3) { width: 20%; } /* Fecha de vencimiento / Marca */
+            th:nth-child(4), td:nth-child(4) { width: 15%; } /* Stock */
+            th:nth-child(5), td:nth-child(5) { width: 15%; } /* Categoría */
     </style>
 </head>
-
 <body>
     <!-- Menú lateral de navegación -->
     <div class="sidebar">
         <div class="perfil">
-
             <p>
                 {% if user.is_authenticated %}
-                <strong>{{ user.username }}</strong>
+                    {{ user.username }}
                 {% else %}
-                Invitado
+                    Invitado
                 {% endif %}
             </p>
         </div>
         <ul>
-            <li><a href="{% url 'adminpage' %}" class="btn btn-primary btn-block">Página de Inicio</a></li>
-            <li><a href="{% url 'vendedor' %}" class="btn btn-primary btn-block active">Registro Inventario</a></li>
-            <li><a href="{% url 'verPerfil' %}" class="btn btn-primary btn-block">Ver Perfil</a></li>
+            <li><a href="{% url 'adminpage' %}">Página de Inicio</a></li>
+            <li><a href="{% url 'vendedor' %}" class="active">Registro Inventario</a></li>
+            <li><a href="{% url 'verPerfil' %}" class="btn-primary">Ver Perfil</a></li>
             <li>
                 <form action="{% url 'logout' %}" method="post">
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-primary btn-block">Cerrar Sesión</button>
+                    <button type="submit" class="btn">Cerrar Sesión</button>
                 </form>
             </li>
         </ul>
@@ -312,7 +423,7 @@
     <div class="main-content">
         <!-- Mostrar el nombre del usuario que ha iniciado sesión -->
         <h1>¡Bienvenido, {{ user.username }}!</h1>
-
+        
         <!-- Tabla para productos con la fecha de vencimiento más cercana -->
         <div class="section">
             <h2>Productos con la Fecha de Vencimiento Más Cercana</h2>
@@ -327,16 +438,16 @@
                 </thead>
                 <tbody>
                     {% for producto in productos_vencimiento %}
-                    <tr>
-                        <td>{{ producto.id }}</td>
-                        <td>{{ producto.nombre }}</td>
-                        <td>{{ producto.fecha_vencimiento }}</td>
-                        <td>{{ producto.stock }}</td>
-                    </tr>
+                        <tr>
+                            <td>{{ producto.id }}</td>
+                            <td>{{ producto.nombre }}</td>
+                            <td>{{ producto.fecha_vencimiento }}</td>
+                            <td>{{ producto.stock }}</td>
+                        </tr>
                     {% empty %}
-                    <tr>
-                        <td colspan="4">No hay productos con fecha de vencimiento cercana.</td>
-                    </tr>
+                        <tr>
+                            <td colspan="4">No hay productos con fecha de vencimiento cercana.</td>
+                        </tr>
                     {% endfor %}
                 </tbody>
             </table>
@@ -357,22 +468,21 @@
                 </thead>
                 <tbody>
                     {% for producto in productos_mayor_stock %}
-                    <tr>
-                        <td>{{ producto.id }}</td>
-                        <td>{{ producto.nombre }}</td>
-                        <td>{{ producto.marca }}</td>
-                        <td>{{ producto.categoria }}</td>
-                        <td>{{ producto.stock }}</td>
-                    </tr>
+                        <tr>
+                            <td>{{ producto.id }}</td>
+                            <td>{{ producto.nombre }}</td>
+                            <td>{{ producto.marca }}</td>
+                            <td>{{ producto.categoria }}</td>
+                            <td>{{ producto.stock }}</td>
+                        </tr>
                     {% empty %}
-                    <tr>
-                        <td colspan="5">No hay productos con alto stock.</td>
-                    </tr>
+                        <tr>
+                            <td colspan="5">No hay productos con alto stock.</td>
+                        </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
     </div>
 </body>
-
 </html>
