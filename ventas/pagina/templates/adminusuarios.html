@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     {% load static %}
     <meta charset="UTF-8">
@@ -8,110 +9,151 @@
     <link rel="stylesheet" href="{% static 'css/adminusuarios.css' %}">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
-        /* Eliminar los puntos y el subrayado de los enlaces */
-        .sidebar ul li a,
-        .sidebar ul li form button {
-            list-style: none;
-            text-decoration: none;
+        /* Sidebar */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 250px;
+            background-color: #343a40;
+            color: white;
+            padding: 20px;
+            height: 100%;
+            position: fixed;
+            overflow-y: auto;
+            /* Agregar desplazamiento si es necesario */
         }
 
-        /* Botones */
-        .btn-primary {
-            background-color: #007bff; /* Azul */
-            border: none; /* Eliminar borde */
-            box-shadow: none; /* Eliminar sombra */
-        }
-
-        .btn-primary:hover,
-        .btn-primary:focus {
-            background-color: #0056b3; /* Azul más oscuro al pasar el cursor o al recibir foco */
-            border: none; /* Asegura que no tenga borde */
-            box-shadow: none; /* Eliminar sombra al hacer hover o foco */
-        }
-
-        .btn-danger {
-            background-color: #007bff; /* Azul igual que el botón primario */
-            border: none; /* Eliminar borde */
-            box-shadow: none; /* Eliminar sombra */
-            font-weight: bold; /* Hacer el texto más llamativo */
-        }
-
-        .btn-danger:hover,
-        .btn-danger:focus {
-            background-color: #0056b3; /* Azul más oscuro al pasar el cursor */
-            border: none; /* Asegura que no tenga borde */
-            box-shadow: none; /* Eliminar sombra al hacer hover o foco */
-        }
-
-        /* Estilizar la lista de botones en la barra lateral */
         .sidebar ul {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             padding: 0;
             margin: 0;
-            list-style: none; /* Eliminar puntos de la lista */
+            list-style: none;
+            width: 100%;
         }
 
         .sidebar ul li {
             width: 100%;
-            margin-bottom: 10px; /* Espacio entre los botones */
+            margin-bottom: 10px;
+            text-align: center;
         }
 
         .sidebar ul li a,
         .sidebar ul li button {
-            display: block;
             width: 100%;
             padding: 10px;
-            text-align: center;
             border-radius: 5px;
             color: white;
-            box-sizing: border-box; /* Asegura que el padding no afecte el tamaño total */
+            background-color: #007bff;
+            text-decoration: none;
+            text-align: center;
+            font-size: 1rem;
+            display: block;
+            box-sizing: border-box;
         }
 
-        .sidebar ul li a {
-            background-color: #007bff; /* Azul */
+        .sidebar ul li a:hover,
+        .sidebar ul li button:hover {
+            background-color: #0056b3;
         }
 
-        .sidebar ul li a:hover {
-            background-color: #0056b3; /* Azul más oscuro al pasar el cursor */
+        .main-content {
+            margin-left: 260px;
+            /* Ajuste para que no quede detrás del sidebar */
+            padding: 20px;
+            flex: 1;
+            overflow-x: auto;
+            /* Permite desplazamiento horizontal si es necesario */
         }
 
-        .sidebar ul li form button {
-            background-color: #007bff; /* Azul igual que el botón primario */
+        h1 {
+            margin-bottom: 20px;
         }
 
-        .sidebar ul li form button:hover {
-            background-color: #0056b3; /* Azul más oscuro al pasar el cursor */
+        .filters {
+            margin-bottom: 20px;
         }
 
-        /* Estilizar el nombre de usuario */
-        .perfil p {
-            font-size: 1.5em; /* Tamaño de fuente más grande */
-            font-weight: bold; /* Negrita */
-            margin: 0;
+        #userTable {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        #userTable th,
+        #userTable td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        #userTable th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        #userTable tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        #userTable tr:hover {
+            background-color: #ddd;
+        }
+
+        #pagination {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #pagination button {
+            margin: 0 5px;
+            padding: 8px 12px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        #pagination button:hover {
+            background-color: #0056b3;
+        }
+
+        .sidebar ul li {
+            width: 100%;
+            margin-bottom: 5px;
+            /* Reducido de 10px a 5px */
+            text-align: center;
         }
     </style>
 </head>
+
 <body>
     <div class="sidebar">
+        <!-- Sidebar content -->
         <div class="perfil">
             <p>
                 {% if user.is_authenticated %}
-                    {{ user.username }}  <!-- Muestra el nombre de usuario logueado -->
+                <strong>{{ user.username }}</strong>
                 {% else %}
-                    Invitado  <!-- En caso de que el usuario no esté logueado -->
+                Invitado
                 {% endif %}
             </p>
         </div>
         <ul>
-            <li><a href="{% url 'adminusuarios' %}">Administración Usuarios</a></li>
-            <li><a href="{% url 'perfilad' %}">Ver Perfil</a></li>
+            <li><a href="{% url 'adminusuarios' %}" class="btn btn-primary w-100">Administracion Usuarios</a></li>
+            <li><a href="{% url 'perfilad' %}" class="btn btn-primary btn-block">Ver Perfil</a></li>
             <li>
                 <form action="{% url 'logout' %}" method="post">
                     {% csrf_token %}
-                    <button type="submit">Cerrar Sesión</button>
+                    <button type="submit" class="btn btn-primary btn-block">Cerrar Sesión</button>
                 </form>
             </li>
         </ul>
     </div>
+
     <div class="main-content">
         <h1>¡Bienvenido, {{ user.username }}!</h1>
         <h1>Lista de Usuarios</h1>
@@ -147,7 +189,7 @@
         function fetchUsers(page = 1) {
             const role = document.getElementById('roleFilter').value;
             const url = role ? `/api/usuarios/?page=${page}&role=${role}` : `/api/usuarios/?page=${page}`;
-            
+
             fetch(url)
                 .then(response => response.json())
                 .then(data => displayUsers(data))
@@ -192,13 +234,14 @@
                 },
                 body: `role=${role}`
             })
-            .then(response => response.json())
-            .then(() => fetchUsers(currentPage))  // Refrescar la lista de usuarios
-            .catch(error => console.error('Error changing role:', error));
+                .then(response => response.json())
+                .then(() => fetchUsers(currentPage))  // Refrescar la lista de usuarios
+                .catch(error => console.error('Error changing role:', error));
         }
 
         // Función para eliminar un usuario con confirmación
         function deleteUser(username) {
+<<<<<<< HEAD
             if (confirm('¿Estás seguro de que quieres eliminar este usuario? Esta acción no se puede deshacer.')) {
                 fetch(`/api/eliminar_usuario/${username}/?confirmacion=true`, {
                     method: 'DELETE',
@@ -213,6 +256,16 @@
                 })
                 .catch(error => console.error('Error deleting user:', error));
             }
+=======
+            fetch(`/api/eliminar_usuario/${username}/`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken')
+                }
+            })
+                .then(() => fetchUsers(currentPage))  // Refrescar la lista de usuarios
+                .catch(error => console.error('Error deleting user:', error));
+>>>>>>> 107d97a4157da141a6b6db73b9063f28728df7ac
         }
 
         // Función para actualizar la paginación
@@ -249,4 +302,5 @@
         fetchUsers(currentPage);
     </script>
 </body>
+
 </html>
