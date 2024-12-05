@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +10,7 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Carga de Font Awesome para el ícono de tres rayas -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
     <style>
         /* General Body Styling */
         body {
@@ -22,89 +24,56 @@
             overflow-x: hidden;
         }
 
-        /* Menú Lateral */
+        /* Sidebar */
         .sidebar {
-            width: 250px;
-            height: 100vh;
-            position: fixed;
-            left: 0;
-            top: 0;
-            background-color: #343a40;
-            color: #fff;
             display: flex;
             flex-direction: column;
-            padding: 20px 0;
-            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .sidebar .perfil {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .sidebar .perfil-imagen {
-            width: 100px;
-            height: 100px;
-            background-color: #6c757d;
-            border-radius: 50%;
-            margin: 0 auto;
-            margin-bottom: 10px;
-        }
-
-        .sidebar p {
-            margin-top: 10px;
-            font-size: 1.2rem;
-            color: #fff;
-            display: block;
+            align-items: center;
+            width: 250px;
+            background-color: #343a40;
+            color: white;
+            padding: 20px;
+            height: 100%;
+            position: fixed;
+            overflow-y: auto;
+            /* Agregar desplazamiento si es necesario */
         }
 
         .sidebar ul {
-            list-style: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             padding: 0;
+            margin: 0;
+            list-style: none;
             width: 100%;
-            flex-grow: 1;
         }
 
         .sidebar ul li {
-            margin: 15px 0;
             width: 100%;
+            margin-bottom: 10px;
             text-align: center;
         }
 
         .sidebar ul li a,
-        .sidebar ul li form button {
-            text-decoration: none;
-            color: #fff;
-            padding: 14px 24px;
-            display: block;
-            border-radius: 8px;
-            background-color: #007bff; /* Botones color azul */
-            box-sizing: border-box;
-            font-weight: 500;
-            font-size: 1.1rem;
+        .sidebar ul li button {
             width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            color: white;
+            background-color: #007bff;
+            text-decoration: none;
             text-align: center;
-            transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+            font-size: 1rem;
+            display: block;
+            box-sizing: border-box;
         }
 
         .sidebar ul li a:hover,
-        .sidebar ul li form button:hover {
-            background-color: #0056b3; /* Azul más oscuro */
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-            transform: translateY(-2px);
+        .sidebar ul li button:hover {
+            background-color: #0056b3;
         }
 
-        .sidebar ul li a:active,
-        .sidebar ul li form button:active {
-            background-color: #003366; /* Color más oscuro al hacer clic */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transform: translateY(1px);
-        }
-
-        .sidebar form button {
-            border: none;
-            cursor: pointer;
-        }
 
         /* Contenedor Principal */
         .main-content {
@@ -170,20 +139,38 @@
             background-color: #003366;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
+
+        .perfil .username {
+            font-size: 2rem;
+            /* Tamaño más grande del texto */
+            font-weight: bold;
+            /* Texto en negrita */
+            color: #ffffff;
+            /* Mantén el texto blanco */
+            text-align: center;
+            /* Centra el texto */
+            display: block;
+            /* Asegúrate de que ocupe toda la línea */
+            margin: 10px 0;
+            /* Margen superior e inferior */
+        }
     </style>
 </head>
+
 <body>
     <!-- Menú Lateral -->
     <div class="sidebar">
         <div class="perfil">
-            <p>
+            <span class="username">
                 {% if user.is_authenticated %}
-                    {{ user.username }}  <!-- Muestra el nombre de usuario logueado -->
+                {{ user.username }} <!-- Muestra el nombre de usuario logueado -->
                 {% else %}
-                    Invitado  <!-- En caso de que el usuario no esté logueado -->
+                Invitado <!-- En caso de que el usuario no esté logueado -->
                 {% endif %}
-            </p>
+            </span>
         </div>
+
+
         <ul>
             <li><a href="{% url 'adminusuarios' %}">Administración Usuarios</a></li>
             <li><a href="{% url 'perfilad' %}">Ver Perfil</a></li>
@@ -219,4 +206,5 @@
     </div>
 
 </body>
+
 </html>
