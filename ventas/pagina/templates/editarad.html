@@ -60,7 +60,7 @@
             list-style: none;
             padding: 0;
             width: 100%;
-            text-align: center; /* Centra los enlaces y botones */
+            text-align: center;
         }
 
         .sidebar ul li {
@@ -73,7 +73,7 @@
             text-decoration: none;
             color: #fff;
             padding: 12px 20px;
-            border-radius: 4px; /* Botones con bordes rectos */
+            border-radius: 8px;
             display: block;
             width: 100%;
             transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
@@ -95,6 +95,8 @@
             background-color: #007bff;
             border: none;
             font-weight: bold;
+            cursor: pointer;
+            width: 100%;
         }
 
         .sidebar ul li form button:hover {
@@ -170,7 +172,7 @@
             cursor: pointer;
             transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
             display: block;
-            margin: 0 auto; /* Centra el botón */
+            margin: 0 auto;
         }
 
         .btn-submit:hover {
@@ -206,12 +208,44 @@
             background-color: #dc3545;
             color: white;
         }
+        /* Botones del sidebar */
+    .sidebar ul li a,
+    .sidebar ul li form button {
+        text-decoration: none;
+        color: #fff;
+        padding: 12px 20px;
+        border-radius: 8px;
+        display: block;
+        width: 100%;
+        font-size: 1.1rem;
+        background-color: #007bff;
+        border: 1px solid #0056b3;
+        transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+    }
+
+    .sidebar ul li a:hover,
+    .sidebar ul li form button:hover {
+        background-color: #0056b3;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        transform: translateY(-2px);
+    }
+
+    .sidebar ul li form button {
+        border: none;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .sidebar ul li form button:hover {
+        background-color: #0056b3;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        transform: translateY(-2px);
+    }
     </style>
 </head>
 <body>
     <div class="sidebar">
         <div class="perfil">
-            <div class="perfil-imagen"></div>
             <p>
                 {% if user.is_authenticated %}
                     {{ user.username }} <!-- Nombre de usuario logueado -->
@@ -246,7 +280,7 @@
             {% endif %}
 
             <!-- Formulario para editar perfil -->
-            <form method="POST" id="profileFormAd" onsubmit="return confirmChanges()">
+            <form method="POST" id="profileFormAd">
                 {% csrf_token %}
 
                 <!-- Nombres -->
@@ -289,11 +323,6 @@
             </form>
         </div>
     </div>
-
-    <script>
-        function confirmChanges() {
-            return confirm("¿Estás seguro de que deseas guardar los cambios?");
-        }
-    </script>
 </body>
 </html>
+
