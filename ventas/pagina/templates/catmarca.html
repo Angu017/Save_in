@@ -1,59 +1,189 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-    {% csrf_token %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marcas y Categorías</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/vendedor.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/lateral.css' %}">
     <style>
-        table {
-            width: 50%;
-            margin: 20px auto;
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 250px;
+            background-color: #343a40;
+            color: white;
+            padding: 20px;
+            height: 100%;
+            position: fixed;
+        }
+
+        .sidebar ul {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            width: 100%;
+        }
+
+        .sidebar ul li {
+            width: 100%;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .sidebar ul li a,
+        .sidebar ul li button {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            color: white;
+            background-color: #007bff;
+            /* Color azul */
+            text-decoration: none;
+            text-align: center;
+            font-size: 1rem;
+            display: block;
+            box-sizing: border-box;
+        }
+
+        .sidebar ul li a:hover,
+        .sidebar ul li button:hover {
+            background-color: #0056b3;
+        }
+
+        .sidebar ul li a.active {
+            background-color: #0056b3;
+            /* Mantener el color azul en la página activa */
+        }
+
+        .sidebar ul li a.btn-primary {
+            background-color: #007bff;
+            /* Color azul uniforme */
+        }
+
+        .sidebar ul li a.btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .sidebar ul li button {
+            background-color: #007bff;
+            border: none;
+            cursor: pointer;
+        }
+
+        .sidebar ul li button:hover {
+            background-color: #0056b3;
+        }
+
+        .main-content {
+            margin-left: 260px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            width: 100%;
+        }
+
+        .header h1 {
+            flex: 1;
+            text-align: center;
+            margin: 0;
+        }
+
+        .upload-form {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .upload-form button {
+            background-color: #28a745;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .upload-form button:hover {
+            background-color: #218838;
+        }
+
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .product-table {
+            width: 100%;
             border-collapse: collapse;
         }
-        th, td {
+
+        .product-table th,
+        .product-table td {
             border: 1px solid #ddd;
-            padding: 10px;
+            padding: 8px;
             text-align: center;
         }
-        th {
+
+        .product-table th {
             background-color: #f4f4f4;
         }
+
+        .product-table td {
+            word-wrap: break-word;
+            white-space: normal;
+        }
+
+        .product-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
         .pagination {
+            margin-top: 15px;
             text-align: center;
-            margin: 20px 0;
         }
-        .pagination button {
-            margin: 0 5px;
-            padding: 5px 10px;
-            cursor: pointer;
+
+        .pagination a {
+            padding: 8px 16px;
+            margin: 0 2px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #007bff;
         }
-        .delete-btn {
-            background-color: red;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            cursor: pointer;
+
+        .pagination a:hover {
+            background-color: #ddd;
         }
     </style>
 </head>
+
 <body>
-
-
-
-
-    <h1 style="text-align: center;">Marcas y Categorías</h1>
-
-
-    <!-- Menú lateral de navegación -->
     <div class="sidebar">
         <div class="perfil">
-            <div class="perfil-imagen"></div>
             <p>
                 {% if user.is_authenticated %}
-                    {{ user.username }}
+                {{ user.username }}
                 {% else %}
-                    Invitado
+                Invitado
                 {% endif %}
             </p>
         </div>
@@ -69,167 +199,169 @@
             </li>
         </ul>
 
-        
+
 
     </div>
-    
+    <div class="main-content">
+        <form>
+            <h1 style="text-align: center;">Marcas y Categorías</h1>
+            <!-- Menú lateral de navegación -->
+            <!-- Formulario para crear Categoría -->
+            <h2>Crear Marca</h2>
+            <form method="POST" action="{% url 'crear_marca' %}">
+                {% csrf_token %}
+                <input type="text" name="nombre" placeholder="Nombre de la Marca" required>
+                <button type="submit">Crear Marca</button>
+            </form>
 
-    <h1 style="text-align: center;">Crear Marcas y Categorías</h1>
-
-    <!-- Formulario para crear Marca -->
-    <div class="form-container">
-        <h2>Crear Marca</h2>
-        <form method="POST" action="{% url 'crear_marca' %}">
-            {% csrf_token %}
-            <input type="text" name="nombre" placeholder="Nombre de la Marca" required>
-            <button type="submit">Crear Marca</button>
+            <h2>Crear Categoría</h2>
+            <form method="POST" action="{% url 'crear_categoria' %}">
+                {% csrf_token %}
+                <input type="text" name="nombre" placeholder="Nombre de la Categoría" required>
+                <button type="submit">Crear Categoría</button>
+            </form>
         </form>
-    </div>
-
-    <!-- Formulario para crear Categoría -->
-    <div class="form-container">
-        <h2>Crear Categoría</h2>
-        <form method="POST" action="{% url 'crear_categoria' %}">
-            {% csrf_token %}
-            <input type="text" name="nombre" placeholder="Nombre de la Categoría" required>
-            <button type="submit">Crear Categoría</button>
-        </form>
-    </div>
 
 
-    <!-- Tabla de Marcas -->
-    <h2 style="text-align: center;">Marcas</h2>
-    <table id="tabla-marcas">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Se llenará dinámicamente -->
-        </tbody>
-    </table>
-    <div class="pagination" id="paginacion-marcas"></div>
 
-    <!-- Tabla de Categorías -->
-    <h2 style="text-align: center;">Categorías</h2>
-    <table id="tabla-categorias">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Se llenará dinámicamente -->
-        </tbody>
-    </table>
-    <div class="pagination" id="paginacion-categorias"></div>
 
-    <!-- Script para manejar las tablas -->
-    <script>
-        // Los datos de marcas y categorías son pasados como JSON desde Django
-        const marcas = JSON.parse('{{ marcas|escapejs }}');
-        const categorias = JSON.parse('{{ categorias|escapejs }}');
-        const itemsPorPagina = 6;
-    
-        function renderTabla(datos, idTabla, idPaginacion, tipo) {
-            const tabla = document.querySelector(`#${idTabla} tbody`);
-            const paginacion = document.getElementById(idPaginacion);
-            let paginaActual = 1;
-    
-            function mostrarPagina(pagina) {
-                const inicio = (pagina - 1) * itemsPorPagina;
-                const fin = inicio + itemsPorPagina;
-                const datosPagina = datos.slice(inicio, fin);
-    
-                // Limpia la tabla y la llena con los datos actuales
-                tabla.innerHTML = "";
-                datosPagina.forEach(item => {
-                    const fila = document.createElement("tr");
-                    fila.innerHTML = `
+
+
+
+        <!-- Tabla de Marcas -->
+        <h2 style="text-align: center;">Marcas</h2>
+        <table id="tabla-marcas">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Se llenará dinámicamente -->
+            </tbody>
+        </table>
+        <div class="pagination" id="paginacion-marcas"></div>
+
+        <!-- Tabla de Categorías -->
+        <h2 style="text-align: center;">Categorías</h2>
+        <table id="tabla-categorias">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Se llenará dinámicamente -->
+            </tbody>
+        </table>
+        <div class="pagination" id="paginacion-categorias"></div>
+
+        <!-- Script para manejar las tablas -->
+        <script>
+            // Los datos de marcas y categorías son pasados como JSON desde Django
+            const marcas = JSON.parse('{{ marcas|escapejs }}');
+            const categorias = JSON.parse('{{ categorias|escapejs }}');
+            const itemsPorPagina = 6;
+
+            function renderTabla(datos, idTabla, idPaginacion, tipo) {
+                const tabla = document.querySelector(`#${idTabla} tbody`);
+                const paginacion = document.getElementById(idPaginacion);
+                let paginaActual = 1;
+
+                function mostrarPagina(pagina) {
+                    const inicio = (pagina - 1) * itemsPorPagina;
+                    const fin = inicio + itemsPorPagina;
+                    const datosPagina = datos.slice(inicio, fin);
+
+                    // Limpia la tabla y la llena con los datos actuales
+                    tabla.innerHTML = "";
+                    datosPagina.forEach(item => {
+                        const fila = document.createElement("tr");
+                        fila.innerHTML = `
                         <td>${item.id}</td>
                         <td>${item.nombre}</td>
                         <td>
                             <button class="delete-btn" data-id="${item.id}" data-tipo="${tipo}">Eliminar</button>
                         </td>`;
-                    tabla.appendChild(fila);
-                });
-    
-                // Actualiza la paginación
-                actualizarPaginacion(pagina);
-            }
-    
-            function actualizarPaginacion(pagina) {
-                paginacion.innerHTML = "";
-                const totalPaginas = Math.ceil(datos.length / itemsPorPagina);
-    
-                for (let i = 1; i <= totalPaginas; i++) {
-                    const boton = document.createElement("button");
-                    boton.textContent = i;
-                    boton.disabled = i === pagina;
-                    boton.addEventListener("click", () => {
-                        paginaActual = i;
-                        mostrarPagina(paginaActual);
+                        tabla.appendChild(fila);
                     });
-                    paginacion.appendChild(boton);
+
+                    // Actualiza la paginación
+                    actualizarPaginacion(pagina);
                 }
-            }
-    
-            function eliminarItem(id, tipo) {
-                const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;  // Obtener CSRF Token
-    
-                fetch('/eliminar-item/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRFToken': csrfToken
-                    },
-                    body: JSON.stringify({ id: id, tipo: tipo })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        // Filtra el elemento eliminado
-                        const index = datos.findIndex(item => item.id === id);
-                        if (index !== -1) {
-                            datos.splice(index, 1); // Elimina el elemento del array
-                            mostrarPagina(paginaActual); // Refresca la tabla
+
+                function actualizarPaginacion(pagina) {
+                    paginacion.innerHTML = "";
+                    const totalPaginas = Math.ceil(datos.length / itemsPorPagina);
+
+                    for (let i = 1; i <= totalPaginas; i++) {
+                        const boton = document.createElement("button");
+                        boton.textContent = i;
+                        boton.disabled = i === pagina;
+                        boton.addEventListener("click", () => {
+                            paginaActual = i;
+                            mostrarPagina(paginaActual);
+                        });
+                        paginacion.appendChild(boton);
+                    }
+                }
+
+                function eliminarItem(id, tipo) {
+                    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;  // Obtener CSRF Token
+
+                    fetch('/eliminar-item/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': csrfToken
+                        },
+                        body: JSON.stringify({ id: id, tipo: tipo })
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.status === 'success') {
+                                // Filtra el elemento eliminado
+                                const index = datos.findIndex(item => item.id === id);
+                                if (index !== -1) {
+                                    datos.splice(index, 1); // Elimina el elemento del array
+                                    mostrarPagina(paginaActual); // Refresca la tabla
+                                }
+                            } else {
+                                alert('Error al eliminar');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('Hubo un error al eliminar el elemento.');
+                        });
+                }
+
+                // Evento para manejar el botón de eliminación
+                tabla.addEventListener("click", (e) => {
+                    if (e.target.classList.contains("delete-btn")) {
+                        const id = parseInt(e.target.dataset.id, 10);
+                        const tipo = e.target.dataset.tipo;
+
+                        // Confirmación de eliminación
+                        if (confirm(`¿Seguro que deseas eliminar esta ${tipo}?`)) {
+                            eliminarItem(id, tipo);
                         }
-                    } else {
-                        alert('Error al eliminar');
                     }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Hubo un error al eliminar el elemento.');
                 });
+
+                // Muestra la primera página al cargar
+                mostrarPagina(paginaActual);
             }
-    
-            // Evento para manejar el botón de eliminación
-            tabla.addEventListener("click", (e) => {
-                if (e.target.classList.contains("delete-btn")) {
-                    const id = parseInt(e.target.dataset.id, 10);
-                    const tipo = e.target.dataset.tipo;
-    
-                    // Confirmación de eliminación
-                    if (confirm(`¿Seguro que deseas eliminar esta ${tipo}?`)) {
-                        eliminarItem(id, tipo);
-                    }
-                }
-            });
-    
-            // Muestra la primera página al cargar
-            mostrarPagina(paginaActual);
-        }
-    
-        // Renderiza ambas tablas
-        renderTabla(marcas, "tabla-marcas", "paginacion-marcas", "marca");
-        renderTabla(categorias, "tabla-categorias", "paginacion-categorias", "categoría");
-    </script>
-    
+
+            // Renderiza ambas tablas
+            renderTabla(marcas, "tabla-marcas", "paginacion-marcas", "marca");
+            renderTabla(categorias, "tabla-categorias", "paginacion-categorias", "categoría");
+        </script>
+    </div>
 </body>
+
 </html>

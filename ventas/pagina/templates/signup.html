@@ -9,33 +9,84 @@
     <style>
         /* Estilo para el botón de retroceso */
         .back-btn {
-            position: fixed;  /* Fijar el botón en la esquina superior izquierda */
-            top: 10px;  /* Alineación superior */
-            left: 10px;  /* Alineación izquierda */
-            font-size: 20px;  /* Tamaño pequeño de la flecha */
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            font-size: 20px;
             background: none;
             border: none;
             color: #007bff;
             cursor: pointer;
-            padding: 5px 10px;  /* Añadir un poco de espacio alrededor */
-            border-radius: 3px;  /* Bordes redondeados para el botón */
+            padding: 5px 10px;
+            border-radius: 3px;
         }
 
-        /* Cambiar el color cuando el ratón pasa sobre el botón */
         .back-btn:hover {
             color: #0056b3;
         }
 
-        /* Estilo del formulario */
-        .form-container {
-            padding-top: 50px; /* Para que el contenido no se superponga con el botón */
+        .container {
+            padding-top: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #f1c40f;
+            /* Color de texto en amarillo */
+        }
+
+        .screen__content h1 {
+            color: #f1c40f;
+            /* Color amarillo */
+        }
+
+        /* Botón de inicio de sesión */
+        .login__submit {
+            background-color: #f1c40f;
+            /* Color de fondo amarillo */
+            border: none;
+            color: #2e2e2e;
+            /* Color de texto */
+            padding: 10px 20px;
+            margin-top: 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .login__submit:hover {
+            background-color: #d4b40f;
+            /* Fondo más oscuro */
+        }
+
+        /* Botones adicionales */
+        .action-buttons {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .action-buttons a {
+            display: inline-block;
+            background-color: #f1c40f;
+            /* Color de fondo amarillo */
+            color: #2e2e2e;
+            /* Color de texto */
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .action-buttons a:hover {
+            background-color: #d4b40f;
+            /* Fondo más oscuro */
         }
     </style>
 </head>
 <body>
-    <!-- Botón de flecha para regresar a la página anterior -->
-    <button class="back-btn" onclick="history.back()">←</button>
-
     <div class="form-container">
         <div class="background">
             <div class="shape1"></div>
@@ -78,13 +129,14 @@
                 
                 <button type="submit">Registrar</button>
             </form>
+            <div class="action-buttons">
+                <a href="{% url 'signin' %}">¿tienes cuenta? Ingresa aquí</a>
+                <a href="{% url 'index' %}">Volver al inicio</a>
+            </div>
         </div>
     </div>
 
-    <div class="action-buttons">
-        <a href="{% url 'signup' %}">¿No tienes cuenta? Unete al cambio</a>
-        <a href="{% url 'index' %}">Volver al inicio</a>
-    </div>
+
 
 
 </body>
