@@ -173,6 +173,131 @@
         .pagination a:hover {
             background-color: #ddd;
         }
+
+        /* Estilo personalizado para botones verdes */
+        .btn-verde {
+            background-color: #28a745;
+            /* Color verde */
+            color: white;
+            /* Color del texto */
+            border: none;
+            /* Sin borde */
+            padding: 10px 20px;
+            /* Espaciado interno */
+            font-size: 18px;
+            /* Tamaño de fuente aumentado */
+            border-radius: 5px;
+            /* Bordes redondeados */
+            cursor: pointer;
+            /* Cambiar el cursor al pasar sobre el botón */
+            width: 100%;
+            /* Botón ocupa todo el ancho del contenedor */
+            text-align: center;
+            /* Centrar texto del botón */
+        }
+
+        /* Efecto hover */
+        .btn-verde:hover {
+            background-color: #218838;
+            /* Verde más oscuro */
+        }
+
+        /* Centrar formularios y elementos */
+        .form-container {
+            max-width: 400px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .form-container h1,
+        .form-container h2 {
+            margin-bottom: 20px;
+        }
+
+        /* Estilo para campos de entrada */
+        .form-container input {
+            width: 100%;
+            /* Ocupa todo el ancho del contenedor */
+            padding: 10px;
+            /* Espaciado interno */
+            margin-bottom: 15px;
+            /* Espacio debajo del input */
+            border: 1px solid #ccc;
+            /* Borde gris */
+            border-radius: 5px;
+            /* Bordes redondeados */
+            font-size: 18px;
+            /* Tamaño de fuente ajustado */
+        }
+
+        /* Estilo para el placeholder */
+        .form-container input::placeholder {
+            font-size: 18px;
+            /* Tamaño igual al texto del botón */
+            color: #6c757d;
+            /* Color gris claro */
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+
+        }
+
+        h2 {
+            text-align: center;
+            /* Centra el texto */
+            width: 100%;
+            /* Asegura que el h2 ocupe todo el ancho posible */
+            margin-bottom: 20px;
+            /* Opcional: agrega espacio debajo */
+        }
+
+
+        .main-content {
+            margin-left: 260px;
+            /* Mantén el espacio reservado para la barra lateral */
+            min-height: 100vh;
+            /* Asegura que ocupe todo el alto de la pantalla */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            /* Centra verticalmente */
+            align-items: center;
+            /* Centra horizontalmente */
+            padding: 20px;
+            background-color: #f8f9fa;
+            /* Color de fondo */
+        }
+
+        /* Estilo para campos de entrada */
+        .form-container input {
+            width: 100%;
+            /* Ocupa todo el ancho del contenedor */
+            padding: 10px;
+            /* Espaciado interno */
+            margin-bottom: 15px;
+            /* Espacio debajo del input */
+            border: 1px solid #ccc;
+            /* Borde gris */
+            border-radius: 5px;
+            /* Bordes redondeados */
+            font-size: 18px;
+            /* Tamaño de fuente ajustado */
+            text-align: center;
+            /* Centra el texto dentro del input */
+        }
+
+        /* Estilo para el placeholder dentro de .form-container */
+        .form-container input::placeholder {
+            font-size: 18px;
+            /* Tamaño igual al texto del botón */
+            color: #6c757d;
+            /* Color gris claro */
+            text-align: center;
+            /* Centra el texto del placeholder */
+        }
     </style>
 </head>
 
@@ -203,164 +328,156 @@
 
     </div>
     <div class="main-content">
-        <form>
-            <h1 style="text-align: center;">Marcas y Categorías</h1>
-            <!-- Menú lateral de navegación -->
-            <!-- Formulario para crear Categoría -->
-            <h2>Crear Marca</h2>
-            <form method="POST" action="{% url 'crear_marca' %}">
-                {% csrf_token %}
-                <input type="text" name="nombre" placeholder="Nombre de la Marca" required>
-                <button type="submit">Crear Marca</button>
-            </form>
+            <div class="form-container">
+                <h1>Marcas y Categorías</h1>
+    
+                <h2>Crear Marca</h2>
+                <form method="POST" action="{% url 'crear_marca' %}">
+                    {% csrf_token %}
+                    <input type="text" name="nombre" placeholder="Nombre de la Marca" required>
+                    <button type="submit" class="btn-verde">Crear Marca</button>
+                </form>
+    
+                <h2>Crear Categoría</h2>
+                <form method="POST" action="{% url 'crear_categoria' %}">
+                    {% csrf_token %}
+                    <input type="text" name="nombre" placeholder="Nombre de la Categoría" required>
+                    <button type="submit" class="btn-verde">Crear Categoría</button>
+                </form>
+            </div>
+            <!-- Tabla de Marcas -->
+            <h2 style="text-align: center;">Marcas</h2>
+            <table id="tabla-marcas">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Se llenará dinámicamente -->
+                </tbody>
+            </table>
+            <div class="pagination" id="paginacion-marcas"></div>
 
-            <h2>Crear Categoría</h2>
-            <form method="POST" action="{% url 'crear_categoria' %}">
-                {% csrf_token %}
-                <input type="text" name="nombre" placeholder="Nombre de la Categoría" required>
-                <button type="submit">Crear Categoría</button>
-            </form>
-        </form>
+            <!-- Tabla de Categorías -->
+            <h2 style="text-align: center;">Categorías</h2>
+            <table id="tabla-categorias">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Se llenará dinámicamente -->
+                </tbody>
+            </table>
+            <div class="pagination" id="paginacion-categorias"></div>
 
+            <!-- Script para manejar las tablas -->
+            <script>
+                // Los datos de marcas y categorías son pasados como JSON desde Django
+                const marcas = JSON.parse('{{ marcas|escapejs }}');
+                const categorias = JSON.parse('{{ categorias|escapejs }}');
+                const itemsPorPagina = 6;
 
+                function renderTabla(datos, idTabla, idPaginacion, tipo) {
+                    const tabla = document.querySelector(`#${idTabla} tbody`);
+                    const paginacion = document.getElementById(idPaginacion);
+                    let paginaActual = 1;
 
+                    function mostrarPagina(pagina) {
+                        const inicio = (pagina - 1) * itemsPorPagina;
+                        const fin = inicio + itemsPorPagina;
+                        const datosPagina = datos.slice(inicio, fin);
 
-
-
-
-        <!-- Tabla de Marcas -->
-        <h2 style="text-align: center;">Marcas</h2>
-        <table id="tabla-marcas">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Se llenará dinámicamente -->
-            </tbody>
-        </table>
-        <div class="pagination" id="paginacion-marcas"></div>
-
-        <!-- Tabla de Categorías -->
-        <h2 style="text-align: center;">Categorías</h2>
-        <table id="tabla-categorias">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Se llenará dinámicamente -->
-            </tbody>
-        </table>
-        <div class="pagination" id="paginacion-categorias"></div>
-
-        <!-- Script para manejar las tablas -->
-        <script>
-            // Los datos de marcas y categorías son pasados como JSON desde Django
-            const marcas = JSON.parse('{{ marcas|escapejs }}');
-            const categorias = JSON.parse('{{ categorias|escapejs }}');
-            const itemsPorPagina = 6;
-
-            function renderTabla(datos, idTabla, idPaginacion, tipo) {
-                const tabla = document.querySelector(`#${idTabla} tbody`);
-                const paginacion = document.getElementById(idPaginacion);
-                let paginaActual = 1;
-
-                function mostrarPagina(pagina) {
-                    const inicio = (pagina - 1) * itemsPorPagina;
-                    const fin = inicio + itemsPorPagina;
-                    const datosPagina = datos.slice(inicio, fin);
-
-                    // Limpia la tabla y la llena con los datos actuales
-                    tabla.innerHTML = "";
-                    datosPagina.forEach(item => {
-                        const fila = document.createElement("tr");
-                        fila.innerHTML = `
+                        // Limpia la tabla y la llena con los datos actuales
+                        tabla.innerHTML = "";
+                        datosPagina.forEach(item => {
+                            const fila = document.createElement("tr");
+                            fila.innerHTML = `
                         <td>${item.id}</td>
                         <td>${item.nombre}</td>
                         <td>
                             <button class="delete-btn" data-id="${item.id}" data-tipo="${tipo}">Eliminar</button>
                         </td>`;
-                        tabla.appendChild(fila);
-                    });
-
-                    // Actualiza la paginación
-                    actualizarPaginacion(pagina);
-                }
-
-                function actualizarPaginacion(pagina) {
-                    paginacion.innerHTML = "";
-                    const totalPaginas = Math.ceil(datos.length / itemsPorPagina);
-
-                    for (let i = 1; i <= totalPaginas; i++) {
-                        const boton = document.createElement("button");
-                        boton.textContent = i;
-                        boton.disabled = i === pagina;
-                        boton.addEventListener("click", () => {
-                            paginaActual = i;
-                            mostrarPagina(paginaActual);
+                            tabla.appendChild(fila);
                         });
-                        paginacion.appendChild(boton);
+
+                        // Actualiza la paginación
+                        actualizarPaginacion(pagina);
                     }
-                }
 
-                function eliminarItem(id, tipo) {
-                    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;  // Obtener CSRF Token
+                    function actualizarPaginacion(pagina) {
+                        paginacion.innerHTML = "";
+                        const totalPaginas = Math.ceil(datos.length / itemsPorPagina);
 
-                    fetch('/eliminar-item/', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRFToken': csrfToken
-                        },
-                        body: JSON.stringify({ id: id, tipo: tipo })
-                    })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.status === 'success') {
-                                // Filtra el elemento eliminado
-                                const index = datos.findIndex(item => item.id === id);
-                                if (index !== -1) {
-                                    datos.splice(index, 1); // Elimina el elemento del array
-                                    mostrarPagina(paginaActual); // Refresca la tabla
-                                }
-                            } else {
-                                alert('Error al eliminar');
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            alert('Hubo un error al eliminar el elemento.');
-                        });
-                }
-
-                // Evento para manejar el botón de eliminación
-                tabla.addEventListener("click", (e) => {
-                    if (e.target.classList.contains("delete-btn")) {
-                        const id = parseInt(e.target.dataset.id, 10);
-                        const tipo = e.target.dataset.tipo;
-
-                        // Confirmación de eliminación
-                        if (confirm(`¿Seguro que deseas eliminar esta ${tipo}?`)) {
-                            eliminarItem(id, tipo);
+                        for (let i = 1; i <= totalPaginas; i++) {
+                            const boton = document.createElement("button");
+                            boton.textContent = i;
+                            boton.disabled = i === pagina;
+                            boton.addEventListener("click", () => {
+                                paginaActual = i;
+                                mostrarPagina(paginaActual);
+                            });
+                            paginacion.appendChild(boton);
                         }
                     }
-                });
 
-                // Muestra la primera página al cargar
-                mostrarPagina(paginaActual);
-            }
+                    function eliminarItem(id, tipo) {
+                        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;  // Obtener CSRF Token
 
-            // Renderiza ambas tablas
-            renderTabla(marcas, "tabla-marcas", "paginacion-marcas", "marca");
-            renderTabla(categorias, "tabla-categorias", "paginacion-categorias", "categoría");
-        </script>
+                        fetch('/eliminar-item/', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRFToken': csrfToken
+                            },
+                            body: JSON.stringify({ id: id, tipo: tipo })
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.status === 'success') {
+                                    // Filtra el elemento eliminado
+                                    const index = datos.findIndex(item => item.id === id);
+                                    if (index !== -1) {
+                                        datos.splice(index, 1); // Elimina el elemento del array
+                                        mostrarPagina(paginaActual); // Refresca la tabla
+                                    }
+                                } else {
+                                    alert('Error al eliminar');
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                alert('Hubo un error al eliminar el elemento.');
+                            });
+                    }
+
+                    // Evento para manejar el botón de eliminación
+                    tabla.addEventListener("click", (e) => {
+                        if (e.target.classList.contains("delete-btn")) {
+                            const id = parseInt(e.target.dataset.id, 10);
+                            const tipo = e.target.dataset.tipo;
+
+                            // Confirmación de eliminación
+                            if (confirm(`¿Seguro que deseas eliminar esta ${tipo}?`)) {
+                                eliminarItem(id, tipo);
+                            }
+                        }
+                    });
+
+                    // Muestra la primera página al cargar
+                    mostrarPagina(paginaActual);
+                }
+
+                // Renderiza ambas tablas
+                renderTabla(marcas, "tabla-marcas", "paginacion-marcas", "marca");
+                renderTabla(categorias, "tabla-categorias", "paginacion-categorias", "categoría");
+            </script>
     </div>
 </body>
 
