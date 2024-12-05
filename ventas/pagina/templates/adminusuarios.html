@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     {% load static %}
     <meta charset="UTF-8">
@@ -129,31 +128,28 @@
         }
     </style>
 </head>
-
 <body>
     <div class="sidebar">
-        <!-- Sidebar content -->
         <div class="perfil">
             <p>
                 {% if user.is_authenticated %}
-                <strong>{{ user.username }}</strong>
+                    {{ user.username }}  <!-- Muestra el nombre de usuario logueado -->
                 {% else %}
-                Invitado
+                    Invitado  <!-- En caso de que el usuario no esté logueado -->
                 {% endif %}
             </p>
         </div>
         <ul>
-            <li><a href="{% url 'adminusuarios' %}" class="btn btn-primary w-100">Administracion Usuarios</a></li>
-            <li><a href="{% url 'perfilad' %}" class="btn btn-primary btn-block">Ver Perfil</a></li>
+            <li><a href="{% url 'adminusuarios' %}">Administración Usuarios</a></li>
+            <li><a href="{% url 'perfilad' %}">Ver Perfil</a></li>
             <li>
                 <form action="{% url 'logout' %}" method="post">
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-primary btn-block">Cerrar Sesión</button>
+                    <button type="submit">Cerrar Sesión</button>
                 </form>
             </li>
         </ul>
     </div>
-
     <div class="main-content">
         <h1>¡Bienvenido, {{ user.username }}!</h1>
         <h1>Lista de Usuarios</h1>
@@ -189,7 +185,7 @@
         function fetchUsers(page = 1) {
             const role = document.getElementById('roleFilter').value;
             const url = role ? `/api/usuarios/?page=${page}&role=${role}` : `/api/usuarios/?page=${page}`;
-
+            
             fetch(url)
                 .then(response => response.json())
                 .then(data => displayUsers(data))
@@ -234,21 +230,27 @@
                 },
                 body: `role=${role}`
             })
-                .then(response => response.json())
-                .then(() => fetchUsers(currentPage))  // Refrescar la lista de usuarios
-                .catch(error => console.error('Error changing role:', error));
+            .then(response => response.json())
+            .then(() => fetchUsers(currentPage))  // Refrescar la lista de usuarios
+            .catch(error => console.error('Error changing role:', error));
         }
 
-        // Función para eliminar un usuario
+        // Función para eliminar un usuario con confirmación
         function deleteUser(username) {
-            fetch(`/api/eliminar_usuario/${username}/`, {
-                method: 'DELETE',
-                headers: {
-                    'X-CSRFToken': getCookie('csrftoken')
-                }
-            })
-                .then(() => fetchUsers(currentPage))  // Refrescar la lista de usuarios
+            if (confirm('¿Estás seguro de que quieres eliminar este usuario? Esta acción no se puede deshacer.')) {
+                fetch(`/api/eliminar_usuario/${username}/?confirmacion=true`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRFToken': getCookie('csrftoken')
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);  // Verifica la respuesta del servidor
+                    fetchUsers(currentPage);  // Refrescar la lista de usuarios
+                })
                 .catch(error => console.error('Error deleting user:', error));
+            }
         }
 
         // Función para actualizar la paginación
@@ -285,5 +287,4 @@
         fetchUsers(currentPage);
     </script>
 </body>
-
 </html>

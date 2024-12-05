@@ -299,6 +299,279 @@
             /* Centra el texto del placeholder */
         }
     </style>
+        <style>
+            .sidebar {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                width: 250px;
+                background-color: #343a40;
+                color: white;
+                padding: 20px;
+                height: 100%;
+                position: fixed;
+            }
+    
+            .sidebar ul {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 0;
+                margin: 0;
+                list-style: none;
+                width: 100%;
+            }
+    
+            .sidebar ul li {
+                width: 100%;
+                margin-bottom: 10px;
+                text-align: center;
+            }
+    
+            .sidebar ul li a,
+            .sidebar ul li button {
+                width: 100%;
+                padding: 10px;
+                border-radius: 5px;
+                color: white;
+                background-color: #007bff;
+                /* Color azul */
+                text-decoration: none;
+                text-align: center;
+                font-size: 1rem;
+                display: block;
+                box-sizing: border-box;
+            }
+    
+            .sidebar ul li a:hover,
+            .sidebar ul li button:hover {
+                background-color: #0056b3;
+            }
+    
+            .sidebar ul li a.active {
+                background-color: #0056b3;
+                /* Mantener el color azul en la página activa */
+            }
+    
+            .sidebar ul li a.btn-primary {
+                background-color: #007bff;
+                /* Color azul uniforme */
+            }
+    
+            .sidebar ul li a.btn-primary:hover {
+                background-color: #0056b3;
+            }
+    
+            .sidebar ul li button {
+                background-color: #007bff;
+                border: none;
+                cursor: pointer;
+            }
+    
+            .sidebar ul li button:hover {
+                background-color: #0056b3;
+            }
+    
+            .main-content {
+                margin-left: 260px;
+                padding: 20px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                flex: 1;
+            }
+    
+            .header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 15px;
+                width: 100%;
+            }
+    
+            .header h1 {
+                flex: 1;
+                text-align: center;
+                margin: 0;
+            }
+    
+            .upload-form {
+                display: flex;
+                justify-content: center;
+                gap: 10px;
+                align-items: center;
+                margin-bottom: 15px;
+            }
+    
+            .upload-form button {
+                background-color: #28a745;
+                color: white;
+                padding: 8px 16px;
+                border-radius: 5px;
+                border: none;
+                cursor: pointer;
+                font-size: 0.9rem;
+            }
+    
+            .upload-form button:hover {
+                background-color: #218838;
+            }
+    
+            .table-container {
+                width: 100%;
+                overflow-x: auto;
+            }
+    
+            .product-table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+    
+            .product-table th,
+            .product-table td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: center;
+            }
+    
+            .product-table th {
+                background-color: #f4f4f4;
+            }
+    
+            .product-table td {
+                word-wrap: break-word;
+                white-space: normal;
+            }
+    
+            .product-table tr:nth-child(even) {
+                background-color: #f9f9f9;
+            }
+    
+            .pagination {
+                margin-top: 15px;
+                text-align: center;
+            }
+    
+            .pagination a {
+                padding: 8px 16px;
+                margin: 0 2px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                text-decoration: none;
+                color: #007bff;
+            }
+    
+            .pagination a:hover {
+                background-color: #ddd;
+            }
+    
+            .btn {
+                width: 100%;
+                /* Asegura que todos los botones tengan el mismo tamaño */
+            }
+    
+            .btn-primary {
+                background-color: #007bff;
+                /* Color de fondo azul */
+                border-color: #007bff;
+                /* Color del borde azul */
+            }
+    
+            .btn-primary:hover,
+            .btn-primary.focus,
+            .btn-primary.focus-visible {
+                background-color: #0056b3;
+                /* Azul oscuro para el hover */
+                border-color: #004085;
+                /* Borde azul oscuro */
+            }
+    
+            .main-content {
+                margin-left: 270px;
+                padding: 20px;
+            }
+    
+            .main-content h1 {
+                margin-bottom: 20px;
+                text-align: center;
+            }
+    
+            .section {
+                margin-bottom: 20px;
+            }
+    
+            .section h2 {
+                margin-bottom: 10px;
+                text-align: center;
+            }
+    
+            table {
+                width: 80%;
+                /* Ajusta el ancho de la tabla */
+                margin: 0 auto;
+                /* Centra la tabla */
+                border-collapse: collapse;
+                font-size: 0.9em;
+            }
+    
+            th,
+            td {
+                border: 1px solid #ddd;
+                padding: 5px;
+                text-align: center;
+                vertical-align: middle;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+    
+            th {
+                background-color: #004085;
+                /* Azul oscuro */
+                color: white;
+            }
+    
+            tr:nth-child(even) {
+                background-color: #f9f9f9;
+            }
+    
+            /* Eliminamos el hover */
+            tr:hover {
+                background-color: inherit;
+            }
+    
+            /* Ajuste de ancho de columnas */
+            th:nth-child(1),
+            td:nth-child(1) {
+                width: 5%;
+            }
+    
+            /* ID */
+            th:nth-child(2),
+            td:nth-child(2) {
+                width: 20%;
+            }
+    
+            /* Nombre */
+            th:nth-child(3),
+            td:nth-child(3) {
+                width: 20%;
+            }
+    
+            /* Fecha de vencimiento / Marca */
+            th:nth-child(4),
+            td:nth-child(4) {
+                width: 15%;
+            }
+    
+            /* Stock */
+            th:nth-child(5),
+            td:nth-child(5) {
+                width: 15%;
+            }
+    
+            /* Categoría */
+        </style>
 </head>
 
 <body>

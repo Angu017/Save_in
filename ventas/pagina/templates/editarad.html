@@ -208,39 +208,6 @@
             background-color: #dc3545;
             color: white;
         }
-        /* Botones del sidebar */
-    .sidebar ul li a,
-    .sidebar ul li form button {
-        text-decoration: none;
-        color: #fff;
-        padding: 12px 20px;
-        border-radius: 8px;
-        display: block;
-        width: 100%;
-        font-size: 1.1rem;
-        background-color: #007bff;
-        border: 1px solid #0056b3;
-        transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
-    }
-
-    .sidebar ul li a:hover,
-    .sidebar ul li form button:hover {
-        background-color: #0056b3;
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-        transform: translateY(-2px);
-    }
-
-    .sidebar ul li form button {
-        border: none;
-        font-weight: bold;
-        cursor: pointer;
-    }
-
-    .sidebar ul li form button:hover {
-        background-color: #0056b3;
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-        transform: translateY(-2px);
-    }
     </style>
 </head>
 <body>
@@ -280,7 +247,7 @@
             {% endif %}
 
             <!-- Formulario para editar perfil -->
-            <form method="POST" id="profileFormAd">
+            <form method="POST" id="profileFormAd" onsubmit="return confirmChanges()">
                 {% csrf_token %}
 
                 <!-- Nombres -->
@@ -323,6 +290,12 @@
             </form>
         </div>
     </div>
+
+    <script>
+        // Función para confirmar si el usuario desea hacer los cambios
+        function confirmChanges() {
+            return confirm("¿Estás seguro de que deseas hacer estos cambios?");
+        }
+    </script>
 </body>
 </html>
-
