@@ -123,8 +123,6 @@
                 <option value="editor">Editor</option>
                 <option value="viewer">Viewer</option>
             </select>
-
-            
         </div>
 
         <table id="userTable">
@@ -199,16 +197,22 @@
             .catch(error => console.error('Error changing role:', error));
         }
 
-        // Función para eliminar un usuario
+        // Función para eliminar un usuario con confirmación
         function deleteUser(username) {
-            fetch(`/api/eliminar_usuario/${username}/`, {
-                method: 'DELETE',
-                headers: {
-                    'X-CSRFToken': getCookie('csrftoken')
-                }
-            })
-            .then(() => fetchUsers(currentPage))  // Refrescar la lista de usuarios
-            .catch(error => console.error('Error deleting user:', error));
+            if (confirm('¿Estás seguro de que quieres eliminar este usuario? Esta acción no se puede deshacer.')) {
+                fetch(`/api/eliminar_usuario/${username}/?confirmacion=true`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRFToken': getCookie('csrftoken')
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);  // Verifica la respuesta del servidor
+                    fetchUsers(currentPage);  // Refrescar la lista de usuarios
+                })
+                .catch(error => console.error('Error deleting user:', error));
+            }
         }
 
         // Función para actualizar la paginación

@@ -246,7 +246,7 @@
             {% endif %}
 
             <!-- Formulario para editar perfil -->
-            <form method="POST" id="profileFormAd">
+            <form method="POST" id="profileFormAd" onsubmit="return confirmChanges()">
                 {% csrf_token %}
 
                 <!-- Nombres -->
@@ -289,5 +289,11 @@
             </form>
         </div>
     </div>
+
+    <script>
+        function confirmChanges() {
+            return confirm("¿Estás seguro de que deseas guardar los cambios?");
+        }
+    </script>
 </body>
 </html>

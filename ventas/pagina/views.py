@@ -21,7 +21,9 @@ from django.contrib.auth import update_session_auth_hash
 import json
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_protect
+from django.contrib.auth.models import User
 
 
 ############################################################################################################################
@@ -656,15 +658,30 @@ def perfilad(request):
 ################################################################################################################################################################################################
 #Administracion de usuarios
 ################################################################################################################################################################################################
-@csrf_exempt
+@csrf_protect  # Usamos @csrf_protect en lugar de @csrf_exempt para mantener la seguridad
 def eliminar_usuario(request, username):
     if request.method == 'DELETE':
         try:
             usuario = User.objects.get(username=username)
-            usuario.delete()  # Esto eliminará el perfil también gracias a la relación OneToOne
-            return JsonResponse({'status': 'success'}, status=200)
+            
+            # Verifica si la solicitud contiene un parámetro 'confirmacion' y si este es 'true'
+            confirmacion = request.GET.get('confirmacion', 'false')  # 'false' por defecto
+            
+            if confirmacion != 'true':
+                return JsonResponse({
+                    'error': 'Debe confirmar la eliminación del usuario.',
+                    'message': 'Por favor, envíe el parámetro confirmacion=true para proceder.'
+                }, status=400)
+
+            # Si el usuario confirma la eliminación, procederemos a eliminarlo
+            # Aquí también puedes eliminar manualmente las relaciones OneToOne si no has usado on_delete=models.CASCADE
+            usuario.delete()  # Eliminar al usuario (y sus relaciones asociadas si se usa CASCADE)
+            
+            return JsonResponse({'status': 'success', 'message': 'Usuario eliminado correctamente'}, status=200)
+        
         except User.DoesNotExist:
             return JsonResponse({'error': 'Usuario no encontrado'}, status=404)
+
     else:
         return JsonResponse({'error': 'Método no permitido'}, status=405)
 

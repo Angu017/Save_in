@@ -85,14 +85,36 @@
             background-color: #d4b40f;
             /* Fondo más oscuro */
         }
+
+        /* Contenedor PayPal */
+        .paypal-container {
+            background-color: #f7f7f7;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            border: 2px solid #ddd;
+        }
+
+        .paypal-container h2 {
+            color: #333;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 
 <body>
-    
 
     <div class="container">
-        <div id="paypal-button-container"></div>
+        <div class="paypal-container">
+            <h2>Pagar con PayPal</h2>
+            <div id="paypal-button-container"></div>
+        </div>
+
         <script
             src="https://www.paypal.com/sdk/js?client-id=Adad0EgVu3sVdjGIQ8AonmtCuAPrGJyw7dV03UJQKLnDgFxgHmg42q-z_ba-rUaotoU50DgB4G-SWZbW&currency=USD"
             data-sdk-integration-source="developer-studio"></script>
@@ -123,7 +145,6 @@
                         return actions.order.capture().then(function (details) {
                             alert(
                                 `Pago completado con éxito por ${details.payer.name.given_name}`
-
                             );
                             window.location.href = '{%url 'signin' %}';
                             console.log("Detalles del pago:", details);
@@ -137,14 +158,10 @@
                 })
                 .render("#paypal-button-container");
         </script>
+    </div>
 
-
-        <!-- FontAwesome Script -->
-        <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <!-- FontAwesome Script -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </body>
 
 </html>
-
-<!DOCTYPE html>
-{% load static %}
-<html>

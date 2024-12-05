@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -85,7 +86,28 @@
             /* Fondo más oscuro */
         }
     </style>
+
+    <!-- Alerta de contraseña mínima y coincidencia con JavaScript -->
+    <script>
+        function validateForm(event) {
+            var password1 = document.getElementById("id_password1").value;
+            var password2 = document.getElementById("id_password2").value;
+
+            // Validar que las contraseñas coinciden
+            if (password1 !== password2) {
+                alert("Las contraseñas no coinciden. Por favor, verifica.");
+                event.preventDefault();  // Prevenir el envío del formulario
+            }
+            // Validar longitud mínima de la contraseña
+            else if (password1.length < 8) {
+                alert("La contraseña debe tener al menos 8 caracteres.");
+                event.preventDefault();  // Prevenir el envío del formulario
+            }
+        }
+    </script>
+
 </head>
+
 <body>
     <div class="form-container">
         <div class="background">
@@ -96,37 +118,37 @@
         </div>
         <div class="content">
             <h1>Formulario de Registro</h1>
-            <form action="{% url 'signup' %}" method="post">
+            <form action="{% url 'signup' %}" method="post" onsubmit="validateForm(event)">
                 {% csrf_token %}
-                
+
                 <!-- Mostrar Errores del Formulario -->
                 {% if form.errors %}
-                    <div class="error-messages">
-                        <ul>
-                            {% for field in form %}
-                                {% for error in field.errors %}
-                                    <li>{{ error }}</li>
-                                {% endfor %}
-                            {% endfor %}
-                        </ul>
-                    </div>
+                <div class="error-messages">
+                    <ul>
+                        {% for field in form %}
+                        {% for error in field.errors %}
+                        <li>{{ error }}</li>
+                        {% endfor %}
+                        {% endfor %}
+                    </ul>
+                </div>
                 {% endif %}
-                
+
                 <div>
                     <label for="id_username">Nombre de usuario</label>
                     <input type="text" name="username" required id="id_username" value="{{ form.username.value }}">
                 </div>
-                
+
                 <div>
                     <label for="id_password1">Contraseña</label>
                     <input type="password" name="password1" required id="id_password1" value="{{ form.password1.value }}">
                 </div>
-                
+
                 <div>
                     <label for="id_password2">Confirmar contraseña</label>
                     <input type="password" name="password2" required id="id_password2" value="{{ form.password2.value }}">
                 </div>
-                
+
                 <button type="submit">Registrar</button>
             </form>
             <div class="action-buttons">
@@ -136,8 +158,6 @@
         </div>
     </div>
 
-
-
-
 </body>
+
 </html>
