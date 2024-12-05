@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,6 +19,25 @@
             background: linear-gradient(to bottom right, #ffd700, #007bff);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+
+
+        /* Estilo para el nombre de usuario dentro de la clase perfil */
+        .perfil strong {
+            font-size: 1.5rem;
+            /* Cambiar tamaño del texto */
+            font-weight: bold;
+            /* Hacerlo más grueso */
+            text-align: center;
+            /* Centrar el texto */
+            display: block;
+            /* Asegurar que ocupa una línea completa */
+            color: white;
+            /* Mantener el color blanco */
+            margin-bottom: 20px;
+            /* Espacio adicional debajo */
+        }
+
+
 
         /* Estilo para la barra lateral */
         .sidebar {
@@ -40,7 +60,8 @@
 
         .form-card {
             width: 100%;
-            max-width: 800px; /* Ajusta el tamaño del card */
+            max-width: 800px;
+            /* Ajusta el tamaño del card */
             background-color: #ffffff;
             padding: 20px;
             border-radius: 10px;
@@ -53,55 +74,95 @@
             margin-bottom: 20px;
         }
 
-        /* Estilizar la lista de botones en la barra lateral */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 250px;
+            background-color: #343a40;
+            color: white;
+            padding: 20px;
+            height: 100%;
+            position: fixed;
+        }
+
         .sidebar ul {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             padding: 0;
             margin: 0;
             list-style: none;
+            width: 100%;
         }
 
         .sidebar ul li {
             width: 100%;
             margin-bottom: 10px;
+            text-align: center;
         }
 
         .sidebar ul li a,
         .sidebar ul li button {
-            display: block;
             width: 100%;
             padding: 10px;
-            text-align: center;
             border-radius: 5px;
             color: white;
-            box-sizing: border-box;
             background-color: #007bff;
+            /* Color azul */
+            text-decoration: none;
+            text-align: center;
+            font-size: 1rem;
+            display: block;
+            box-sizing: border-box;
         }
 
         .sidebar ul li a:hover,
-        .sidebar ul li form button:hover {
+        .sidebar ul li button:hover {
             background-color: #0056b3;
         }
 
-        /* Estilizar el nombre de usuario */
-        .perfil p {
-            font-size: 1.5em;
-            font-weight: bold;
+        .sidebar ul li a.active {
+            background-color: #0056b3;
+            /* Mantener el color azul en la página activa */
+        }
+
+        .sidebar ul li a.btn-primary {
+            background-color: #007bff;
+            /* Color azul uniforme */
+        }
+
+        .sidebar ul li a.btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .sidebar ul li button {
+            background-color: #007bff;
+            border: none;
+            cursor: pointer;
+        }
+
+        .sidebar ul li button:hover {
+            background-color: #0056b3;
             margin: 0;
         }
     </style>
 </head>
+
 <body>
-    <!-- Menú Lateral -->
+    <!-- Menú lateral de navegación -->
     <div class="sidebar">
         <div class="perfil">
+
             <p>
                 {% if user.is_authenticated %}
-                    {{ user.username }}
+                <strong>{{ user.username }}</strong>
                 {% else %}
-                    Invitado
+                Invitado
                 {% endif %}
             </p>
         </div>
+
         <ul>
             <li><a href="{% url 'adminpage' %}" class="btn btn-primary w-100">Página de Inicio</a></li>
             <li><a href="{% url 'vendedor' %}" class="btn btn-primary w-100">Registro Inventario</a></li>
@@ -134,4 +195,5 @@
         </div>
     </div>
 </body>
+
 </html>
