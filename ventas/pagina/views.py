@@ -175,7 +175,7 @@ def editarad(request):
             # Agregamos un mensaje de éxito
             messages.success(request, "Perfil de administrador actualizado correctamente.")
             # Redirigimos a la vista del perfil del administrador
-            return HttpResponseRedirect(reverse('verPerfilAdmin'))  # Asegúrate de tener una URL para esta vista
+            return HttpResponseRedirect(reverse('editarad'))  # Asegúrate de tener una URL para esta vista
 
         except Exception as e:
             # En caso de error, mostramos un mensaje

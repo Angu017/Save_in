@@ -20,7 +20,7 @@ class ProductoForm(forms.ModelForm):
             'fecha_vencimiento': forms.DateInput(format='%d/%m/%Y', attrs={'type': 'date'})
         }
 
-    # Los campos de marca y categoria serán de tipo ModelChoiceField
+    
     marca = forms.ModelChoiceField(queryset=Marca.objects.all(), empty_label="Selecciona una marca")
     categoria = forms.ModelChoiceField(queryset=Categoria.objects.all(), required=False, empty_label="Selecciona una categoría")
 
